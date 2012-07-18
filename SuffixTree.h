@@ -20,7 +20,7 @@ public:
     void SEA(int, int); //SEA: Single Extension Algorithm (Gusfield, 1997)
     Suffix get_suffix(Node*, std::string);
     std::string get_substr(int, int);
-    void RULE1(Suffix, char); //apply extension rule 1 (Gusfield, 1997)
-    void RULE2(Suffix, char, int); //apply extension rule 2 (Gusfield, 1997)
+    void RULE1(Suffix); //apply extension rule 1 (Gusfield, 1997)
+    void RULE2(Suffix, int, int); //apply extension rule 2 (Gusfield, 1997)
 };
 

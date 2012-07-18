@@ -3,20 +3,23 @@
 #include <string>
 #include <vector>
 
+class SuffixTree;
 class Node
 {
 public:
-    Node(Node*, std::string, int);
+	Node(Node*, int, int, int);
     Node* parent;
     Node* child;
     Node* sibling;
     Node* suffix_link;
-    std::string edge_label;
+	int begin_index;
+	int end_index;
+	int edge_length() {return end_index - begin_index + 1;}
     void add_child(Node*);
     int ID;
-    Node* get_child(char);
     bool is_leaf() {return child == NULL;}
     void split_edge(int, int);
 	void adopt_children(Node*);
+	Node* get_child(const SuffixTree&, char); 
 };
 

@@ -11,8 +11,8 @@ int main() {
 	FASTA_FileReader file("Swinepox_NC_003389_complete.fasta");
 	string sequence = file.parse();
 
-	//SuffixTree st(sequence);
-	SuffixTree st("xabxa$");
+	SuffixTree st(sequence);
+	//SuffixTree st("xabxa$");
     st.construct();
 	st.print_tree();
 }

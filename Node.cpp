@@ -1,13 +1,15 @@
 #include "Node.h"
+#include "SuffixTree.h"
 #include <iostream>
 
-Node::Node(Node* parent, std::string label, int ID) {
-    edge_label = label;
-    this->parent = parent;
-    this->ID = ID;
-    child = NULL;
-    suffix_link = NULL;
-    sibling = NULL;
+Node::Node(Node* parent, int begin_index, int end_index, int ID) {
+	this->parent = parent;
+	this->begin_index = begin_index;
+	this->end_index = end_index;
+	this->ID = ID;
+	child = NULL;
+	suffix_link = NULL;
+	sibling = NULL;
 }
 
 void Node::add_child(Node* child) {
@@ -22,19 +24,13 @@ void Node::add_child(Node* child) {
     }
 }
 
-Node* Node::get_child(char ch) {
-    Node* to_return = child;
-    while (to_return != NULL && to_return->edge_label[0] != ch)
-        to_return = to_return->sibling;
-    return to_return;
-}
 
 void Node::split_edge(int char_index, int new_node_ID) {
-    Node* new_node = new Node(this, edge_label.substr(char_index + 1), this->ID);
+    Node* new_node = new Node(this, char_index + 1, this->end_index, this->ID);
 	new_node->adopt_children(this);
 	
 	this->add_child(new_node);
-    this->edge_label = edge_label.substr(0, char_index + 1);
+    this->end_index = char_index;
     this->ID = new_node_ID;
 }
 
@@ -48,5 +44,10 @@ void Node::adopt_children(Node* current_parent) {
 	current_parent->child = NULL;
 }
 
-
+Node* Node::get_child(const SuffixTree& tree, char ch) {
+    Node* to_return = child;
+    while (to_return != NULL && tree.tree_string[to_return->begin_index] != ch)
+        to_return = to_return->sibling;
+    return to_return;
+}
 
