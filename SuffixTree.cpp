@@ -69,21 +69,6 @@ Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
 	return Suffix(origin, char_index);
 }
 
-/*
-Suffix SuffixTree::get_suffix(Node* origin, std::string string) {
-	int char_index = origin->end_index;
-    while (!string.empty()) {
-        if (char_index == origin->end_index) {
-			origin = origin->get_child(*this, string[0]);
-			char_index = origin->begin_index;
-		}
-        else char_index++;
-        string.erase(0, 1);    
-    }
-    return Suffix(origin, char_index);
-}
-*/
-
 std::string SuffixTree::get_substr(int start_pos, int end_pos) {
     if (start_pos > end_pos) return std::string();
     return tree_string.substr(start_pos, end_pos - start_pos + 1);
