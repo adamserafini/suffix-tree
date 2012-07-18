@@ -16,7 +16,7 @@ void SuffixTree::construct() {
     
     for (int i = 1; i < length; i++) {
         SPA(i);
-		//print_tree();
+		print_tree();
 		if (i % 100 == 0) std::cerr << "Phase: " << i << std::endl;
     }
 }
@@ -48,7 +48,7 @@ void SuffixTree::SPA(int i) {
 
 //SEA: Single Extension Algorithm (Gusfield, 1997)
 void SuffixTree::SEA(int j, int i) { 
-    Suffix suffix = get_suffix(root, get_substr(j, i));
+    Suffix suffix = get_suffix(root, j, i);
     if (suffix.ends_at_leaf()) 
         RULE1(suffix);
     else if (!suffix.continues_with_char(*this, tree_string[i + 1]))
@@ -56,6 +56,20 @@ void SuffixTree::SEA(int j, int i) {
     //else RULE3 - do nothing!
 }
 
+//The 'skip/count' trick for suffix tree traversal (Gusfield, 1997)
+Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
+	int char_index = origin->end_index;
+	while (begin_index <= end_index) {
+		origin = origin->get_child(*this, tree_string[begin_index]);
+		if (origin->edge_length() < end_index - begin_index + 1)
+			char_index = origin->end_index;
+		else char_index = origin->begin_index + (end_index - begin_index);
+		begin_index+=origin->edge_length();
+	}
+	return Suffix(origin, char_index);
+}
+
+/*
 Suffix SuffixTree::get_suffix(Node* origin, std::string string) {
 	int char_index = origin->end_index;
     while (!string.empty()) {
@@ -68,6 +82,7 @@ Suffix SuffixTree::get_suffix(Node* origin, std::string string) {
     }
     return Suffix(origin, char_index);
 }
+*/
 
 std::string SuffixTree::get_substr(int start_pos, int end_pos) {
     if (start_pos > end_pos) return std::string();
