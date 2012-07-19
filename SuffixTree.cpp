@@ -18,7 +18,7 @@ void SuffixTree::construct() {
 
     for (int i = 1; i < length; i++) {
         SPA(i);
-		//print_tree();
+		print_tree();
 		if (i % 100 == 0) std::cerr << "Phase: " << i << std::endl;
     }
 }
@@ -53,7 +53,7 @@ void SuffixTree::SPA(int i) {
 void SuffixTree::SEA(int j, int i) { 
     Suffix suffix = get_suffix(root, j, i);
     //RULE1 (path ends at a leaf) - do nothing! extension is explicity handled by 'current_end'
-	//RULE2 (path doesn't end at a leaf and no path continues with char [i + 1]:
+	//RULE2 (path doesn't end at a leaf and no path continues with char [i + 1]):
     if (!suffix.ends_at_leaf() && !suffix.continues_with_char(*this, tree_string[i + 1]))
         RULE2(suffix, i + 1, j);
     //else RULE3 (some ongoing path starts with char [i + 1]) - do nothing!
@@ -75,10 +75,6 @@ Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
 std::string SuffixTree::get_substr(int start_pos, int end_pos) {
     if (start_pos > end_pos) return std::string();
     return tree_string.substr(start_pos, end_pos - start_pos + 1);
-}
-
-void SuffixTree::RULE1(Suffix suffix) {
-    suffix.node->end_index++;
 }
 
 void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
