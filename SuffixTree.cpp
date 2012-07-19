@@ -7,16 +7,18 @@ SuffixTree::SuffixTree(std::string s) {
     length = s.length();
     tree_string = ' ' + s;
     internal_node_ID = 0;
-    root = new Node(NULL, 1, 0, internal_node_ID);
+	current_end = new int(0);
+    root = new Node(NULL, 1, new int (0), internal_node_ID);
 }
 
 void SuffixTree::construct() {
-    root->add_child(new Node(root, 1, 1, 1));
+	(*current_end)++;
+    root->add_child(new Node(root, 1, current_end, 1));
     //print_tree();
-    
+
     for (int i = 1; i < length; i++) {
         SPA(i);
-		//print_tree();
+		print_tree();
 		if (i % 100 == 0) std::cerr << "Phase: " << i << std::endl;
     }
 }
@@ -31,7 +33,7 @@ void SuffixTree::print_node(Node* parent) {
     Node* child = parent->child;
     while (child != NULL) {
         std::cout << parent_ID 
-                  << " " << get_substr(child->begin_index, child->end_index) 
+                  << " " << get_substr(child->begin_index, *child->end_index) 
                   << " " << child->ID << std::endl;
         print_node(child);
         child = child->sibling;
@@ -40,6 +42,7 @@ void SuffixTree::print_node(Node* parent) {
 
 //SPA: Single Phase Algorithm (Gusfield, 1997)
 void SuffixTree::SPA(int i) { 
+	(*current_end)++;
     for (int j = 1; j <= (i + 1); j++) {
         SEA(j, i);
 		//print_tree();
@@ -58,11 +61,11 @@ void SuffixTree::SEA(int j, int i) {
 
 //The 'skip/count' trick for suffix tree traversal (Gusfield, 1997)
 Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
-	int char_index = origin->end_index;
+	int char_index = *origin->end_index;
 	while (begin_index <= end_index) {
 		origin = origin->get_child(*this, tree_string[begin_index]);
 		if (origin->edge_length() < end_index - begin_index + 1)
-			char_index = origin->end_index;
+			char_index = *origin->end_index;
 		else char_index = origin->begin_index + (end_index - begin_index);
 		begin_index+=origin->edge_length();
 	}
@@ -83,7 +86,7 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 		suffix.node->split_edge(suffix.char_index, --internal_node_ID);
 		suffix.node = suffix.node->parent;
 	}
-	Node* new_leaf = new Node(suffix.node, char_index, char_index, new_leaf_ID);  
+	Node* new_leaf = new Node(suffix.node, char_index, current_end, new_leaf_ID);  
     suffix.node->add_child(new_leaf);
 }
 

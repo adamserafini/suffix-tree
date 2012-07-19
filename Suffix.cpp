@@ -6,7 +6,7 @@ Suffix::Suffix(Node* n, int c) : node(n), char_index(c) {
 }
 
 bool Suffix::ends_at_node() const { 
-    return char_index == node->end_index;
+    return char_index == *node->end_index;
 }
 
 bool Suffix::ends_at_leaf() const {

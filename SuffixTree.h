@@ -13,7 +13,7 @@ public:
     void construct();
     int internal_node_ID;
     int length;
-	int current_end;
+	int* current_end;
     void print_tree();
     void print_node(Node*);
     void SPA(int); //SPA: Single Phase Algorithm (Gusfield, 1997)
