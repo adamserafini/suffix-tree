@@ -16,7 +16,7 @@ void SuffixTree::construct() {
     
     for (int i = 1; i < length; i++) {
         SPA(i);
-		print_tree();
+		//print_tree();
 		if (i % 100 == 0) std::cerr << "Phase: " << i << std::endl;
     }
 }
@@ -78,10 +78,12 @@ void SuffixTree::RULE1(Suffix suffix) {
     suffix.node->end_index++;
 }
 
-void SuffixTree::RULE2(Suffix suffix, int char_index, int new_leaf_ID) {
-    Node* new_leaf = new Node(suffix.node, char_index, char_index, new_leaf_ID);  
-    if (!suffix.ends_at_node()) //eg. case 2 (path ends inside an edge)
-        suffix.node->split_edge(suffix.char_index, --internal_node_ID);
+void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
+    if (!suffix.ends_at_node()) {  //eg. case 2 (path ends inside an edge)
+		suffix.node->split_edge(suffix.char_index, --internal_node_ID);
+		suffix.node = suffix.node->parent;
+	}
+	Node* new_leaf = new Node(suffix.node, char_index, char_index, new_leaf_ID);  
     suffix.node->add_child(new_leaf);
 }
 
