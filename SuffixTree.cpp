@@ -13,7 +13,8 @@ SuffixTree::SuffixTree(std::string s) {
 
 void SuffixTree::construct() {
 	(*current_end)++;
-    root->add_child(new Node(root, 1, current_end, 1));
+	current_full_string = new Node(root, 1, current_end, 1);
+    root->add_child(current_full_string);
     //print_tree();
 
     for (int i = 1; i < length; i++) {
@@ -42,18 +43,20 @@ void SuffixTree::print_node(Node* parent) {
 
 //SPA: Single Phase Algorithm (Gusfield, 1997)
 void SuffixTree::SPA(int i) { 
+	Suffix previous_suffix(current_full_string, *current_end);
 	(*current_end)++;
-
-	//j = 2 because the first extension is always implict (it is a leaf)
+	//the first extension is always done implicitly by incrementing the current_end counter
+	
     for (int j = 2; j <= (i + 1); j++) {
-        SEA(j, i);
+        SEA(previous_suffix, j, i);
 		//print_tree();
     }
 }
 
 //SEA: Single Extension Algorithm (Gusfield, 1997)
-void SuffixTree::SEA(int j, int i) { 
-    Suffix suffix = get_suffix(root, j, i);
+void SuffixTree::SEA(Suffix& previous_suffix, int j, int i) { 
+	Suffix suffix = get_suffix(root, j, i);
+
     //RULE1 (path ends at a leaf) - do nothing! extension is explicity handled by 'current_end'
 	//RULE2 (path doesn't end at a leaf and no path continues with char [i + 1]):
     if (!suffix.ends_at_leaf() && !suffix.continues_with_char(*this, tree_string[i + 1]))
@@ -79,12 +82,15 @@ std::string SuffixTree::get_substr(int start_pos, int end_pos) {
     return tree_string.substr(start_pos, end_pos - start_pos + 1);
 }
 
-void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
+SuffixTree::RULE2_CASE SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
+	RULE2_CASE case_type = NEW_CHILD_NODE; //eg. case 1 (path does not end inside an edge)
     if (!suffix.ends_at_node()) {  //eg. case 2 (path ends inside an edge)
 		suffix.node->split_edge(suffix.char_index, --internal_node_ID);
 		suffix.node = suffix.node->parent;
+		case_type = NEW_INTERNAL_NODE;
 	}
 	Node* new_leaf = new Node(suffix.node, char_index, current_end, new_leaf_ID);  
     suffix.node->add_child(new_leaf);
+	return case_type;
 }
 
