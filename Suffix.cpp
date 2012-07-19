@@ -3,6 +3,7 @@
 #include "SuffixTree.h"
 
 Suffix::Suffix(Node* n, int c) : node(n), char_index(c) {
+	new_internal_node = false;
 }
 
 bool Suffix::ends_at_node() const { 

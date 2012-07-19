@@ -10,5 +10,6 @@ public:
     bool ends_at_node() const;
     bool ends_at_leaf() const;
     bool continues_with_char(const SuffixTree&, char) const;
+	bool new_internal_node;
 };
 

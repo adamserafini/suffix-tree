@@ -19,7 +19,7 @@ void SuffixTree::construct() {
 
     for (int i = 1; i < length; i++) {
         SPA(i);
-		print_tree();
+		//print_tree();
 		if (i % 100 == 0) std::cerr << "Phase: " << i << std::endl;
     }
 }
@@ -56,12 +56,14 @@ void SuffixTree::SPA(int i) {
 //SEA: Single Extension Algorithm (Gusfield, 1997)
 void SuffixTree::SEA(Suffix& previous_suffix, int j, int i) { 
 	Suffix suffix = get_suffix(root, j, i);
-
-    //RULE1 (path ends at a leaf) - do nothing! extension is explicity handled by 'current_end'
+    //RULE1 (path ends at a leaf) - do nothing!
 	//RULE2 (path doesn't end at a leaf and no path continues with char [i + 1]):
     if (!suffix.ends_at_leaf() && !suffix.continues_with_char(*this, tree_string[i + 1]))
         RULE2(suffix, i + 1, j);
     //else RULE3 (some ongoing path starts with char [i + 1]) - do nothing!
+	if (previous_suffix.new_internal_node)
+		previous_suffix.node->suffix_link = suffix.node;
+	previous_suffix = suffix;
 }
 
 //The 'skip/count' trick for suffix tree traversal (Gusfield, 1997)
@@ -82,15 +84,13 @@ std::string SuffixTree::get_substr(int start_pos, int end_pos) {
     return tree_string.substr(start_pos, end_pos - start_pos + 1);
 }
 
-SuffixTree::RULE2_CASE SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
-	RULE2_CASE case_type = NEW_CHILD_NODE; //eg. case 1 (path does not end inside an edge)
+void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
     if (!suffix.ends_at_node()) {  //eg. case 2 (path ends inside an edge)
 		suffix.node->split_edge(suffix.char_index, --internal_node_ID);
 		suffix.node = suffix.node->parent;
-		case_type = NEW_INTERNAL_NODE;
+		suffix.new_internal_node = true;
 	}
 	Node* new_leaf = new Node(suffix.node, char_index, current_end, new_leaf_ID);  
     suffix.node->add_child(new_leaf);
-	return case_type;
 }
 

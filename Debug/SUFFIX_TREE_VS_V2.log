@@ -1,15 +1,10 @@
-﻿Build started 7/19/2012 3:19:35 PM.
+﻿Build started 7/19/2012 6:43:42 PM.
      1>Project "C:\Users\Adam\documents\visual studio 2010\Projects\SUFFIX_TREE_VS_V2\SUFFIX_TREE_VS_V2\SUFFIX_TREE_VS_V2.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\SUFFIX_TREE_VS_V2.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Node.cpp Suffix.cpp SuffixTree.cpp main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt SuffixTree.cpp
          SuffixTree.cpp
-         Generating Code...
-         Skipping... (no relevant changes detected)
-         main.cpp
-         Suffix.cpp
-         Node.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Adam\documents\visual studio 2010\Projects\SUFFIX_TREE_VS_V2\Debug\SUFFIX_TREE_VS_V2.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\SUFFIX_TREE_VS_V2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Adam\documents\visual studio 2010\Projects\SUFFIX_TREE_VS_V2\Debug\SUFFIX_TREE_VS_V2.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Adam\documents\visual studio 2010\Projects\SUFFIX_TREE_VS_V2\Debug\SUFFIX_TREE_VS_V2.lib" /MACHINE:X86 Debug\FASTA_FileReader.obj
          Debug\main.obj
@@ -27,4 +22,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.22
+Time Elapsed 00:00:02.47
