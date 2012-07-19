@@ -43,7 +43,9 @@ void SuffixTree::print_node(Node* parent) {
 //SPA: Single Phase Algorithm (Gusfield, 1997)
 void SuffixTree::SPA(int i) { 
 	(*current_end)++;
-    for (int j = 1; j <= (i + 1); j++) {
+
+	//j = 2 because the first extension is always implict (it is a leaf)
+    for (int j = 2; j <= (i + 1); j++) {
         SEA(j, i);
 		//print_tree();
     }

@@ -30,10 +30,10 @@ void Node::split_edge(int char_index, int new_node_ID) {
 								new int(char_index), new_node_ID);
 	new_node->add_child(this); 
 	new_node->sibling = this->sibling;
-	Node* n = parent->child;
 	if (parent->child == this)
 		parent->child = new_node;
 	else {
+		Node* n = parent->child;
 		while (n->sibling != this)
 			n = n->sibling;
 		n->sibling = new_node;
