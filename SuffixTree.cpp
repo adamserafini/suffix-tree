@@ -18,7 +18,7 @@ void SuffixTree::construct() {
 
     for (int i = 1; i < length; i++) {
         SPA(i);
-		print_tree();
+		//print_tree();
 		if (i % 100 == 0) std::cerr << "Phase: " << i << std::endl;
     }
 }
@@ -52,11 +52,11 @@ void SuffixTree::SPA(int i) {
 //SEA: Single Extension Algorithm (Gusfield, 1997)
 void SuffixTree::SEA(int j, int i) { 
     Suffix suffix = get_suffix(root, j, i);
-    if (suffix.ends_at_leaf()) 
-        RULE1(suffix);
-    else if (!suffix.continues_with_char(*this, tree_string[i + 1]))
+    //RULE1 (path ends at a leaf) - do nothing! extension is explicity handled by 'current_end'
+	//RULE2 (path doesn't end at a leaf and no path continues with char [i + 1]:
+    if (!suffix.ends_at_leaf() && !suffix.continues_with_char(*this, tree_string[i + 1]))
         RULE2(suffix, i + 1, j);
-    //else RULE3 - do nothing!
+    //else RULE3 (some ongoing path starts with char [i + 1]) - do nothing!
 }
 
 //The 'skip/count' trick for suffix tree traversal (Gusfield, 1997)
