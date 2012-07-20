@@ -19,6 +19,6 @@ public:
     int ID;
     bool is_leaf() {return child == NULL;}
     void split_edge(int, int);
-	Node* get_child(const SuffixTree&, char); 
+	Node* get_child(const SuffixTree&, char);
 };
 
