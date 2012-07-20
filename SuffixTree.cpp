@@ -20,7 +20,7 @@ void SuffixTree::construct() {
 
     for (int i = 1; i < length; i++) {
         SPA(i);
-		print_tree();
+		//print_tree();
 		if (i % 100 == 0) std::cerr << "Phase: " << i << std::endl;
     }
 }
@@ -57,23 +57,12 @@ void SuffixTree::SPA(int i) {
 //SEA: Single Extension Algorithm (Gusfield, 1997)
 void SuffixTree::SEA(Suffix& previous_suffix, int j, int i) {
 
-	Suffix suffix;
-	Node* origin = previous_suffix.walk_up();
+	int begin_index, end_index;
+	Node* origin = previous_suffix.walk_up(begin_index, end_index);
 
-	if (origin == root)
-		suffix = get_suffix(root, j, i);
-	else if (origin == previous_suffix.node)
-		suffix = get_suffix(origin->suffix_link, *origin->end_index, *origin->end_index - 1);
-	else
-		suffix = get_suffix(origin->suffix_link, previous_suffix.node->begin_index, previous_suffix.char_index);
+	Suffix suffix = (origin == root ? get_suffix(root, j, i)
+		: get_suffix(origin->suffix_link, begin_index, end_index));
 
-		
-//		suffix = (origin == root? get_suffix(root, j, i)
-	//				: get_suffix(origin->suffix_link, 
-		//			previous_suffix.node->begin_index, 
-			//		previous_suffix.char_index));
-
-	//Suffix suffix = get_suffix(root, j, i);							
     //RULE1 (path ends at a leaf) - do nothing!
 	//RULE2 (path doesn't end at a leaf and no path continues with char [i + 1]):
     if (!suffix.ends_at_leaf() && !suffix.continues_with_char(*this, tree_string[i + 1]))
@@ -86,11 +75,7 @@ void SuffixTree::SEA(Suffix& previous_suffix, int j, int i) {
 
 //The 'skip/count' trick for suffix tree traversal (Gusfield, 1997)
 Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
-	Node* original_origin = origin;
-	int original_begin_index = begin_index;
-	int original_end_index = end_index;
 	int char_index = *origin->end_index;
-	char ch = tree_string[begin_index];
 	while (begin_index <= end_index) {
 		origin = origin->get_child(*this, tree_string[begin_index]);
 		if (origin->edge_length() < end_index - begin_index + 1)
@@ -114,16 +99,5 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 	}
 	Node* new_leaf = new Node(suffix.node, char_index, current_end, new_leaf_ID);  
     suffix.node->add_child(new_leaf);
-}
-
-std::string SuffixTree::walk_up(Node*& v, Suffix suffix) {
-	std::string to_return;
-	int test = 0;
-	v = suffix.node;
-	while (v->suffix_link == NULL && v != root) {
-		v = v->parent;
-		std::cout << "Looped: " << ++test << std::endl;
-	}	
-	return std::string();
 }
 
