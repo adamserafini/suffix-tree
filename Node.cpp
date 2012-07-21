@@ -1,6 +1,5 @@
 #include "Node.h"
 #include "SuffixTree.h"
-#include <iostream>
 
 Node::Node(Node* parent, int begin_index, int* end_index, int ID) {
 	this->parent = parent;

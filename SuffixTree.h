@@ -14,9 +14,7 @@ public:
     int internal_node_ID;
     int length;
 	int* current_end;
-	Node* current_full_string;
-	Node* last_leaf_extension_node;
-	int last_leaf_extension;
+	Node* last_leaf_extension;
     void log_tree();
     void log_node(Node*);
 	std::string get_substr(int, int);

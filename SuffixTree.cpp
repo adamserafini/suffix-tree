@@ -16,10 +16,8 @@ SuffixTree::SuffixTree(std::string s) {
 
 void SuffixTree::construct() {
 	(*current_end)++;
-	current_full_string = new Node(root, 1, current_end, 1);
-    root->add_child(current_full_string);
-	last_leaf_extension = 1;
-	last_leaf_extension_node = current_full_string;
+	last_leaf_extension = new Node(root, 1, current_end, 1);
+    root->add_child(last_leaf_extension);
 
     for (int i = 1; i < length; i++) {
         SPA(i);
@@ -30,18 +28,16 @@ void SuffixTree::construct() {
 
 //SPA: Single Phase Algorithm (Gusfield, 1997)
 void SuffixTree::SPA(int i) { 
-	Suffix previous_suffix(last_leaf_extension_node, *current_end);
+	Suffix previous_suffix(last_leaf_extension, *current_end);
 	(*current_end)++;
-	//RULE1 extensions are handled implicitly by incrementing the current_end
 	
 	int j;
-    for (j = (last_leaf_extension + 1); j <= (i + 1); j++) {
+    for (j = (last_leaf_extension->ID + 1); j <= (i + 1); j++) {
 		Rule rule_applied = SEA(previous_suffix, j, i);
 		if (rule_applied == RULE_3) 
 			break;
 		//log_tree();
     }
-	last_leaf_extension = j - 1;
 }
 
 //SEA: Single Extension Algorithm (Gusfield, 1997)
@@ -52,12 +48,10 @@ SuffixTree::Rule SuffixTree::SEA(Suffix& previous_suffix, int j, int i) {
 		: get_suffix(origin->suffix_link, begin_index, end_index));
 
 	Rule rule_applied;
-	//if RULE2 (path doesn't end at a leaf and no path continues with char [i + 1]):
-    if (!suffix.ends_at_leaf() && !suffix.continues_with_char(*this, tree_string[i + 1])) {
+    if (suffix.RULE2_conditions(*this, tree_string[i + 1])) {
 		RULE2(suffix, i + 1, j);
 		rule_applied = RULE_2;
 	}
-	//else RULE3 (some path continues with char [i + 1]) - do nothing.
 	else rule_applied = RULE_3;
 	
 	if (previous_suffix.new_internal_node)
@@ -92,7 +86,7 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 	}
 	Node* new_leaf = new Node(suffix.node, char_index, current_end, new_leaf_ID);  
     suffix.node->add_child(new_leaf);
-	last_leaf_extension_node = new_leaf;
+	last_leaf_extension = new_leaf;
 }
 
 void SuffixTree::log_tree() {

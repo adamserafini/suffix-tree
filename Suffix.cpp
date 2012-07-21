@@ -2,8 +2,6 @@
 #include "Node.h"
 #include "SuffixTree.h"
 
-#include <iostream>
-
 Suffix::Suffix(Node* n, int c) : node(n), char_index(c) {
 	new_internal_node = false;
 }
@@ -32,4 +30,8 @@ Node* Suffix::walk_up(int& begin_index, int& end_index) const {
 		end_index = char_index;
 		return node->parent;
 	}
+}
+
+bool Suffix::RULE2_conditions(const SuffixTree& tree, char ch) const {
+	return !ends_at_leaf() && !continues_with_char(tree, ch);
 }
