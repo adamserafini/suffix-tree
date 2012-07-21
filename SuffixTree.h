@@ -15,12 +15,15 @@ public:
     int length;
 	int* current_end;
 	Node* current_full_string;
-    void print_tree();
-    void print_node(Node*);
-    void SPA(int); //SPA: Single Phase Algorithm (Gusfield, 1997)
-    void SEA(Suffix&, int, int); //SEA: Single Extension Algorithm (Gusfield, 1997)
-    Suffix get_suffix(Node*, int, int); //The 'skip/count' trick for suffix tree traversal (Gusfield, 1997)
-    std::string get_substr(int, int);
-    void RULE2(Suffix&, int, int); //apply extension rule 2 (Gusfield, 1997)
+	Node* last_leaf_extension_node;
+	int last_leaf_extension;
+    void log_tree();
+    void log_node(Node*);
+	std::string get_substr(int, int);
+	enum Rule {RULE_2, RULE_3};			//Suffix Extension rules (Gusfield, 1997)
+	void SPA(int);						//SPA: Single Phase Algorithm (Gusfield, 1997)
+    Rule SEA(Suffix&, int, int);		//SEA: Single Extension Algorithm (Gusfield, 1997)
+    Suffix get_suffix(Node*, int, int); //The 'skip/count' trick for traversal (Gusfield, 1997)
+    void RULE2(Suffix&, int, int);		//apply Suffix Extension Rule 2 (Gusfield, 1997)
 };
 
