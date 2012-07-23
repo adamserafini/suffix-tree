@@ -26,5 +26,6 @@ public:
     void RULE2(Suffix&, int, int);		//apply Suffix Extension Rule 2 (Gusfield, 1997)
 	std::vector<int> retrieve_leaves(const Suffix&) const;
 	Suffix match_string(std::string) const;
+	std::vector<int> get_exact_matches(std::string) const;
 };
 

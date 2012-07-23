@@ -92,6 +92,13 @@ Suffix SuffixTree::match_string(std::string string) const {
 	}
 }
 
+std::vector<int> SuffixTree::get_exact_matches(std::string string) const {
+	Suffix suffix = match_string(string);
+	if (suffix.node == NULL)
+		return std::vector<int>();
+	else
+		return retrieve_leaves(suffix);
+}
 
 //depth first tree traversal to gather leaf IDs below a given suffix
 std::vector<int> SuffixTree::retrieve_leaves(const Suffix& suffix) const {
