@@ -63,6 +63,7 @@ SuffixTree::Rule SuffixTree::SEA(Suffix& previous_suffix, int j, int i) {
 //The 'skip/count' trick for suffix tree traversal (Gusfield, 1997)
 Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
 	int char_index = *origin->end_index;
+
 	while (begin_index <= end_index) {
 		origin = origin->get_child(*this, tree_string[begin_index]);
 		if (origin->edge_length() < end_index - begin_index + 1)
@@ -71,6 +72,24 @@ Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
 		begin_index+=origin->edge_length();
 	}
 	return Suffix(origin, char_index);
+}
+
+//Match a string from the root of the tree along
+Suffix SuffixTree::match_string(std::string string) const {
+	int char_index;
+	while (!string.empty()) {
+		Node* current_node = root->get_child(*this, string[0]);
+		if (current_node == NULL)
+			return Suffix(NULL, 0);
+		else {
+			char_index = current_node->begin_index;
+			int i;
+			for (i = 1; i < string.length() && i < current_node->edge_length(); i++)
+				if (string[i] != tree_string[char_index + i]) return Suffix(NULL, 0);
+			string.erase(0, i);
+		}
+		return Suffix(current_node, char_index);
+	}
 }
 
 

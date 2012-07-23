@@ -25,5 +25,6 @@ public:
     Suffix get_suffix(Node*, int, int); //The 'skip/count' trick for traversal (Gusfield, 1997)
     void RULE2(Suffix&, int, int);		//apply Suffix Extension Rule 2 (Gusfield, 1997)
 	std::vector<int> retrieve_leaves(const Suffix&) const;
+	Suffix match_string(std::string) const;
 };
 
