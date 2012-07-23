@@ -74,22 +74,24 @@ Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
 	return Suffix(origin, char_index);
 }
 
-//Match a string from the root of the tree along
+//Match a string from the root of the tree
 Suffix SuffixTree::match_string(std::string string) const {
 	int char_index;
+	Node* current_node = root;
 	while (!string.empty()) {
-		Node* current_node = root->get_child(*this, string[0]);
+		current_node = current_node->get_child(*this, string[0]);
 		if (current_node == NULL)
 			return Suffix(NULL, 0);
 		else {
 			char_index = current_node->begin_index;
-			int i;
-			for (i = 1; i < string.length() && i < current_node->edge_length(); i++)
-				if (string[i] != tree_string[char_index + i]) return Suffix(NULL, 0);
+			int i = 1;
+			for ( ; i < string.length() && i < current_node->edge_length(); i++)
+				if (string[i] != tree_string[char_index + i]) 
+					return Suffix(NULL, 0);
 			string.erase(0, i);
 		}
-		return Suffix(current_node, char_index);
 	}
+	return Suffix(current_node, char_index);
 }
 
 std::vector<int> SuffixTree::get_exact_matches(std::string string) const {
