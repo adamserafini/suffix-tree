@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "SuffixTree.h"
 #include "FASTA_FileReader.h"
 
@@ -8,9 +9,9 @@ using namespace std;
 
 int main() {
 	FASTA_FileReader file("Swinepox_NC_003389_complete.fasta");
-	string sequence = file.parse();
+	vector<string> sequences = file.parse();
 
-	SuffixTree st(sequence + "$");
+	SuffixTree st(sequences[0] + "$");
 	//SuffixTree st("xabxa$");
 	//SuffixTree st("AGGTTA$");
 

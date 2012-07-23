@@ -1,4 +1,6 @@
 #Ignore files build by Visual Studio
+*.vcxproj
+*.vcxproj.filters
 *.user
 *.aps
 *.pch
