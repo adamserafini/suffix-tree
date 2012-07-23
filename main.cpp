@@ -15,4 +15,7 @@ int main() {
     st.construct();
 	st.log_tree(); //caution: a 100k character sequences generates
 					 //+10GB log files. use log_tree only for debugging.
+
+
+
 }

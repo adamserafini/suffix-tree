@@ -49,6 +49,14 @@ Node* Node::get_child(const SuffixTree& tree, char ch) {
     return to_return;
 }
 
+void Node::get_children(std::vector<Node*>& children) const {
+	Node* node = this->child;
+	while (node != NULL) {
+		children.push_back(node);
+		node = node->sibling;
+	}
+}
+
 
 
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 class Suffix;
 class Node;
 
@@ -23,5 +24,6 @@ public:
     Rule SEA(Suffix&, int, int);		//SEA: Single Extension Algorithm (Gusfield, 1997)
     Suffix get_suffix(Node*, int, int); //The 'skip/count' trick for traversal (Gusfield, 1997)
     void RULE2(Suffix&, int, int);		//apply Suffix Extension Rule 2 (Gusfield, 1997)
+	std::vector<int> retrieve_leaves(const Suffix&) const;
 };
 
