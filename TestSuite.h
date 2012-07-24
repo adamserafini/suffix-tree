@@ -14,14 +14,15 @@ bool EXACT_MATCH_TEST();
 
 void EXECUTE_TEST_SUITE() {
 	std::cout << "Running tests..." << std::endl;
-	typedef bool (*Tests)();
-	Tests tests[] = {FASTA_FILE_READER_TEST, 
-					 EXACT_MATCH_TEST};
+	typedef bool (*Test)();
+	std::vector<Test> tests;
+	tests.push_back(FASTA_FILE_READER_TEST);
+	tests.push_back(EXACT_MATCH_TEST);
 
-	for (int i = 0; i < sizeof(tests)/sizeof(Tests); i++) {
-        std::cout   << "Test " << i + 1 
-                    << ((*tests[i]) ? " PASSED" : " FAILED")
-                    << std::endl;
+	for (int i = 0; i < tests.size(); i++) {
+		std::cout   << "Test " << i + 1 
+					<< (tests[i]() ? " PASSED" : " FAILED")
+					<< std::endl;
 	}
 	std::cout << "Press any key to exit..." << std::endl;
 	std::cin.get();
