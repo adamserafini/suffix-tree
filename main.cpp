@@ -3,7 +3,7 @@
 
 using namespace std;
 
-//define EXECUTE_TEST_SUITE to run tests
+//define TESTING to run tests
 //#define TESTING
 
 #ifndef TESTING
