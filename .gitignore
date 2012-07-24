@@ -25,4 +25,3 @@ log*
 
 #Ignore data files
 *.fa
-*.contigs
