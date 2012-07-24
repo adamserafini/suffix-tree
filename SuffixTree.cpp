@@ -22,7 +22,7 @@ void SuffixTree::construct() {
     for (int i = 1; i < length; i++) {
         SPA(i);
 		//log_tree();
-		if (i % 100 == 0) std::cerr << "Phase: " << i << std::endl;
+		//if (i % 100 == 0) std::cerr << "Phase: " << i << std::endl;
     }
 }
 

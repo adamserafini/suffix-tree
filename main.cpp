@@ -4,7 +4,7 @@
 using namespace std;
 
 //define TESTING to run tests
-//#define TESTING
+#define TESTING
 
 #ifndef TESTING
 int main() {

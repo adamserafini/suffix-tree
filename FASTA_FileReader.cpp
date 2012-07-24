@@ -18,5 +18,7 @@ std::vector<std::string> FASTA_FileReader::parse() {
 			current_string.clear();
 		}
     }
+	if (!current_string.empty())
+		to_return.push_back(current_string);
     return to_return;
 }

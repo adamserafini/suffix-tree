@@ -7,13 +7,42 @@
 #include "FASTA_FileReader.h"
 
 //List of individual tests
-void EXACT_MATCH_TEST();
+
+bool FASTA_FILE_READER_TEST();
+bool EXACT_MATCH_TEST();
+
 
 void EXECUTE_TEST_SUITE() {
-	EXACT_MATCH_TEST();
+	std::cout << "Running tests..." << std::endl;
+	typedef bool (*Tests)();
+	std::vector<Tests> tests;
+	tests.push_back(FASTA_FILE_READER_TEST);
+	tests.push_back(EXACT_MATCH_TEST);
+
+	for (int i = 0; i < tests.size(); i++) {
+		std::cout	<< "Test " << i + 1 
+					<< ((*tests[i]) ? " PASSED" : " FAILED")
+					<< std::endl;
+	}
+	std::cout << "Press any key to exit..." << std::endl;
+	std::cin.get();
 }
 
-void EXACT_MATCH_TEST() {
+bool FASTA_FILE_READER_TEST() {
+	FASTA_FileReader file("Swinepox_NC_003389_simreads.fa.31764.CONTIGS");
+	std::vector<std::string> sequences = file.parse();
+	if (sequences.size() == 5
+		&& sequences[3] == "TACACTTTTTTTTACCGTTTATAAATTATTATTTTTAATAAAAATAATAGATGATTATATTTATCTATACCTAAGGTAAGTAAATTAACATCTTTATTTTATAAAATAATAATTTATAAACGGTAAAAAAAAGTGTAACCTAATCCCTTATAGTCATGTTTTTTGAGAATAAAAACAAACGCATACTTTTTGAACGGAGAAATACCTGTATCCTTAATCCCCTATAACCATATTTTTTTAATCCAACATACTTTTTGAACGGAGAAATACCTGTAT"
+		&& sequences[0].length() == 34536
+		&& sequences[1].length() == 88023
+		&& sequences[2].length() == 19502
+		&& sequences[3].length() == 276
+		&& sequences[4].length() == 419)
+			return true;
+	else return false;
+}
+
+bool EXACT_MATCH_TEST() {
 	FASTA_FileReader file("Swinepox_NC_003389_complete.fasta");
 	std::vector<std::string> sequences = file.parse();
 	SuffixTree st(sequences[0] + "$");
@@ -24,8 +53,11 @@ void EXACT_MATCH_TEST() {
 					 //+10GB log files. use log_tree only for debugging.
 	std::string test = "TGTAACCT";
 	std::vector<int> v = st.get_exact_matches(test);
-	if (v.size() == 3 && v[0] == 146447 && v[1] == 36082 && v[2] == 138)
-		std::cout << "EXACT MATCH TEST PASSED" << std::endl;
-	else std::cout << "EXACT MATCH TEST FAILED" << std::endl;
-	std::cin.get();
+	if (v.size() == 3 
+		&& v[0] == 146447 
+		&& v[1] == 36082 
+		&& v[2] == 138
+		&& sequences.size() == 1)
+		return true;
+	else return false;
 }
