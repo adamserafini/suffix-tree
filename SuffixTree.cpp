@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 
+#define IDX(x) ((x) - 1)
 
 SuffixTree::SuffixTree(std::string s) {
     length = s.length();
@@ -22,7 +23,7 @@ void SuffixTree::construct() {
     for (int i = 1; i < length; i++) {
         SPA(i);
 		//log_tree();
-		//if (i % 100 == 0) std::cerr << "Phase: " << i << std::endl;
+		if (i % 10000 == 0) std::cerr << "Phase: " << i << std::endl;
     }
 }
 

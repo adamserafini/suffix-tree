@@ -25,3 +25,5 @@ log*
 
 #Ignore data files
 *.fa
+Swinepox_NC_00389_simreads_SHORTVER.txt
+SWINEPOX_SIMULATED_READS.txt
