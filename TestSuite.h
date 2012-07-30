@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 #include "SuffixTree.h"
 #include "FASTA_FileReader.h"
 
@@ -10,14 +11,18 @@
 
 bool FASTA_FILE_READER_TEST();
 bool EXACT_MATCH_TEST();
+bool TWO_STRINGS_TEST1();
+bool BIG_CONCAT_TEST();
 
 
 void EXECUTE_TEST_SUITE() {
 	std::cout << "Running tests..." << std::endl;
 	typedef bool (*Test)();
 	std::vector<Test> tests;
-	tests.push_back(FASTA_FILE_READER_TEST);
-	tests.push_back(EXACT_MATCH_TEST);
+	//tests.push_back(FASTA_FILE_READER_TEST);
+	//tests.push_back(EXACT_MATCH_TEST);
+	//tests.push_back(TWO_STRINGS_TEST1);
+	tests.push_back(BIG_CONCAT_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
 		std::cout   << "Test " << i + 1 
@@ -60,4 +65,26 @@ bool EXACT_MATCH_TEST() {
 		&& sequences.size() == 1)
 		return true;
 	else return false;
+}
+
+bool TWO_STRINGS_TEST1() {
+	SuffixTree st("xabxa10xabxa11");
+	st.construct();
+	st.log_tree();
+	return true;
+}
+
+bool BIG_CONCAT_TEST() {
+	FASTA_FileReader file("Swinepox_NC_003389_simreads.fa.31764.CONTIGS");
+	std::vector<std::string> sequences = file.parse();
+
+	std::string concat;
+	std::stringstream convert;
+	for (int i = 0; i < sequences.size(); i++) {
+		convert << i;
+		concat = concat + sequences[i] + convert.str();
+	}
+	SuffixTree st(concat);
+	st.construct();
+	return true;
 }

@@ -138,6 +138,7 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 void SuffixTree::log_tree() {
     log_node(root);
 	std::cout << "END OF TREE" << std::endl;
+	freopen( "CON", "w", stdout );
 }
 
 void SuffixTree::log_node(Node* parent) {
@@ -153,8 +154,9 @@ void SuffixTree::log_node(Node* parent) {
 			freopen(("log_file" + file_number.str()).c_str(), "w", stdout);
 		}
         std::cout << parent_ID 
-                  << " " << get_substr(child->begin_index, *child->end_index) 
-                  << " " << child->ID << std::endl;
+                  << " -> " << child->ID << " [label = \"" 
+				  << get_substr(child->begin_index, *child->end_index) 
+				  << "\"];" << std::endl;
 		line_count++;
         log_node(child);
         child = child->sibling;
