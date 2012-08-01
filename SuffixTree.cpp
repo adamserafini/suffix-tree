@@ -4,7 +4,6 @@
 #include <iostream>
 #include <sstream>
 
-#define IDX(x) ((x) - 1)
 
 SuffixTree::SuffixTree(std::string s) {
     length = s.length();
@@ -120,7 +119,7 @@ std::vector<int> SuffixTree::retrieve_leaves(const Suffix& suffix) const {
 }
 
 
-std::string SuffixTree::get_substr(int start_pos, int end_pos) {
+std::string SuffixTree::get_substr(int start_pos, int end_pos) const {
     if (start_pos > end_pos) return std::string();
     return tree_string.substr(start_pos, end_pos - start_pos + 1);
 }
@@ -134,6 +133,20 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 	Node* new_leaf = new Node(suffix.node, char_index, current_end, new_leaf_ID);  
     suffix.node->add_child(new_leaf);
 	last_leaf_extension = new_leaf;
+}
+
+//recursive algorithm to retrieve all path labels below a certain node;
+void SuffixTree::retrieve_paths(Node* node, std::string string, std::vector<std::string>& to_return) const {
+	std::string this_string = get_substr(node->begin_index, *node->end_index);
+	string += this_string;
+	if (node->is_leaf())
+		to_return.push_back(string);
+	else {
+		std::vector<Node*> children;
+		node->get_children(children);
+		for (int i = 0; i < children.size(); i++)
+			retrieve_paths(children[i], string, to_return);
+	}
 }
 
 void SuffixTree::log_tree() {
