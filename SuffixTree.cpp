@@ -98,24 +98,29 @@ std::vector<int> SuffixTree::get_exact_matches(std::string string) const {
 	Suffix suffix = match_string(string);
 	if (suffix.node == NULL)
 		return std::vector<int>();
-	else
-		return retrieve_leaves(suffix);
+	else {
+		std::vector<Node*> leaves = retrieve_leaves(suffix);
+		std::vector<int> to_return;
+		for (int i = 0; i < leaves.size(); i++)
+			to_return.push_back(leaves[i]->ID);
+		return to_return;
+	}
 }
 
 //depth first tree traversal to gather leaf IDs below a given suffix
-std::vector<int> SuffixTree::retrieve_leaves(const Suffix& suffix) const {
-	std::vector<int> leaf_IDs;
+std::vector<Node*> SuffixTree::retrieve_leaves(const Suffix& suffix) const {
+	std::vector<Node*> leaves;
 	std::vector<Node*> nodes_to_visit (1, suffix.node);
 
 	while (!nodes_to_visit.empty()) {
 		Node* current_node = nodes_to_visit.back();
 		nodes_to_visit.pop_back();
 		if (current_node->is_leaf()) 
-			leaf_IDs.push_back(current_node->ID);
+			leaves.push_back(current_node);
 		else
 			current_node->get_children(nodes_to_visit);
 	}
-	return leaf_IDs;
+	return leaves;
 }
 
 

@@ -25,7 +25,7 @@ public:
     Rule SEA(Suffix&, int, int);		//SEA: Single Extension Algorithm (Gusfield, 1997)
     Suffix get_suffix(Node*, int, int); //The 'skip/count' trick for traversal (Gusfield, 1997)
     void RULE2(Suffix&, int, int);		//apply Suffix Extension Rule 2 (Gusfield, 1997)
-	std::vector<int> retrieve_leaves(const Suffix&) const;
+	std::vector<Node*> retrieve_leaves(const Suffix&) const;
 	void retrieve_paths(Node*, std::string, std::vector<std::string>&) const;
 	Suffix match_string(std::string) const;
 	std::vector<int> get_exact_matches(std::string) const;
