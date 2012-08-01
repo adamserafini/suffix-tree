@@ -5,16 +5,17 @@
 #include <sstream>
 
 
-SuffixTree::SuffixTree(std::string s) {
-    length = s.length();
-    tree_string = ' ' + s;
+SuffixTree::SuffixTree() {
     internal_node_ID = 0;
 	current_end = new int(0);
     root = new Node(NULL, 1, new int (0), internal_node_ID);
 	root->suffix_link = root;
 }
 
-void SuffixTree::construct() {
+void SuffixTree::construct(const std::string& s) {
+	length = s.length();
+    tree_string = ' ' + s;
+
 	(*current_end)++;
 	last_leaf_extension = new Node(root, 1, current_end, 1);
     root->add_child(last_leaf_extension);

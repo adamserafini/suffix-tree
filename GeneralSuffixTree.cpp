@@ -3,8 +3,20 @@
 #include "Node.h"
 
 #include "Suffix.h"
+#include <cmath>
+#include <sstream>
 
-GeneralSuffixTree::GeneralSuffixTree(std::string s) : SuffixTree(s) {
+GeneralSuffixTree::GeneralSuffixTree() {
+}
+
+void GeneralSuffixTree::construct(const std::vector<std::string>& strings) {
+	std::string to_build;
+	for (int i = 0; i < strings.size(); i++) {
+		std::stringstream convert;
+		convert << i;
+		to_build += (strings[i] + convert.str());
+	}
+	SuffixTree::construct(to_build);
 }
 
 void GeneralSuffixTree::tidy_leaves() {
@@ -19,4 +31,9 @@ void GeneralSuffixTree::tidy_leaves() {
 			index++;
 		leaves[i]->end_index = new int(index);
 	}
+}
+
+void GeneralSuffixTree::label_nodes() {
+
+
 }

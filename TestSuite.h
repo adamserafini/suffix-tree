@@ -7,6 +7,7 @@
 #include "SuffixTree.h"
 #include "FASTA_FileReader.h"
 #include "GeneralSuffixTree.h"
+#include <fstream>
 
 //List of individual tests
 
@@ -21,7 +22,7 @@ void EXECUTE_TEST_SUITE() {
 	std::vector<Test> tests;
 	tests.push_back(EXACT_MATCH_TEST);
 	tests.push_back(TWO_STRINGS_TEST1);
-	//tests.push_back(BIG_CONCAT_TEST);
+	tests.push_back(BIG_CONCAT_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
 		std::cout   << "Test " << i + 1 
@@ -37,13 +38,19 @@ void EXECUTE_TEST_SUITE() {
 
 bool EXACT_MATCH_TEST() {
 	FASTA_FileReader file("Swinepox_NC_003389_complete.fasta");
-	std::string sequence = file.parse();
-	SuffixTree st(sequence);
-    st.construct();
+	std::vector<std::string> sequences;
+	file.parse(sequences);
+	SuffixTree st;
+	std::cout << "The size of sequences is: " << sequences.size();
+    st.construct(sequences[0] + "$");
+
+	std::ofstream outfile;
+	outfile.open("output.txt");
+	outfile << sequences[0];
 
 	std::string test = "TGTAACCT";
 	std::vector<int> v = st.get_exact_matches(test);
-	std::cout << "Sequence size: " << sequence.length() << std::endl;
+	std::cout << "Sequence size: " << sequences[0].length() << std::endl;
 	for (int i = 0; i < v.size(); i++)
 		std::cout << v[i] <<std::endl;
 	if (v.size() == 3 
@@ -56,8 +63,10 @@ bool EXACT_MATCH_TEST() {
 }
 
 bool TWO_STRINGS_TEST1() {
-	GeneralSuffixTree gst("adam0dame1medal2");
-	gst.construct();
+	GeneralSuffixTree gst;
+	std::vector<std::string> strings;
+	strings.push_back("adam0dame1medal2");
+	gst.construct(strings);
 	
 
 	std::vector<std::string> paths;
@@ -77,10 +86,11 @@ bool TWO_STRINGS_TEST1() {
 
 bool BIG_CONCAT_TEST() {
 	FASTA_FileReader file("SWINEPOX_SIMULATED_READS.TXT");
-	std::string sequence = file.parse();
+	std::vector<std::string> strings;
+	file.parse(strings);
 	std::cout << "Finished parsing." << std::endl;
 	
-	SuffixTree st(sequence);
-	st.construct();
+	GeneralSuffixTree gst;
+	gst.construct(strings);
 	return true;
 }
