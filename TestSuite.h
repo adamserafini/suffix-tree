@@ -6,6 +6,7 @@
 #include <sstream>
 #include "SuffixTree.h"
 #include "FASTA_FileReader.h"
+#include "GeneralSuffixTree.h"
 
 //List of individual tests
 
@@ -18,7 +19,7 @@ void EXECUTE_TEST_SUITE() {
 	std::cout << "Running tests..." << std::endl;
 	typedef bool (*Test)();
 	std::vector<Test> tests;
-	//tests.push_back(EXACT_MATCH_TEST);
+	tests.push_back(EXACT_MATCH_TEST);
 	tests.push_back(TWO_STRINGS_TEST1);
 	//tests.push_back(BIG_CONCAT_TEST);
 
@@ -55,12 +56,12 @@ bool EXACT_MATCH_TEST() {
 }
 
 bool TWO_STRINGS_TEST1() {
-	SuffixTree st("adam0dame1medal2");
-	st.construct();
-	st.log_tree();
+	GeneralSuffixTree gst("adam0dame1medal2");
+	gst.construct();
+	gst.log_tree();
 
 	std::vector<std::string> paths;
-    st.retrieve_paths(st.root, std::string(), paths);
+    gst.retrieve_paths(gst.root, std::string(), paths);
 
 
 	for (int i = 0; i < paths.size(); i++) {
