@@ -58,10 +58,14 @@ bool EXACT_MATCH_TEST() {
 bool TWO_STRINGS_TEST1() {
 	GeneralSuffixTree gst("adam0dame1medal2");
 	gst.construct();
-	gst.log_tree();
+	
 
 	std::vector<std::string> paths;
-    gst.retrieve_paths(gst.root, std::string(), paths);
+    
+	//gst.tidy_leaves();
+	gst.log_tree();
+
+	gst.retrieve_paths(gst.root, std::string(), paths);
 
 
 	for (int i = 0; i < paths.size(); i++) {
