@@ -33,24 +33,15 @@ void EXECUTE_TEST_SUITE() {
 	std::cin.get();
 }
 
-
-
-
 bool EXACT_MATCH_TEST() {
 	FASTA_FileReader file("Swinepox_NC_003389_complete.fasta");
 	std::vector<std::string> sequences;
 	file.parse(sequences);
 	SuffixTree st;
-	std::cout << "The size of sequences is: " << sequences.size();
     st.construct(sequences[0] + "$");
-
-	std::ofstream outfile;
-	outfile.open("output.txt");
-	outfile << sequences[0];
 
 	std::string test = "TGTAACCT";
 	std::vector<int> v = st.get_exact_matches(test);
-	std::cout << "Sequence size: " << sequences[0].length() << std::endl;
 	for (int i = 0; i < v.size(); i++)
 		std::cout << v[i] <<std::endl;
 	if (v.size() == 3 
@@ -65,17 +56,15 @@ bool EXACT_MATCH_TEST() {
 bool TWO_STRINGS_TEST1() {
 	GeneralSuffixTree gst;
 	std::vector<std::string> strings;
-	strings.push_back("adam0dame1medal2");
+	strings.push_back("adam");
+	strings.push_back("dame");
+	strings.push_back("medal");
 	gst.construct(strings);
 	
-
 	std::vector<std::string> paths;
-    
-	//gst.tidy_leaves();
+    gst.tidy_leaves();
 	gst.log_tree();
-
 	gst.retrieve_paths(gst.root, std::string(), paths);
-
 
 	for (int i = 0; i < paths.size(); i++) {
 		std::cout << paths[i] << std::endl;
