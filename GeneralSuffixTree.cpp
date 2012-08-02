@@ -11,10 +11,14 @@ GeneralSuffixTree::GeneralSuffixTree() {
 
 void GeneralSuffixTree::construct(const std::vector<std::string>& strings) {
 	std::string to_build;
+	int position = 1;
 	for (int i = 0; i < strings.size(); i++) {
+		string_index.push_back(std::make_pair(position, strings[i].length()));
 		std::stringstream convert;
 		convert << i;
-		to_build += (strings[i] + convert.str());
+		std::string to_add = strings[i] + convert.str();
+		to_build += to_add;
+		position += to_add.length();
 	}
 	SuffixTree::construct(to_build);
 }

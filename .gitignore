@@ -22,6 +22,7 @@ _ReSharper*/
 
 #Ignore log files
 log*
+output.txt
 
 #Ignore data files
 *.fa

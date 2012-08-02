@@ -69,6 +69,10 @@ bool TWO_STRINGS_TEST1() {
 	for (int i = 0; i < paths.size(); i++) {
 		std::cout << paths[i] << std::endl;
 	}
+	for (int i = 0; i < gst.string_index.size(); i++) {
+		std::cout << "Position: " <<gst.string_index[i].first << " "
+			<< "Length: " << gst.string_index[i].second << std::endl;
+	}
 
 	return true;
 }
