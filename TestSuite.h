@@ -7,6 +7,7 @@
 #include "SuffixTree.h"
 #include "FASTA_FileReader.h"
 #include "GeneralSuffixTree.h"
+#include "Assembler.h"
 #include <fstream>
 
 //List of individual tests
@@ -20,9 +21,9 @@ void EXECUTE_TEST_SUITE() {
 	std::cout << "Running tests..." << std::endl;
 	typedef bool (*Test)();
 	std::vector<Test> tests;
-	tests.push_back(EXACT_MATCH_TEST);
+	//tests.push_back(EXACT_MATCH_TEST);
 	tests.push_back(TWO_STRINGS_TEST1);
-	tests.push_back(BIG_CONCAT_TEST);
+	//tests.push_back(BIG_CONCAT_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
 		std::cout   << "Test " << i + 1 
@@ -56,14 +57,14 @@ bool EXACT_MATCH_TEST() {
 bool TWO_STRINGS_TEST1() {
 	GeneralSuffixTree gst;
 	std::vector<std::string> strings;
-	strings.push_back("adam");
-	strings.push_back("dame");
-	strings.push_back("medal");
+	strings.push_back("aba");
+	strings.push_back("bab");
+	strings.push_back("aabb");
 	gst.construct(strings);
 	
 	std::vector<std::string> paths;
     gst.tidy_leaves();
-	gst.log_tree();
+	
 	gst.retrieve_paths(gst.root, std::string(), paths);
 
 	for (int i = 0; i < paths.size(); i++) {
@@ -73,7 +74,10 @@ bool TWO_STRINGS_TEST1() {
 		std::cout << "Position: " <<gst.string_index[i].first << " "
 			<< "Length: " << gst.string_index[i].second << std::endl;
 	}
-
+	Assembler assembler;
+	assembler.compute_overlaps(gst);
+	assembler.print_overlaps();
+	gst.log_tree();
 	return true;
 }
 

@@ -57,6 +57,15 @@ void Node::get_children(std::vector<Node*>& children) const {
 	}
 }
 
+void Node::get_alpha_children(const SuffixTree& st, std::vector<Node*>& children) const {
+	Node* node = this->child;
+	while (node != NULL) {
+		if (isalpha(st.tree_string[node->begin_index]))
+			children.push_back(node);
+		node = node->sibling;
+	}
+}
+
 
 
 
