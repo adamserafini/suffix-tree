@@ -10,7 +10,6 @@ public:
 	GeneralSuffixTree();
 	void construct(const std::vector<std::string>&);
 	std::vector<std::pair<int, int>> string_index;
-	void tidy_leaves();
 	void label_nodes();
 };
 

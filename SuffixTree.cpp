@@ -161,6 +161,8 @@ void SuffixTree::log_tree() {
 	freopen( "CON", "w", stdout );
 }
 
+
+
 void SuffixTree::log_node(Node* parent) {
 	static unsigned int line_count;
 	static const unsigned int LINES_PER_FILE = 20000;

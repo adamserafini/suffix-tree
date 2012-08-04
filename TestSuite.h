@@ -57,15 +57,27 @@ bool EXACT_MATCH_TEST() {
 bool TWO_STRINGS_TEST1() {
 	GeneralSuffixTree gst;
 	std::vector<std::string> strings;
-	strings.push_back("aba");
-	strings.push_back("bab");
-	strings.push_back("aabb");
+	strings.push_back("adam");
+	strings.push_back("dame");
+	strings.push_back("medal");
+	strings.push_back("amicable");
+	strings.push_back("able");
+	strings.push_back("dab");
+	strings.push_back("dada");
+	strings.push_back("damn");
+	strings.push_back("nooverlap");
+	strings.push_back("damaging");
+	strings.push_back("damaging");
+	strings.push_back("ableton");
+	strings.push_back("tons");
+	strings.push_back("dale");
+	strings.push_back("ale");
 	gst.construct(strings);
 	
 	std::vector<std::string> paths;
-    gst.tidy_leaves();
+    //gst.tidy_leaves();
 	
-	gst.retrieve_paths(gst.root, std::string(), paths);
+	//gst.retrieve_paths(gst.root, std::string(), paths);
 
 	for (int i = 0; i < paths.size(); i++) {
 		std::cout << paths[i] << std::endl;
@@ -76,7 +88,7 @@ bool TWO_STRINGS_TEST1() {
 	}
 	Assembler assembler;
 	assembler.compute_overlaps(gst);
-	assembler.print_overlaps();
+	//assembler.print_overlaps(gst);
 	gst.log_tree();
 	return true;
 }
