@@ -88,7 +88,7 @@ bool TWO_STRINGS_TEST1() {
 	}
 	Assembler assembler;
 	assembler.compute_overlaps(gst);
-	//assembler.print_overlaps(gst);
+	assembler.print_overlaps(gst);
 	gst.log_tree();
 	return true;
 }

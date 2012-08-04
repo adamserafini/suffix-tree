@@ -5,6 +5,7 @@
 #include "Suffix.h"
 #include <cmath>
 #include <sstream>
+#include <algorithm>
 
 GeneralSuffixTree::GeneralSuffixTree() {
 }
@@ -19,9 +20,7 @@ void GeneralSuffixTree::construct(const std::vector<std::string>& strings) {
 		std::string to_add = strings[i] + convert.str();
 		to_build += to_add;
 		position += to_add.length();
+		character_index.resize(position, i);
 	}
 	SuffixTree::construct(to_build + "$");
-}
-
-void GeneralSuffixTree::label_nodes() {
 }
