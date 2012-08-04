@@ -15,6 +15,7 @@ void Assembler::compute_overlaps(GeneralSuffixTree& gst) {
 	label_nodes(gst);
 
 	for (int j = 0; j < number_of_strings; j++) {
+		if (j % 1000 == 0) std::cout << "Calculating overlap for string: " << j << std::endl;
 		Node* x = gst.root;
 		int depth = 0;
 		while (!x->is_leaf()) {
@@ -32,9 +33,8 @@ void Assembler::compute_overlaps(GeneralSuffixTree& gst) {
 
 void Assembler::label_nodes(GeneralSuffixTree& gst) {
 	std::vector<Node*> nodes_to_visit (1, gst.root);
-	//depth first traversal to visit all alpha nodes
+
 	while (!nodes_to_visit.empty()) {
-		std::cout << "I entered the label nodes loop!" << std::endl;
 		Node* current_node = nodes_to_visit.back();
 		nodes_to_visit.pop_back();
 		label_node(gst, current_node);
@@ -44,6 +44,9 @@ void Assembler::label_nodes(GeneralSuffixTree& gst) {
 }
 
 void Assembler::label_node(GeneralSuffixTree& gst, Node* node) {
+	static int node_number = 0;
+	node_number++;
+	if (node_number % 1000 == 0) std::cout << "Labelling node: " << node_number << std::endl;
 	std::vector<Node*> children;
 	node->get_children(children);
 	for (int i = 0; i < children.size(); i++) {
@@ -56,12 +59,16 @@ void Assembler::label_node(GeneralSuffixTree& gst, Node* node) {
 }
 
 void Assembler::print_overlaps(const GeneralSuffixTree& gst) {
+	freopen("overlap_log", "w", stdout);
 	for (int i = 0; i < overlap_lengths.size(); i++) {
 		for (int j = 0; j < overlap_lengths[i].size(); j++)
-			std::cout << "Strings: " << gst.tree_string.substr(gst.string_index[i].first, gst.string_index[i].second) << "/" 
-			<< gst.tree_string.substr(gst.string_index[j].first, gst.string_index[j].second) <<
-			" overlap by: " << overlap_lengths[i][j] << std::endl;
+			std::cout << "Strings: " 
+			<< gst.tree_string.substr(gst.string_index[i].first, gst.string_index[i].second) 
+			<< "/" 
+			<< gst.tree_string.substr(gst.string_index[j].first, gst.string_index[j].second) 
+			<< " overlap by: " << overlap_lengths[i][j] << std::endl;
 	}
+	freopen( "CON", "w", stdout );
 }
 
 

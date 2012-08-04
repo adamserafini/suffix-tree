@@ -6,12 +6,24 @@ using namespace std;
 
 //define TESTING to run tests
 #define TESTING
+//define GENERATE to generate simulated reads
+//#define GENERATE
+//define MAIN for normal program execution
+//#define MAIN
 
-
-
-#ifndef TESTING
+#ifdef MAIN
 int main() {
 	cout << "Normal program execution.." << endl;
+	cout << sizeof(short int) << endl;
+	cout << sizeof(int) << endl;
+	cout << sizeof(char) << endl;
+	cin.get();
+}
+#endif
+
+#ifdef GENERATE
+int main() {
+	cout << "Generating reads..." << endl;
 	
 
 	std::ifstream infile;
@@ -35,7 +47,8 @@ int main() {
 	cin.get();
 
 }
-#else
+#endif
+#ifdef TESTING
 int main() {
 	EXECUTE_TEST_SUITE();
 }
