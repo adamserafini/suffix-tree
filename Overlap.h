@@ -6,6 +6,5 @@ public:
 	int string_i;
 	int string_j;
 	short int overlap;
-	Overlap* next;
 };
 

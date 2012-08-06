@@ -22,8 +22,8 @@ void EXECUTE_TEST_SUITE() {
 	typedef bool (*Test)();
 	std::vector<Test> tests;
 	//tests.push_back(EXACT_MATCH_TEST);
-	//tests.push_back(TWO_STRINGS_TEST1);
-	tests.push_back(BIG_CONCAT_TEST);
+	tests.push_back(TWO_STRINGS_TEST1);
+	//tests.push_back(BIG_CONCAT_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
 		std::cout   << "Test " << i + 1 
@@ -86,7 +86,7 @@ bool TWO_STRINGS_TEST1() {
 		std::cout << "Position: " <<gst.string_index[i].first << " "
 			<< "Length: " << gst.string_index[i].second << std::endl;
 	}
-	Assembler assembler(1, 1);
+	Assembler assembler(1);
 	assembler.compute_overlaps(gst);
 	assembler.print_overlaps(gst);
 	gst.log_tree();
@@ -104,7 +104,7 @@ bool BIG_CONCAT_TEST() {
 	GeneralSuffixTree gst;
 	gst.construct(strings);
 
-	Assembler assembler(30, 36);
+	Assembler assembler(30);
 	assembler.compute_overlaps(gst);
 	assembler.print_overlaps(gst);
 

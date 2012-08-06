@@ -6,7 +6,7 @@
 class Assembler
 {
 public:
-	Assembler(int min, int max) : min_overlap(min), max_overlap(max), head(NULL) {}
+	Assembler(int min) : min_overlap(min), max_overlap(0), head(NULL) {}
 	void compute_overlaps(GeneralSuffixTree&);
 	void label_nodes(GeneralSuffixTree&);
 	void label_node(GeneralSuffixTree&, Node*);

@@ -16,7 +16,8 @@ void Assembler::compute_overlaps(GeneralSuffixTree& gst) {
 			for (int i = 0; i < x->node_labels.size(); i++) {
 					int min_length = std::min(	gst.string_index[x->node_labels[i]].second,
 												gst.string_index[j].second);
-					add_overlap(x->node_labels[i], j, std::min(min_length, depth));
+					if (depth < min_length)
+						add_overlap(x->node_labels[i], j, depth);
 				}
 			x = x->get_child(gst, gst.tree_string[gst.string_index[j].first + depth]);
 			depth += x->edge_length();
@@ -40,7 +41,6 @@ void Assembler::counting_sort() {
 		sorted_overlaps[count[overlaps[i]->overlap - min_overlap]] = overlaps[i];
 		count[overlaps[i]->overlap - min_overlap]++;
 	}
-	std::cin.get();
 	overlaps = sorted_overlaps;
 }
 
@@ -78,6 +78,8 @@ void Assembler::label_node(GeneralSuffixTree& gst, Node* node) {
 }
 
 void Assembler::add_overlap(int string_i, int string_j, short int overlap) {
+	if (overlap > max_overlap)
+		max_overlap = overlap;
 	Overlap* to_add = new Overlap(string_i, string_j, overlap);
 	overlaps.push_back(to_add);
 }
