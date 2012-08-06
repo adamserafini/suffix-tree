@@ -9,6 +9,7 @@
 void Assembler::compute_overlaps(GeneralSuffixTree& gst) {
 	label_nodes(gst);
 	for (int j = 0; j < gst.string_index.size(); j++) {
+		if (j % 1000 == 0) std::cout << "Computing overlaps for string: " << j << std::endl;
 		Node* x = gst.root;
 		int depth = 0;
 		while (!x->is_leaf()) {
@@ -21,6 +22,26 @@ void Assembler::compute_overlaps(GeneralSuffixTree& gst) {
 			depth += x->edge_length();
 		}
 	}
+	counting_sort();
+}
+
+void Assembler::counting_sort() {
+	std::vector<int> count(max_overlap - min_overlap + 1, 0);
+	for (int i = 0; i < overlaps.size(); i++)
+		count[overlaps[i]->overlap - min_overlap]++;
+	int total = 0;
+	for (int i = 0; i < count.size(); i++) {
+		int c = count[i];
+		count[i] = total;
+		total = total + c;
+	}
+	std::vector<Overlap*> sorted_overlaps(overlaps.size());
+	for (int i = 0; i < overlaps.size(); i++) {
+		sorted_overlaps[count[overlaps[i]->overlap - min_overlap]] = overlaps[i];
+		count[overlaps[i]->overlap - min_overlap]++;
+	}
+	std::cin.get();
+	overlaps = sorted_overlaps;
 }
 
 void Assembler::label_nodes(GeneralSuffixTree& gst) {
@@ -58,35 +79,20 @@ void Assembler::label_node(GeneralSuffixTree& gst, Node* node) {
 
 void Assembler::add_overlap(int string_i, int string_j, short int overlap) {
 	Overlap* to_add = new Overlap(string_i, string_j, overlap);
-	if (head == NULL) {
-		head = to_add;
-	}
-	else if (overlap >= head->overlap) {
-		to_add->next = head;
-		head = to_add;
-	}
-	else {
-		Overlap* position = head;;
-		while (position->next != NULL && overlap < position->next->overlap)
-			position = position->next;
-		to_add->next = position->next;
-		position->next = to_add;
-	}
+	overlaps.push_back(to_add);
 }
 
 void Assembler::print_overlaps(const GeneralSuffixTree& gst) {
 	std::cout << "entered print overlaps" << std::endl;
 	freopen("overlap_log", "w", stdout);
-	Overlap* scan = head;
-	while (scan != NULL) {
-		int i = scan->string_i;
-		int j = scan->string_j;
+	for (int i = 0; i < overlaps.size(); i++) {
+		int string_i = overlaps[i]->string_i;
+		int string_j = overlaps[i]->string_j;
 		std::cout << "Strings: " 
-		<< gst.tree_string.substr(gst.string_index[i].first, gst.string_index[i].second) 
+		<< gst.tree_string.substr(gst.string_index[string_i].first, gst.string_index[string_i].second) 
 		<< "/" 
-		<< gst.tree_string.substr(gst.string_index[j].first, gst.string_index[j].second) 
-		<< " overlap by: " << scan->overlap << std::endl;
-		scan = scan->next;
+		<< gst.tree_string.substr(gst.string_index[string_j].first, gst.string_index[string_j].second) 
+		<< " overlap by: " << overlaps[i]->overlap << std::endl;
 	}
 	freopen( "CON", "w", stdout );
 }
