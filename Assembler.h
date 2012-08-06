@@ -5,7 +5,7 @@
 class Assembler
 {
 public:
-	Assembler() {head = NULL;}
+	Assembler(int o) : min_overlap(o), head(NULL) {}
 	void compute_overlaps(GeneralSuffixTree&);
 	void label_nodes(GeneralSuffixTree&);
 	void label_node(GeneralSuffixTree&, Node*);
@@ -13,5 +13,6 @@ public:
 	void add_overlap(int, int, short int);
 	std::vector<std::pair<Overlap*, Overlap*>> assembled_overlaps;
 	void print_overlaps(const GeneralSuffixTree&);
+	int min_overlap;
 };
 

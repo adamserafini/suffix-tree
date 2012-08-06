@@ -60,18 +60,18 @@ bool TWO_STRINGS_TEST1() {
 	strings.push_back("adam");
 	strings.push_back("dame");
 	strings.push_back("medal");
-	//strings.push_back("amicable");
-	//strings.push_back("able");
-	//strings.push_back("dab");
-	//strings.push_back("dada");
-	//strings.push_back("damn");
-	//strings.push_back("nooverlap");
-	//strings.push_back("damaging");
-	//strings.push_back("damaging");
-	//strings.push_back("ableton");
-	//strings.push_back("tons");
-	//strings.push_back("dale");
-	//strings.push_back("ale");
+	strings.push_back("amicable");
+	strings.push_back("able");
+	strings.push_back("dab");
+	strings.push_back("dada");
+	strings.push_back("damn");
+	strings.push_back("nooverlap");
+	strings.push_back("damaging");
+	strings.push_back("damaging");
+	strings.push_back("ableton");
+	strings.push_back("tons");
+	strings.push_back("dale");
+	strings.push_back("ale");
 	gst.construct(strings);
 	
 	std::vector<std::string> paths;
@@ -86,7 +86,7 @@ bool TWO_STRINGS_TEST1() {
 		std::cout << "Position: " <<gst.string_index[i].first << " "
 			<< "Length: " << gst.string_index[i].second << std::endl;
 	}
-	Assembler assembler;
+	Assembler assembler(1);
 	assembler.compute_overlaps(gst);
 	assembler.print_overlaps(gst);
 	gst.log_tree();
@@ -102,7 +102,7 @@ bool BIG_CONCAT_TEST() {
 	GeneralSuffixTree gst;
 	gst.construct(strings);
 
-	Assembler assembler;
+	Assembler assembler(1);
 	assembler.compute_overlaps(gst);
 	assembler.print_overlaps(gst);
 

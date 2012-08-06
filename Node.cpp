@@ -66,6 +66,14 @@ void Node::get_alpha_children(const SuffixTree& st, std::vector<Node*>& children
 	}
 }
 
+void Node::get_child_depths(int current_depth, std::vector<int>& depths) const {
+	Node* node = this->child;
+	while (node != NULL) {
+		depths.push_back(current_depth + node->edge_length());
+		node = node->sibling;
+	}
+}
+
 
 
 
