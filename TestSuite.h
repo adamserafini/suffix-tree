@@ -9,6 +9,7 @@
 #include "GeneralSuffixTree.h"
 #include "Assembler.h"
 #include <fstream>
+#include "ContigLogger.h"
 
 //List of individual tests
 
@@ -90,6 +91,10 @@ bool TWO_STRINGS_TEST1() {
 	assembler.compute_overlaps(gst);
 	assembler.print_overlaps(gst);
 	gst.log_tree();
+
+	ContigLogger logger;
+	std::set<Overlap*> contigs = assembler.merge_overlaps(gst);
+	logger.log_contigs(contigs, gst);
 	return true;
 }
 

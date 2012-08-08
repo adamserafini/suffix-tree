@@ -1,6 +1,7 @@
 #include <sstream>
 #include <algorithm>
 #include <iostream>
+#include <utility>
 
 #include "Assembler.h"
 #include "Node.h"
@@ -91,13 +92,49 @@ void Assembler::print_overlaps(const GeneralSuffixTree& gst) {
 		int string_i = overlaps[i]->string_i;
 		int string_j = overlaps[i]->string_j;
 		std::cout << "Strings: " 
-		<< gst.tree_string.substr(gst.string_index[string_i].first, gst.string_index[string_i].second) 
+		<< gst.tree_string.substr(	gst.string_index[string_i].first, 
+									gst.string_index[string_i].second) 
 		<< "/" 
-		<< gst.tree_string.substr(gst.string_index[string_j].first, gst.string_index[string_j].second) 
+		<< gst.tree_string.substr(	gst.string_index[string_j].first, 
+									gst.string_index[string_j].second) 
 		<< " overlap by: " << overlaps[i]->overlap << std::endl;
 	}
 	freopen( "CON", "w", stdout );
 }
 
-
-
+std::set<Overlap*> Assembler::merge_overlaps(const GeneralSuffixTree& gst) {
+	std::cout << "Entered merge overlaps.. " << std::endl;
+	int string_count = gst.string_index.size();
+	std::vector<Overlap*> merged (string_count, NULL);
+	std::set<Overlap*> contigs;
+	int top = overlaps.size() - 1;
+	while (top >= 0) {
+		int string_i = overlaps[top]->string_i;
+		int string_j = overlaps[top]->string_j;
+		if (merged[string_i] == NULL && merged[string_j] == NULL) {
+			merged[string_i] = merged[string_j] = overlaps[top];
+			contigs.insert(overlaps[top]);
+		} 
+		else if (merged[string_i] != NULL 
+					&& merged[string_i]->left_edge_merged(string_i)
+					&& !merged[string_i]->right_edge_merged(string_i) 
+					&& merged[string_j] == NULL)
+						merged[string_i]->merge_right(overlaps[top]);
+		else if (merged[string_j] != NULL
+					&& merged[string_j]->right_edge_merged(string_j)
+					&& !merged[string_j]->left_edge_merged(string_j)
+					&& merged[string_i] == NULL)
+						merged[string_j]->merge_left(overlaps[top]);
+		else if (merged[string_i] != NULL && merged[string_j] != NULL
+					&& merged[string_i]->left_edge_merged(string_i)
+					&& !merged[string_i]->right_edge_merged(string_i)
+					&& merged[string_j]->right_edge_merged(string_j)
+					&& !merged[string_j]->left_edge_merged(string_j)) {
+						merged[string_i]->merge_right(overlaps[top]);
+						merged[string_j]->merge_left(overlaps[top]);
+						contigs.erase(contigs.find(merged[string_j]));
+		}
+		top--;
+	}
+	return contigs;
+}
