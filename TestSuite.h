@@ -58,6 +58,7 @@ bool EXACT_MATCH_TEST() {
 bool TWO_STRINGS_TEST1() {
 	GeneralSuffixTree gst;
 	std::vector<std::string> strings;
+	/*
 	strings.push_back("adam");
 	strings.push_back("dame");
 	strings.push_back("medal");
@@ -73,6 +74,12 @@ bool TWO_STRINGS_TEST1() {
 	strings.push_back("tons");
 	strings.push_back("dale");
 	strings.push_back("ale");
+	*/
+
+	strings.push_back("yorkez");
+	strings.push_back("orkezal");
+	strings.push_back("dandy");
+	strings.push_back("andyor");
 	gst.construct(strings);
 	
 	std::vector<std::string> paths;
@@ -93,6 +100,7 @@ bool TWO_STRINGS_TEST1() {
 	gst.log_tree();
 
 	ContigLogger logger;
+	freopen("contig_log", "w", stdout);
 	std::set<Overlap*> contigs = assembler.merge_overlaps(gst);
 	logger.log_contigs(contigs, gst);
 	return true;

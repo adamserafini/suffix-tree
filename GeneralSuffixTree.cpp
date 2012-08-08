@@ -24,3 +24,7 @@ void GeneralSuffixTree::construct(const std::vector<std::string>& strings) {
 	}
 	SuffixTree::construct(to_build + "$");
 }
+
+std::string GeneralSuffixTree::get_string(int s) const {
+	return tree_string.substr(string_index[s].first, string_index[s].second);
+}

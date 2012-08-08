@@ -1,12 +1,29 @@
+Entered merge overlaps.. 
+Contig logging...
 > CONTIG 1
-dable
+yorkezal
+
+Contig logging...
+> CONTIG 1
+dandyor
 > CONTIG 2
-damnooverlap
-> CONTIG 3
-dadamaging
-> CONTIG 4
-dadamaging
-> CONTIG 5
-amicabletons
-> CONTIG 6
-medale
+yorkezal
+
+Contig logging...
+> CONTIG 1
+dandyorkezal
+
+Contig logging...
+> CONTIG 1
+dandyorkezal
+
+Contig logging...
+> CONTIG 1
+dandyorkezal
+
+Contig logging...
+> CONTIG 1
+dandyorkezal
+
+Test 1 PASSED
+Press any key to exit...

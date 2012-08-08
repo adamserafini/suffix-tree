@@ -3,7 +3,7 @@
 
 void ContigLogger::log_contigs(	std::set<Overlap*> contigs, const GeneralSuffixTree& gst) {
 	std::cout << "Contig logging..." << std::endl;
-	freopen("contig_log", "w", stdout);
+	//freopen("contig_log", "w", stdout);
 	std::set<Overlap*>::iterator it; 
 	int contig_number = 1;
 	for (it = contigs.begin(); it != contigs.end(); ++it) {
@@ -20,5 +20,6 @@ void ContigLogger::log_contigs(	std::set<Overlap*> contigs, const GeneralSuffixT
 		std::cout << std::endl;
 		contig_number++;
 	}
-	freopen( "CON", "w", stdout );
+	std::cout << std::endl;
+	//freopen( "CON", "w", stdout );
 }

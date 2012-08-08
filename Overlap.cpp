@@ -31,7 +31,7 @@ bool Overlap::left_edge_merged(int string_number) {
 }
 
 bool Overlap::right_edge_merged(int string_number) {
-	if (string_number = string_j && right != NULL)
+	if (string_number == string_j && right != NULL)
 		return true;
 	else if (string_number == string_i)
 		return true;

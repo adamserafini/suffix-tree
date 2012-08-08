@@ -6,6 +6,7 @@
 #include "Assembler.h"
 #include "Node.h"
 #include "Suffix.h"
+#include "ContigLogger.h"
 
 void Assembler::compute_overlaps(GeneralSuffixTree& gst) {
 	label_nodes(gst);
@@ -111,6 +112,16 @@ std::set<Overlap*> Assembler::merge_overlaps(const GeneralSuffixTree& gst) {
 	while (top >= 0) {
 		int string_i = overlaps[top]->string_i;
 		int string_j = overlaps[top]->string_j;
+		std::string string_left = gst.get_string(string_i);
+		std::string string_right = gst.get_string(string_j);
+
+		if (merged[string_j] != NULL) {
+		std::cerr << std::boolalpha << (merged[string_j] != NULL) << std::endl
+					<< merged[string_j]->right_edge_merged(string_j) << std::endl
+					<< !merged[string_j]->left_edge_merged(string_j) << std::endl
+					<< (merged[string_i] == NULL) << std::endl <<std::endl;
+		}
+
 		if (merged[string_i] == NULL && merged[string_j] == NULL) {
 			merged[string_i] = merged[string_j] = overlaps[top];
 			contigs.insert(overlaps[top]);
@@ -118,13 +129,17 @@ std::set<Overlap*> Assembler::merge_overlaps(const GeneralSuffixTree& gst) {
 		else if (merged[string_i] != NULL 
 					&& merged[string_i]->left_edge_merged(string_i)
 					&& !merged[string_i]->right_edge_merged(string_i) 
-					&& merged[string_j] == NULL)
+					&& merged[string_j] == NULL) {
 						merged[string_i]->merge_right(overlaps[top]);
+						merged[string_j] = merged[string_i];
+		}
 		else if (merged[string_j] != NULL
 					&& merged[string_j]->right_edge_merged(string_j)
 					&& !merged[string_j]->left_edge_merged(string_j)
-					&& merged[string_i] == NULL)
+					&& merged[string_i] == NULL) {
 						merged[string_j]->merge_left(overlaps[top]);
+						merged[string_i] = merged[string_j];
+		}
 		else if (merged[string_i] != NULL && merged[string_j] != NULL
 					&& merged[string_i]->left_edge_merged(string_i)
 					&& !merged[string_i]->right_edge_merged(string_i)
@@ -134,6 +149,8 @@ std::set<Overlap*> Assembler::merge_overlaps(const GeneralSuffixTree& gst) {
 						merged[string_j]->merge_left(overlaps[top]);
 						contigs.erase(contigs.find(merged[string_j]));
 		}
+		ContigLogger logger;
+		logger.log_contigs(contigs, gst);
 		top--;
 	}
 	return contigs;
