@@ -11,9 +11,11 @@ void ContigLogger::log_contigs(	std::set<Overlap*> contigs, const GeneralSuffixT
 		Overlap* reader = *it;
 		while (reader->left != NULL)
 			reader = reader->left;
-		while (reader != NULL) {
-			std::cout << reader->get_string(gst);
+		std::cout << reader->get_string(gst);
+		while (reader->right != NULL) {
 			reader = reader->right;
+			std::cout << reader->get_string(gst)
+							.substr(gst.string_index[reader->string_i].second);
 		}
 		std::cout << std::endl;
 		contig_number++;
