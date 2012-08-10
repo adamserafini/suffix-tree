@@ -3,7 +3,7 @@
 
 void ContigLogger::log_contigs(GeneralSuffixTree& gst) {
 	std::cout << "Contig logging..." << std::endl;
-	//freopen("contig_log", "w", stdout);
+	freopen("contig_log", "w", stdout);
 	
 	for (int i = 0; i < gst.strings.size(); i++) {
 		if (!gst.strings[i].empty()) 
@@ -12,5 +12,5 @@ void ContigLogger::log_contigs(GeneralSuffixTree& gst) {
 	}
 	std::cout << std::endl << "END OF CONTIGS" << std::endl;
 
-	//freopen( "CON", "w", stdout );
+	freopen( "CON", "w", stdout );
 }

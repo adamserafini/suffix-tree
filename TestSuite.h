@@ -10,21 +10,23 @@
 #include "Assembler.h"
 #include <fstream>
 #include "ContigLogger.h"
+#include "Suffix.h"
 
 //List of individual tests
 
 bool EXACT_MATCH_TEST();
 bool TWO_STRINGS_TEST1();
 bool BIG_CONCAT_TEST();
-
+bool STRING_OUTPUT_TEST();
 
 void EXECUTE_TEST_SUITE() {
 	std::cout << "Running tests..." << std::endl;
 	typedef bool (*Test)();
 	std::vector<Test> tests;
 	//tests.push_back(EXACT_MATCH_TEST);
-	tests.push_back(TWO_STRINGS_TEST1);
+	//tests.push_back(TWO_STRINGS_TEST1);
 	//tests.push_back(BIG_CONCAT_TEST);
+	tests.push_back(STRING_OUTPUT_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
 		std::cout   << "Test " << i + 1 
@@ -129,12 +131,12 @@ bool BIG_CONCAT_TEST() {
 	file.parse(strings);
 	std::cout << "Finished parsing." << std::endl;
 	
-	//strings.resize(20000);
+	strings.resize(20000);
 
 	GeneralSuffixTree gst;
 	gst.construct(strings);
 
-	Assembler assembler(10);
+	Assembler assembler(30);
 	assembler.compute_overlaps(gst);
 	assembler.print_overlaps(gst);
 
@@ -142,6 +144,24 @@ bool BIG_CONCAT_TEST() {
 	assembler.merge_overlaps(gst);
 	logger.log_contigs(gst);
 	return true;
+}
 
+bool STRING_OUTPUT_TEST() {
+	FASTA_FileReader file("FIRST_SET_OF_CONTIGS_REASONABLE_TEST.txt");
+	std::vector<std::string> contigs;
+	file.parse(contigs);
+	std::cout << "Finished parsing." << std::endl;
+	GeneralSuffixTree gst;
+	gst.construct(contigs);
+
+	FASTA_FileReader file2("SWINEPOX_SIMULATED_READS.TXT");
+	std::vector<std::string> original_reads;
+	file2.parse(original_reads);
+
+	for (int i = 0; i < 19999; i++) {
+		Suffix suffix = gst.match_string(original_reads[i]);
+			if (suffix.node == NULL)
+				std::cerr << "String didn't match: " << original_reads[i] << std::endl;
+	}
 	return true;
 }

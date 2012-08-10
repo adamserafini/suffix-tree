@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <iostream>
 #include <utility>
+#include <list>
 
 #include "Assembler.h"
 #include "Node.h"
@@ -93,7 +94,7 @@ void Assembler::add_overlap(int string_i, int string_j, short int overlap) {
 
 void Assembler::print_overlaps(const GeneralSuffixTree& gst) {
 	std::cout << "entered print overlaps" << std::endl;
-	//freopen("overlap_log", "w", stdout);
+	freopen("overlap_log", "w", stdout);
 	for (int i = 0; i < overlaps.size(); i++) {
 		if (overlaps[i] != NULL) {
 			int string_i = overlaps[i]->string_i;
@@ -106,38 +107,48 @@ void Assembler::print_overlaps(const GeneralSuffixTree& gst) {
 		}
 	}
 	std::cout << "END OF OVERLAPS" << std::endl << std::endl;
-	//freopen( "CON", "w", stdout );
+	freopen( "CON", "w", stdout );
 }
 
 void Assembler::merge_overlaps(GeneralSuffixTree& gst) {
-	ContigLogger logger;
-	logger.log_contigs(gst);
+	//ContigLogger logger;
+	//logger.log_contigs(gst);
 	std::cout << "Entered merge overlaps.. " << std::endl;
 	int string_count = gst.string_index.size();
-	int top = overlaps.size() - 1;
-	while (top >= 0 && string_count > 1) {
-		if (overlaps[top] != NULL) {
+	int overlap_count = overlaps.size();
+	std::list<Overlap*> overlaps_list(overlaps.begin(), overlaps.end());
+	overlaps_list.reverse();
+
+	while (string_count > 1 && overlap_count > 0) {
+		if (string_count % 1000 == 0) std::cerr << "String count: = " << string_count << std::endl;
 			string_count--;
-			int string_i = overlaps[top]->string_i;
-			int string_j = overlaps[top]->string_j;
-			gst.strings[string_i] = overlaps[top]->get_string(gst);
+			int string_i = overlaps_list.front()->string_i;
+			int string_j = overlaps_list.front()->string_j;
+			gst.strings[string_i] = overlaps_list.front()->get_string(gst);
 			gst.strings[string_j].clear();
 
-			for (int i = top; i >= 0; i--) {
-				if (overlaps[i] != NULL && overlaps[i]->string_i == string_i)
-					overlaps[i] = NULL;
-				else if (overlaps[i] != NULL && overlaps[i]->string_j == string_j)
-					overlaps[i] = NULL;
-				else if (overlaps[i] != NULL && overlaps[i]->string_i == string_j
-						&& string_i != overlaps[i]->string_j)
-					overlaps[i]->string_i = string_i;
-				else if (overlaps[i] != NULL && overlaps[i]->string_i == string_j
-						&& string_i == overlaps[i]->string_j)
-					overlaps[i] = NULL;
+			std::list<Overlap*>::iterator it = overlaps_list.begin();
+			while (it != overlaps_list.end()) {
+				if ((*it)->string_i == string_i) {
+					it = overlaps_list.erase(it);
+					overlap_count--;
+				}
+				else if ((*it)->string_j == string_j) {
+					it = overlaps_list.erase(it);
+					overlap_count--;
+				}
+				else if ((*it)->string_i == string_j && string_i != (*it)->string_j) {
+					(*it)->string_i = string_i;
+					it++;
+				}
+				else if ((*it)->string_i == string_j && string_i == (*it)->string_j) {
+					it = overlaps_list.erase(it);
+					overlap_count--;
+				}
+				else
+					it++;
 			}
 		}
-		logger.log_contigs(gst);
-		print_overlaps(gst);
-		top--;
-	}
+		//logger.log_contigs(gst);
+		//print_overlaps(gst);
 }
