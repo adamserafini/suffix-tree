@@ -27,5 +27,5 @@ void GeneralSuffixTree::construct(const std::vector<std::string>& strings) {
 }
 
 std::string GeneralSuffixTree::get_string(int s) const {
-	return tree_string.substr(string_index[s].first, string_index[s].second);
+	return strings[s];
 }

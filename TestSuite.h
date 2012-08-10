@@ -58,7 +58,7 @@ bool EXACT_MATCH_TEST() {
 bool TWO_STRINGS_TEST1() {
 	GeneralSuffixTree gst;
 	std::vector<std::string> strings;
-	/*
+	
 	strings.push_back("adam");
 	strings.push_back("dame");
 	strings.push_back("medal");
@@ -74,7 +74,7 @@ bool TWO_STRINGS_TEST1() {
 	strings.push_back("tons");
 	strings.push_back("dale");
 	strings.push_back("ale");
-	*/
+	
 
 	/*
 	strings.push_back("yorkez");
@@ -82,7 +82,7 @@ bool TWO_STRINGS_TEST1() {
 	strings.push_back("dandy");
 	strings.push_back("andyor");
 	*/
-
+	/*
 	strings.push_back("AAAAA");
 	strings.push_back("AAAAAA");
 	strings.push_back("AAAAAAAA");
@@ -90,6 +90,7 @@ bool TWO_STRINGS_TEST1() {
 	strings.push_back("AAAAAAAAAAAAAAA");
 	strings.push_back("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	strings.push_back("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	*/
 	/*
 	strings.push_back("ababaa");
 	strings.push_back("caba");

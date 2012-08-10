@@ -114,19 +114,11 @@ std::set<Overlap*> Assembler::merge_overlaps(const GeneralSuffixTree& gst) {
 	std::vector<Overlap*> merged (string_count, NULL);
 	std::set<Overlap*> contigs;
 	int top = overlaps.size() - 1;
-	while (top >= 0) {
+	while (top != NULL && top >= 0) {
 		int string_i = overlaps[top]->string_i;
 		int string_j = overlaps[top]->string_j;
-		std::string string_left = gst.get_string(string_i);
-		std::string string_right = gst.get_string(string_j);
 
 		if (top % 10000 == 0) std::cerr << "Top = " << top << std::endl;
-
-		if (merged[string_i] != NULL)
-		std::cerr << std::boolalpha << (merged[string_i] != NULL) <<
-					merged[string_i]->left_edge_merged(string_i) <<
-					!merged[string_i]->right_edge_merged(string_i) <<
-					(merged[string_j] == NULL) << std::endl;
 
 		if (merged[string_i] == NULL && merged[string_j] == NULL) {
 			merged[string_i] = merged[string_j] = overlaps[top];
