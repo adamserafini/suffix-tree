@@ -11,6 +11,7 @@ GeneralSuffixTree::GeneralSuffixTree() {
 }
 
 void GeneralSuffixTree::construct(const std::vector<std::string>& strings) {
+	this->strings = strings;
 	std::string to_build;
 	int position = 1;
 	for (int i = 0; i < strings.size(); i++) {

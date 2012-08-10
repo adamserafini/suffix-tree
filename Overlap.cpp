@@ -49,4 +49,14 @@ void Overlap::merge_left(Overlap* overlap) {
 	overlap->right = this;
 }
 
+bool Overlap::match_contig(Overlap* overlap) {
+	Overlap* this_contig = this;
+	Overlap* that_contig = overlap;
+	while(this_contig->left != NULL)
+		this_contig = this_contig->left;
+	while(that_contig->left != NULL)
+		that_contig = that_contig->left;
+	return (this_contig == that_contig);
+}
+
 

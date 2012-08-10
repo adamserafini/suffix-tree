@@ -76,12 +76,28 @@ bool TWO_STRINGS_TEST1() {
 	strings.push_back("ale");
 	*/
 
+	/*
 	strings.push_back("yorkez");
 	strings.push_back("orkezal");
 	strings.push_back("dandy");
 	strings.push_back("andyor");
+	*/
+
+	strings.push_back("AAAAA");
+	strings.push_back("AAAAAA");
+	strings.push_back("AAAAAAAA");
+	strings.push_back("AAAAAAAAAAA");
+	strings.push_back("AAAAAAAAAAAAAAA");
+	strings.push_back("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	strings.push_back("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	/*
+	strings.push_back("ababaa");
+	strings.push_back("caba");
+	strings.push_back("aaddd");
+	strings.push_back("aabca");
+	strings.push_back("aacab");
+	*/
 	gst.construct(strings);
-	
 	std::vector<std::string> paths;
     //gst.tidy_leaves();
 	
@@ -112,15 +128,19 @@ bool BIG_CONCAT_TEST() {
 	file.parse(strings);
 	std::cout << "Finished parsing." << std::endl;
 	
-	strings.resize(20000);
+	//strings.resize(20000);
 
 	GeneralSuffixTree gst;
 	gst.construct(strings);
 
-	Assembler assembler(30);
+	Assembler assembler(10);
 	assembler.compute_overlaps(gst);
 	assembler.print_overlaps(gst);
 
+	ContigLogger logger;
+	std::set<Overlap*> contigs = assembler.merge_overlaps(gst);
+	logger.log_contigs(contigs, gst);
+	return true;
 
 	return true;
 }

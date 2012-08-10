@@ -11,6 +11,7 @@
 void Assembler::compute_overlaps(GeneralSuffixTree& gst) {
 	label_nodes(gst);
 	for (int j = 0; j < gst.string_index.size(); j++) {
+		std::vector<int> overlap_vector (gst.string_index.size(), 0);
 		if (j % 1000 == 0) std::cout << "Computing overlaps for string: " << j << std::endl;
 		Node* x = gst.root;
 		int depth = 0;
@@ -18,11 +19,15 @@ void Assembler::compute_overlaps(GeneralSuffixTree& gst) {
 			for (int i = 0; i < x->node_labels.size(); i++) {
 					int min_length = std::min(	gst.string_index[x->node_labels[i]].second,
 												gst.string_index[j].second);
-					if (depth < min_length)
-						add_overlap(x->node_labels[i], j, depth);
-				}
+					if (x->node_labels[i] != j)
+						overlap_vector[x->node_labels[i]] = std::min(depth, min_length);
+			}
 			x = x->get_child(gst, gst.tree_string[gst.string_index[j].first + depth]);
 			depth += x->edge_length();
+		}
+		for (int i = 0; i < overlap_vector.size(); i++) {
+				if (overlap_vector[i] > 0)
+					add_overlap(i, j, overlap_vector[i]);
 		}
 	}
 	counting_sort();
@@ -115,12 +120,13 @@ std::set<Overlap*> Assembler::merge_overlaps(const GeneralSuffixTree& gst) {
 		std::string string_left = gst.get_string(string_i);
 		std::string string_right = gst.get_string(string_j);
 
-		if (merged[string_j] != NULL) {
-		std::cerr << std::boolalpha << (merged[string_j] != NULL) << std::endl
-					<< merged[string_j]->right_edge_merged(string_j) << std::endl
-					<< !merged[string_j]->left_edge_merged(string_j) << std::endl
-					<< (merged[string_i] == NULL) << std::endl <<std::endl;
-		}
+		if (top % 10000 == 0) std::cerr << "Top = " << top << std::endl;
+
+		if (merged[string_i] != NULL)
+		std::cerr << std::boolalpha << (merged[string_i] != NULL) <<
+					merged[string_i]->left_edge_merged(string_i) <<
+					!merged[string_i]->right_edge_merged(string_i) <<
+					(merged[string_j] == NULL) << std::endl;
 
 		if (merged[string_i] == NULL && merged[string_j] == NULL) {
 			merged[string_i] = merged[string_j] = overlaps[top];
@@ -141,6 +147,7 @@ std::set<Overlap*> Assembler::merge_overlaps(const GeneralSuffixTree& gst) {
 						merged[string_i] = merged[string_j];
 		}
 		else if (merged[string_i] != NULL && merged[string_j] != NULL
+					&& !merged[string_i]->match_contig(merged[string_j])
 					&& merged[string_i]->left_edge_merged(string_i)
 					&& !merged[string_i]->right_edge_merged(string_i)
 					&& merged[string_j]->right_edge_merged(string_j)
