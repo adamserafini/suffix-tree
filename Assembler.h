@@ -16,7 +16,7 @@ public:
 	std::vector<Overlap*> overlaps;
 	std::vector<std::vector<Overlap*>> matrix;
 	void counting_sort();
-	std::set <Overlap*> merge_overlaps(const GeneralSuffixTree&);
+	void merge_overlaps(GeneralSuffixTree&);
 	void print_overlaps(const GeneralSuffixTree&);
 	int min_overlap;
 	int max_overlap;

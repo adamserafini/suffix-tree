@@ -93,64 +93,51 @@ void Assembler::add_overlap(int string_i, int string_j, short int overlap) {
 
 void Assembler::print_overlaps(const GeneralSuffixTree& gst) {
 	std::cout << "entered print overlaps" << std::endl;
-	freopen("overlap_log", "w", stdout);
+	//freopen("overlap_log", "w", stdout);
 	for (int i = 0; i < overlaps.size(); i++) {
-		int string_i = overlaps[i]->string_i;
-		int string_j = overlaps[i]->string_j;
-		std::cout << "Strings: " 
-		<< gst.tree_string.substr(	gst.string_index[string_i].first, 
-									gst.string_index[string_i].second) 
-		<< "/" 
-		<< gst.tree_string.substr(	gst.string_index[string_j].first, 
-									gst.string_index[string_j].second) 
-		<< " overlap by: " << overlaps[i]->overlap << std::endl;
+		if (overlaps[i] != NULL) {
+			int string_i = overlaps[i]->string_i;
+			int string_j = overlaps[i]->string_j;
+			std::cout << "Strings: " 
+			<< gst.strings[string_i]
+			<< "/" 
+			<< gst.strings[string_j]
+			<< " overlap by: " << overlaps[i]->overlap << std::endl;
+		}
 	}
-	freopen( "CON", "w", stdout );
+	std::cout << "END OF OVERLAPS" << std::endl << std::endl;
+	//freopen( "CON", "w", stdout );
 }
 
-std::set<Overlap*> Assembler::merge_overlaps(const GeneralSuffixTree& gst) {
+void Assembler::merge_overlaps(GeneralSuffixTree& gst) {
+	ContigLogger logger;
+	logger.log_contigs(gst);
 	std::cout << "Entered merge overlaps.. " << std::endl;
 	int string_count = gst.string_index.size();
-	std::vector<Overlap*> merged (string_count, NULL);
-	std::set<Overlap*> contigs;
 	int top = overlaps.size() - 1;
-	while (top != NULL && top >= 0) {
-		int string_i = overlaps[top]->string_i;
-		int string_j = overlaps[top]->string_j;
+	while (top >= 0 && string_count > 1) {
+		if (overlaps[top] != NULL) {
+			string_count--;
+			int string_i = overlaps[top]->string_i;
+			int string_j = overlaps[top]->string_j;
+			gst.strings[string_i] = overlaps[top]->get_string(gst);
+			gst.strings[string_j].clear();
 
-		if (top % 10000 == 0) std::cerr << "Top = " << top << std::endl;
-
-		if (merged[string_i] == NULL && merged[string_j] == NULL) {
-			merged[string_i] = merged[string_j] = overlaps[top];
-			contigs.insert(overlaps[top]);
-		} 
-		else if (merged[string_i] != NULL 
-					&& merged[string_i]->left_edge_merged(string_i)
-					&& !merged[string_i]->right_edge_merged(string_i) 
-					&& merged[string_j] == NULL) {
-						merged[string_i]->merge_right(overlaps[top]);
-						merged[string_j] = merged[string_i];
+			for (int i = top; i >= 0; i--) {
+				if (overlaps[i] != NULL && overlaps[i]->string_i == string_i)
+					overlaps[i] = NULL;
+				else if (overlaps[i] != NULL && overlaps[i]->string_j == string_j)
+					overlaps[i] = NULL;
+				else if (overlaps[i] != NULL && overlaps[i]->string_i == string_j
+						&& string_i != overlaps[i]->string_j)
+					overlaps[i]->string_i = string_i;
+				else if (overlaps[i] != NULL && overlaps[i]->string_i == string_j
+						&& string_i == overlaps[i]->string_j)
+					overlaps[i] = NULL;
+			}
 		}
-		else if (merged[string_j] != NULL
-					&& merged[string_j]->right_edge_merged(string_j)
-					&& !merged[string_j]->left_edge_merged(string_j)
-					&& merged[string_i] == NULL) {
-						merged[string_j]->merge_left(overlaps[top]);
-						merged[string_i] = merged[string_j];
-		}
-		else if (merged[string_i] != NULL && merged[string_j] != NULL
-					&& !merged[string_i]->match_contig(merged[string_j])
-					&& merged[string_i]->left_edge_merged(string_i)
-					&& !merged[string_i]->right_edge_merged(string_i)
-					&& merged[string_j]->right_edge_merged(string_j)
-					&& !merged[string_j]->left_edge_merged(string_j)) {
-						merged[string_i]->merge_right(overlaps[top]);
-						merged[string_j]->merge_left(overlaps[top]);
-						contigs.erase(contigs.find(merged[string_j]));
-		}
-		ContigLogger logger;
-		logger.log_contigs(contigs, gst);
+		logger.log_contigs(gst);
+		print_overlaps(gst);
 		top--;
 	}
-	return contigs;
 }

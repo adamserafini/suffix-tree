@@ -6,6 +6,6 @@ class ContigLogger
 {
 public:
 	ContigLogger() {}
-	void log_contigs(std::set<Overlap*>, const GeneralSuffixTree&);
+	void log_contigs(GeneralSuffixTree&);
 };
 

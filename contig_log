@@ -1,263 +1,178 @@
+Computing overlaps for string: 0
+entered print overlaps
+Strings: aabca/ababaa overlap by: 1
+Strings: caba/aaddd overlap by: 1
+Strings: aabca/aaddd overlap by: 1
+Strings: caba/aabca overlap by: 1
+Strings: caba/aacab overlap by: 1
+Strings: aabca/aacab overlap by: 1
+Strings: aacab/ababaa overlap by: 2
+Strings: aabca/caba overlap by: 2
+Strings: ababaa/aaddd overlap by: 2
+Strings: ababaa/aabca overlap by: 2
+Strings: ababaa/aacab overlap by: 2
+Strings: caba/ababaa overlap by: 3
+Strings: aacab/caba overlap by: 3
+END OF OVERLAPS
+
+Contig logging...
+> Contig 0
+ababaa
+> Contig 1
+caba
+> Contig 2
+aaddd
+> Contig 3
+aabca
+> Contig 4
+aacab
+
+END OF CONTIGS
 Entered merge overlaps.. 
 Contig logging...
-> CONTIG 1
-damaging
+> Contig 0
+ababaa
+> Contig 2
+aaddd
+> Contig 3
+aabca
+> Contig 4
+aacaba
+
+END OF CONTIGS
+entered print overlaps
+Strings: aabca/ababaa overlap by: 1
+Strings: aacaba/aaddd overlap by: 1
+Strings: aabca/aaddd overlap by: 1
+Strings: aacaba/aabca overlap by: 1
+Strings: aabca/aacaba overlap by: 1
+Strings: ababaa/aaddd overlap by: 2
+Strings: ababaa/aabca overlap by: 2
+Strings: ababaa/aacaba overlap by: 2
+Strings: aacaba/ababaa overlap by: 3
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-damaging
+> Contig 2
+aaddd
+> Contig 3
+aabca
+> Contig 4
+aacababaa
+
+END OF CONTIGS
+entered print overlaps
+Strings: aabca/aaddd overlap by: 1
+Strings: aabca/aacababaa overlap by: 1
+Strings: aacababaa/aaddd overlap by: 2
+Strings: aacababaa/aabca overlap by: 2
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-ableton
-> CONTIG 2
-damaging
+> Contig 2
+aaddd
+> Contig 3
+aabca
+> Contig 4
+aacababaa
+
+END OF CONTIGS
+entered print overlaps
+Strings: aabca/aaddd overlap by: 1
+Strings: aabca/aacababaa overlap by: 1
+Strings: aacababaa/aaddd overlap by: 2
+Strings: aacababaa/aabca overlap by: 2
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-ableton
-> CONTIG 2
-damaging
+> Contig 2
+aaddd
+> Contig 4
+aacababaabca
+
+END OF CONTIGS
+entered print overlaps
+Strings: aacababaabca/aaddd overlap by: 1
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-amicableton
-> CONTIG 2
-damaging
+> Contig 2
+aaddd
+> Contig 4
+aacababaabca
+
+END OF CONTIGS
+entered print overlaps
+Strings: aacababaabca/aaddd overlap by: 1
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-amicableton
-> CONTIG 2
-damaging
-> CONTIG 3
-dale
+> Contig 2
+aaddd
+> Contig 4
+aacababaabca
+
+END OF CONTIGS
+entered print overlaps
+Strings: aacababaabca/aaddd overlap by: 1
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-amicableton
-> CONTIG 2
-damaging
-> CONTIG 3
-medale
+> Contig 2
+aaddd
+> Contig 4
+aacababaabca
+
+END OF CONTIGS
+entered print overlaps
+Strings: aacababaabca/aaddd overlap by: 1
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-damaging
-> CONTIG 3
-medale
+> Contig 2
+aaddd
+> Contig 4
+aacababaabca
+
+END OF CONTIGS
+entered print overlaps
+Strings: aacababaabca/aaddd overlap by: 1
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-damaging
-> CONTIG 3
-medale
+> Contig 2
+aaddd
+> Contig 4
+aacababaabca
+
+END OF CONTIGS
+entered print overlaps
+Strings: aacababaabca/aaddd overlap by: 1
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-adamaging
-> CONTIG 3
-medale
+> Contig 2
+aaddd
+> Contig 4
+aacababaabca
+
+END OF CONTIGS
+entered print overlaps
+Strings: aacababaabca/aaddd overlap by: 1
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-adamaging
-> CONTIG 3
-medale
+> Contig 4
+aacababaabcaaddd
+
+END OF CONTIGS
+entered print overlaps
+END OF OVERLAPS
 
 Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-adamaging
-> CONTIG 3
-medale
+> Contig 4
+aacababaabcaaddd
 
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-adamaging
-> CONTIG 3
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-adamaging
-> CONTIG 3
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-adamaging
-> CONTIG 3
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-adamaging
-> CONTIG 3
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-adamaging
-> CONTIG 3
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-adamaging
-> CONTIG 3
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamn
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamn
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamn
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamn
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamn
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamn
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamn
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamn
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamn
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamnooverlap
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamnooverlap
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamnooverlap
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
-Contig logging...
-> CONTIG 1
-amicabletons
-> CONTIG 2
-dadamnooverlap
-> CONTIG 3
-adamaging
-> CONTIG 4
-medale
-
+END OF CONTIGS
 Test 1 PASSED
 Press any key to exit...

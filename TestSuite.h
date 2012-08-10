@@ -58,7 +58,7 @@ bool EXACT_MATCH_TEST() {
 bool TWO_STRINGS_TEST1() {
 	GeneralSuffixTree gst;
 	std::vector<std::string> strings;
-	
+	/*
 	strings.push_back("adam");
 	strings.push_back("dame");
 	strings.push_back("medal");
@@ -74,7 +74,7 @@ bool TWO_STRINGS_TEST1() {
 	strings.push_back("tons");
 	strings.push_back("dale");
 	strings.push_back("ale");
-	
+	*/
 
 	/*
 	strings.push_back("yorkez");
@@ -91,13 +91,13 @@ bool TWO_STRINGS_TEST1() {
 	strings.push_back("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	strings.push_back("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	*/
-	/*
+	
 	strings.push_back("ababaa");
 	strings.push_back("caba");
 	strings.push_back("aaddd");
 	strings.push_back("aabca");
 	strings.push_back("aacab");
-	*/
+	
 	gst.construct(strings);
 	std::vector<std::string> paths;
     //gst.tidy_leaves();
@@ -111,15 +111,15 @@ bool TWO_STRINGS_TEST1() {
 		std::cout << "Position: " <<gst.string_index[i].first << " "
 			<< "Length: " << gst.string_index[i].second << std::endl;
 	}
+	freopen("contig_log", "w", stdout);
 	Assembler assembler(1);
 	assembler.compute_overlaps(gst);
 	assembler.print_overlaps(gst);
-	gst.log_tree();
+	//gst.log_tree();
 
 	ContigLogger logger;
-	freopen("contig_log", "w", stdout);
-	std::set<Overlap*> contigs = assembler.merge_overlaps(gst);
-	logger.log_contigs(contigs, gst);
+	assembler.merge_overlaps(gst);
+	logger.log_contigs(gst);
 	return true;
 }
 
@@ -139,8 +139,8 @@ bool BIG_CONCAT_TEST() {
 	assembler.print_overlaps(gst);
 
 	ContigLogger logger;
-	std::set<Overlap*> contigs = assembler.merge_overlaps(gst);
-	logger.log_contigs(contigs, gst);
+	assembler.merge_overlaps(gst);
+	logger.log_contigs(gst);
 	return true;
 
 	return true;
