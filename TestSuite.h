@@ -24,9 +24,9 @@ void EXECUTE_TEST_SUITE() {
 	typedef bool (*Test)();
 	std::vector<Test> tests;
 	//tests.push_back(EXACT_MATCH_TEST);
-	//tests.push_back(TWO_STRINGS_TEST1);
+	tests.push_back(TWO_STRINGS_TEST1);
 	//tests.push_back(BIG_CONCAT_TEST);
-	tests.push_back(STRING_OUTPUT_TEST);
+	//tests.push_back(STRING_OUTPUT_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
 		std::cout   << "Test " << i + 1 
@@ -60,7 +60,6 @@ bool EXACT_MATCH_TEST() {
 bool TWO_STRINGS_TEST1() {
 	GeneralSuffixTree gst;
 	std::vector<std::string> strings;
-	/*
 	strings.push_back("adam");
 	strings.push_back("dame");
 	strings.push_back("medal");
@@ -76,7 +75,6 @@ bool TWO_STRINGS_TEST1() {
 	strings.push_back("tons");
 	strings.push_back("dale");
 	strings.push_back("ale");
-	*/
 
 	/*
 	strings.push_back("yorkez");
@@ -93,13 +91,14 @@ bool TWO_STRINGS_TEST1() {
 	strings.push_back("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	strings.push_back("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	*/
-	
+	/*
 	strings.push_back("ababaa");
 	strings.push_back("caba");
 	strings.push_back("aaddd");
 	strings.push_back("aabca");
 	strings.push_back("aacab");
-	
+	*/
+
 	gst.construct(strings);
 	std::vector<std::string> paths;
     //gst.tidy_leaves();
