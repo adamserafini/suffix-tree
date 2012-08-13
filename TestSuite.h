@@ -24,8 +24,8 @@ void EXECUTE_TEST_SUITE() {
 	typedef bool (*Test)();
 	std::vector<Test> tests;
 	//tests.push_back(EXACT_MATCH_TEST);
-	tests.push_back(TWO_STRINGS_TEST1);
-	//tests.push_back(BIG_CONCAT_TEST);
+	//tests.push_back(TWO_STRINGS_TEST1);
+	tests.push_back(BIG_CONCAT_TEST);
 	//tests.push_back(STRING_OUTPUT_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {

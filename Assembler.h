@@ -13,7 +13,7 @@ public:
 	void label_nodes(GeneralSuffixTree&);
 	void label_node(GeneralSuffixTree&, Node*);
 	void add_overlap(int, int, short int);
-	std::vector<Overlap*> overlaps;
+	std::vector<Overlap> overlaps;
 	void counting_sort();
 	void merge_overlaps(GeneralSuffixTree&);
 	void print_overlaps(const GeneralSuffixTree&);

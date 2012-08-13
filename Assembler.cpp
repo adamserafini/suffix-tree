@@ -37,17 +37,17 @@ void Assembler::compute_overlaps(GeneralSuffixTree& gst) {
 void Assembler::counting_sort() {
 	std::vector<int> count(max_overlap - min_overlap + 1, 0);
 	for (int i = 0; i < overlaps.size(); i++)
-		count[overlaps[i]->overlap - min_overlap]++;
+		count[overlaps[i].overlap - min_overlap]++;
 	int total = 0;
 	for (int i = 0; i < count.size(); i++) {
 		int c = count[i];
 		count[i] = total;
 		total = total + c;
 	}
-	std::vector<Overlap*> sorted_overlaps(overlaps.size());
+	std::vector<Overlap> sorted_overlaps(overlaps.size());
 	for (int i = 0; i < overlaps.size(); i++) {
-		sorted_overlaps[count[overlaps[i]->overlap - min_overlap]] = overlaps[i];
-		count[overlaps[i]->overlap - min_overlap]++;
+		sorted_overlaps[count[overlaps[i].overlap - min_overlap]] = overlaps[i];
+		count[overlaps[i].overlap - min_overlap]++;
 	}
 	overlaps = sorted_overlaps;
 }
@@ -88,23 +88,20 @@ void Assembler::label_node(GeneralSuffixTree& gst, Node* node) {
 void Assembler::add_overlap(int string_i, int string_j, short int overlap) {
 	if (overlap > max_overlap)
 		max_overlap = overlap;
-	Overlap* to_add = new Overlap(string_i, string_j, overlap);
-	overlaps.push_back(to_add);
+	overlaps.push_back(Overlap(string_i, string_j, overlap));
 }
 
 void Assembler::print_overlaps(const GeneralSuffixTree& gst) {
 	std::cout << "entered print overlaps" << std::endl;
 	freopen("overlap_log", "w", stdout);
 	for (int i = 0; i < overlaps.size(); i++) {
-		if (overlaps[i] != NULL) {
-			int string_i = overlaps[i]->string_i;
-			int string_j = overlaps[i]->string_j;
+			int string_i = overlaps[i].string_i;
+			int string_j = overlaps[i].string_j;
 			std::cout << "Strings: " 
 			<< gst.strings[string_i]
 			<< "/" 
 			<< gst.strings[string_j]
-			<< " overlap by: " << overlaps[i]->overlap << std::endl;
-		}
+			<< " overlap by: " << overlaps[i].overlap << std::endl;
 	}
 	std::cout << "END OF OVERLAPS" << std::endl << std::endl;
 	freopen( "CON", "w", stdout );
@@ -116,32 +113,32 @@ void Assembler::merge_overlaps(GeneralSuffixTree& gst) {
 	std::cout << "Entered merge overlaps.. " << std::endl;
 	int string_count = gst.string_index.size();
 	int overlap_count = overlaps.size();
-	std::list<Overlap*> overlaps_list(overlaps.begin(), overlaps.end());
+	std::list<Overlap> overlaps_list(overlaps.begin(), overlaps.end());
 	overlaps_list.reverse();
 
 	while (string_count > 1 && overlap_count > 0) {
 		if (string_count % 1000 == 0) std::cerr << "String count: = " << string_count << std::endl;
 			string_count--;
-			int string_i = overlaps_list.front()->string_i;
-			int string_j = overlaps_list.front()->string_j;
-			gst.strings[string_i] = overlaps_list.front()->get_string(gst);
+			int string_i = overlaps_list.front().string_i;
+			int string_j = overlaps_list.front().string_j;
+			gst.strings[string_i] = overlaps_list.front().get_string(gst);
 			gst.strings[string_j].clear();
 
-			std::list<Overlap*>::iterator it = overlaps_list.begin();
+			std::list<Overlap>::iterator it = overlaps_list.begin();
 			while (it != overlaps_list.end()) {
-				if ((*it)->string_i == string_i) {
+				if ((*it).string_i == string_i) {
 					it = overlaps_list.erase(it);
 					overlap_count--;
 				}
-				else if ((*it)->string_j == string_j) {
+				else if ((*it).string_j == string_j) {
 					it = overlaps_list.erase(it);
 					overlap_count--;
 				}
-				else if ((*it)->string_i == string_j && string_i != (*it)->string_j) {
-					(*it)->string_i = string_i;
+				else if ((*it).string_i == string_j && string_i != (*it).string_j) {
+					(*it).string_i = string_i;
 					it++;
 				}
-				else if ((*it)->string_i == string_j && string_i == (*it)->string_j) {
+				else if ((*it).string_i == string_j && string_i == (*it).string_j) {
 					it = overlaps_list.erase(it);
 					overlap_count--;
 				}

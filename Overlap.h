@@ -5,6 +5,7 @@
 class Overlap
 {
 public:
+	Overlap() {}
 	Overlap(int, int, short int);
 	int string_i;
 	int string_j;
