@@ -25,3 +25,8 @@ log*
 
 #Ignore data files
 *.fa
+SWINEPOX_SIMULATED_READS.txt
+FIRST_SET_OF_CONTIGS_REASONABLE_TEST.txt
+Swinepox_NC_00389_simreads_SHORTVER.txt
+output.txt
+overlap_log
