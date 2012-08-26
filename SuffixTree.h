@@ -8,10 +8,10 @@ class Node;
 class SuffixTree
 {
 public:
-    SuffixTree(std::string);
+    SuffixTree();
     std::string tree_string;
     Node* root;
-    void construct();
+    void construct(std::string);
     int internal_node_ID;
     int length;
 	int* current_end;

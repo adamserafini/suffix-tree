@@ -42,11 +42,21 @@ void Node::split_edge(int char_index, int new_node_ID) {
 	this->begin_index = char_index + 1;
 }
 
-Node* Node::get_child(const SuffixTree& tree, char ch) {
+Node* Node::get_child(const SuffixTree& tree, char ch, int t_index) 
+{
+	bool terminal(ch == '$');
     Node* to_return = child;
-    while (to_return != NULL && tree.tree_string[to_return->begin_index] != ch)
-        to_return = to_return->sibling;
-    return to_return;
+    while (to_return != NULL) {
+		int char_index(to_return->begin_index);
+		char tree_char(tree.tree_string[char_index]);
+		bool match(tree_char == ch);
+		
+		if ((match && !terminal)
+			|| (match && terminal && t_index == char_index))
+				return to_return;
+		to_return = to_return->sibling;
+	} 
+    return NULL;
 }
 
 void Node::get_children(std::vector<Node*>& children) const {

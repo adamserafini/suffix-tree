@@ -5,16 +5,17 @@
 #include <sstream>
 
 
-SuffixTree::SuffixTree(std::string s) {
-    length = s.length();
-    tree_string = ' ' + s;
+SuffixTree::SuffixTree() {
     internal_node_ID = 0;
 	current_end = new int(0);
     root = new Node(NULL, 1, new int (0), internal_node_ID);
 	root->suffix_link = root;
 }
 
-void SuffixTree::construct() {
+void SuffixTree::construct(std::string s) {
+	length = s.length();
+    tree_string = ' ' + s;
+
 	(*current_end)++;
 	last_leaf_extension = new Node(root, 1, current_end, 1);
     root->add_child(last_leaf_extension);
@@ -138,6 +139,7 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 void SuffixTree::log_tree() {
     log_node(root);
 	std::cout << "END OF TREE" << std::endl;
+	freopen( "CON", "w", stdout );
 }
 
 void SuffixTree::log_node(Node* parent) {
@@ -152,9 +154,13 @@ void SuffixTree::log_node(Node* parent) {
 			file_number << ((line_count / LINES_PER_FILE) + 1);
 			freopen(("log_file" + file_number.str()).c_str(), "w", stdout);
 		}
-        std::cout << parent_ID 
-                  << " " << get_substr(child->begin_index, *child->end_index) 
-                  << " " << child->ID << std::endl;
+		std::cout << "\"" << parent->ID;
+		std::cout << "\" -> ";
+		std::cout << "\"" << child->ID;
+		std::cout << "\"";
+		std::cout << " [label = \"" 
+				  << get_substr(child->begin_index, *child->end_index) 
+				  << "\"];" << std::endl;
 		line_count++;
         log_node(child);
         child = child->sibling;

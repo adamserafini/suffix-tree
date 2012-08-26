@@ -3,14 +3,17 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <set>
+
 #include "SuffixTree.h"
 #include "FASTA_FileReader.h"
+#include "GeneralSuffixTree.h"
 
 //List of individual tests
 
 bool FASTA_FILE_READER_TEST();
 bool EXACT_MATCH_TEST();
-
+bool GENERAL_SUFFIX_TREE_TEST();
 
 void EXECUTE_TEST_SUITE() {
 	std::cout << "Running tests..." << std::endl;
@@ -18,6 +21,7 @@ void EXECUTE_TEST_SUITE() {
 	std::vector<Test> tests;
 	tests.push_back(FASTA_FILE_READER_TEST);
 	tests.push_back(EXACT_MATCH_TEST);
+	tests.push_back(GENERAL_SUFFIX_TREE_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
 		std::cout   << "Test " << i + 1 
@@ -45,10 +49,10 @@ bool FASTA_FILE_READER_TEST() {
 bool EXACT_MATCH_TEST() {
 	FASTA_FileReader file("Swinepox_NC_003389_complete.fasta");
 	std::vector<std::string> sequences = file.parse();
-	SuffixTree st(sequences[0] + "$");
+	SuffixTree st;
 	//SuffixTree st("xabxa$");
 	//SuffixTree st("AGGTTA$");
-    st.construct();
+    st.construct(sequences[0] + "$");
 	//st.log_tree(); //caution: a 100k character sequences generates
 					 //+10GB log files. use log_tree only for debugging.
 	std::string test = "TGTAACCT";
@@ -60,4 +64,15 @@ bool EXACT_MATCH_TEST() {
 		&& sequences.size() == 1)
 		return true;
 	else return false;
+}
+
+bool GENERAL_SUFFIX_TREE_TEST() {
+	std::set<std::string> strings;
+	strings.insert("bcabcac");
+	strings.insert("aabca");
+	strings.insert("bcaa");
+
+	GeneralSuffixTree gst(strings);
+	gst.log_tree();
+	return true;
 }
