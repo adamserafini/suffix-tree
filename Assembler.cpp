@@ -22,3 +22,9 @@ void Assembler::label_nodes(GeneralSuffixTree& gst) {
 		to_visit.insert(to_visit.end(), children.begin(), children.end());
 	}
 }
+
+
+
+std::string Assembler::greedy_SCS(GeneralSuffixTree& gst) {
+	return "not yet";
+}
