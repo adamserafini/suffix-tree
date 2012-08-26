@@ -49,7 +49,7 @@ SuffixTree::Rule SuffixTree::SEA(Suffix& previous_suffix, int j, int i) {
 		: get_suffix(origin->suffix_link, begin_index, end_index));
 
 	Rule rule_applied;
-    if (suffix.RULE2_conditions(*this, tree_string[i + 1])) {
+    if (suffix.RULE2_conditions(*this, i + 1)) {
 		RULE2(suffix, i + 1, j);
 		rule_applied = RULE_2;
 	}
@@ -66,7 +66,7 @@ Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
 	int char_index = *origin->end_index;
 
 	while (begin_index <= end_index) {
-		origin = origin->get_child(*this, tree_string[begin_index]);
+		origin = origin->get_child(*this, begin_index);
 		if (origin->edge_length() < end_index - begin_index + 1)
 			char_index = *origin->end_index;
 		else char_index = origin->begin_index + (end_index - begin_index);
@@ -80,7 +80,7 @@ Suffix SuffixTree::match_string(std::string string) const {
 	int char_index;
 	Node* current_node = root;
 	while (!string.empty()) {
-		current_node = current_node->get_child(*this, string[0]);
+		current_node = current_node->get_char_child(*this, string[0]);
 		if (current_node == NULL)
 			return Suffix(NULL, 0);
 		else {

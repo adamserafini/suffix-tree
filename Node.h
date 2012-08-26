@@ -19,7 +19,8 @@ public:
     int ID;
     bool is_leaf() {return child == NULL;}
     void split_edge(int, int);
-	Node* get_child(const SuffixTree&, char, int t_index = 0);
+	Node* get_child(const SuffixTree&, int char_index);
+	Node* get_char_child(const SuffixTree&, char ch); //only use for testing NON general suffix tree!! (factor out)
 	void get_children(std::vector<Node*>&) const;
 };
 

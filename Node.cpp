@@ -42,17 +42,18 @@ void Node::split_edge(int char_index, int new_node_ID) {
 	this->begin_index = char_index + 1;
 }
 
-Node* Node::get_child(const SuffixTree& tree, char ch, int t_index) 
+Node* Node::get_child(const SuffixTree& tree, int char_index) 
 {
-	bool terminal(ch == '$');
+	char to_get = tree.tree_string[char_index];
+	bool terminal(to_get == '$');
     Node* to_return = child;
     while (to_return != NULL) {
-		int char_index(to_return->begin_index);
-		char tree_char(tree.tree_string[char_index]);
-		bool match(tree_char == ch);
+		int child_index(to_return->begin_index);
+		char child_char(tree.tree_string[child_index]);
+		bool match(child_char == to_get);
 		
 		if ((match && !terminal)
-			|| (match && terminal && t_index == char_index))
+			|| (match && terminal && child_index == char_index))
 				return to_return;
 		to_return = to_return->sibling;
 	} 
@@ -65,6 +66,14 @@ void Node::get_children(std::vector<Node*>& children) const {
 		children.push_back(node);
 		node = node->sibling;
 	}
+}
+
+//only use for testing non-GENERAL suffix trees!!
+Node* Node::get_char_child(const SuffixTree& tree, char ch) {
+    Node* to_return = child;
+    while (to_return != NULL && tree.tree_string[to_return->begin_index] != ch)
+        to_return = to_return->sibling;
+    return to_return;
 }
 
 
