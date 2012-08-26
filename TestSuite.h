@@ -8,6 +8,7 @@
 #include "SuffixTree.h"
 #include "FASTA_FileReader.h"
 #include "GeneralSuffixTree.h"
+#include "Assembler.h"
 
 //List of individual tests
 
@@ -73,6 +74,8 @@ bool GENERAL_SUFFIX_TREE_TEST() {
 	strings.insert("bcaa");
 
 	GeneralSuffixTree gst(strings);
+	Assembler assembler;
+	assembler.label_nodes(gst);
 	gst.log_tree();
 	return true;
 }

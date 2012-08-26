@@ -155,8 +155,16 @@ void SuffixTree::log_node(Node* parent) {
 			freopen(("log_file" + file_number.str()).c_str(), "w", stdout);
 		}
 		std::cout << "\"" << parent->ID;
+		std::cout << ": {";
+		for (int i = 0; i < parent->labels.size(); i++)
+			std::cout << parent->labels[i] << ",";
+		std::cout << "}";
 		std::cout << "\" -> ";
 		std::cout << "\"" << child->ID;
+		std::cout << ": {";
+		for (int i = 0; i < child->labels.size(); i++)
+			std::cout << child->labels[i] << ",";
+		std::cout << "}";
 		std::cout << "\"";
 		std::cout << " [label = \"" 
 				  << get_substr(child->begin_index, *child->end_index) 

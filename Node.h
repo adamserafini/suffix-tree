@@ -12,6 +12,7 @@ public:
     Node* child;
     Node* sibling;
     Node* suffix_link;
+	std::vector<int> labels;
 	int begin_index;
 	int* end_index;
 	int edge_length() {return *end_index - begin_index + 1;}
