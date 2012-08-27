@@ -76,6 +76,7 @@ bool GENERAL_SUFFIX_TREE_TEST() {
 	GeneralSuffixTree gst(strings);
 	Assembler assembler;
 	assembler.label_nodes(gst);
+	assembler.get_overlaps(gst);
 	gst.log_tree();
 
 	return true;
