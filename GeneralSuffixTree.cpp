@@ -1,12 +1,30 @@
 #include "GeneralSuffixTree.h"
-
+#include "Node.h"
 
 GeneralSuffixTree::GeneralSuffixTree(std::set<std::string> strings)
 {
-	string_count = strings.size();
 	std::string concat;
 	std::set<std::string>::iterator it;
 	for (it = strings.begin(); it != strings.end(); it++)
 		concat += (*it + "$");
 	SuffixTree::construct(concat);
+}
+
+Overlap GeneralSuffixTree::lookup(Overlap to_lookup, Mapping strings) const
+{
+	int depth = to_lookup.overlap;
+	int string_right = to_lookup.string_right;
+	int overlap = to_lookup.overlap;
+	Node* node = to_lookup.node;
+	while(true) {
+		for (int i = 0; i < node->labels.size(); i++) {
+			int string_left = node->labels[i];
+			if (string_left != string_right
+				&& string_left != (strings[string_right]).right_end
+				&& !strings[string_left].deleted)
+					return Overlap(node, string_left, string_right, depth);
+		}
+		depth -= node->edge_length();
+		node = node->parent;
+	}
 }
