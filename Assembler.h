@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <map>
 #include "Overlap.h"
 #include "Suffix.h"
+#include "StringMap.h"
 
 class GeneralSuffixTree;
 class Assembler
@@ -10,9 +12,10 @@ class Assembler
 public:
 	Assembler();
 	std::vector<Overlap> overlaps;
+	std::map<int, StringMap> mapping; 
 
 	void label_nodes(GeneralSuffixTree&);
-	void get_overlaps(GeneralSuffixTree&);
+	void initialise(GeneralSuffixTree&);
 	void push_overlap(GeneralSuffixTree& gst, std::string, int);
 	std::string greedy_SCS(GeneralSuffixTree&);
 	

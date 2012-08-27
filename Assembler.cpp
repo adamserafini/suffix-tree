@@ -1,7 +1,9 @@
 #include "Assembler.h"
 #include "GeneralSuffixTree.h"
 #include "Node.h"
+#include "CompareOverlap.h"
 #include <cassert>
+#include <algorithm>
 
 Assembler::Assembler()
 {
@@ -23,12 +25,13 @@ void Assembler::label_nodes(GeneralSuffixTree& gst) {
 	}
 }
 
-void Assembler::get_overlaps(GeneralSuffixTree& gst) {
+void Assembler::initialise(GeneralSuffixTree& gst) {
 	std::string to_match;
 	for (int i = 1; i < gst.tree_string.length(); i++) {
 		if (gst.tree_string[i] != '$')
 			to_match += gst.tree_string[i];
 		else {
+			mapping.insert(std::pair<int, StringMap>(i, StringMap(i)));
 			push_overlap(gst, to_match, i);
 			to_match.clear();
 		}
@@ -57,5 +60,9 @@ void Assembler::push_overlap(GeneralSuffixTree& gst, std::string string, int str
 }
 
 std::string Assembler::greedy_SCS(GeneralSuffixTree& gst) {
+	std::make_heap (overlaps.begin(), overlaps.end(), CompareOverlap());
+	
+	
+	
 	return "not yet";
 }

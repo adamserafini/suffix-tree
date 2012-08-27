@@ -9,6 +9,6 @@ class GeneralSuffixTree : public SuffixTree
 {
 public:
 	GeneralSuffixTree(std::set<std::string>);
-	std::vector<int> string_IDs;
+	int string_count;
 };
 
