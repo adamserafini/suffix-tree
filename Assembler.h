@@ -17,7 +17,7 @@ public:
 	void label_nodes(GeneralSuffixTree&);
 	void initialise(GeneralSuffixTree&);
 	void push_overlap(GeneralSuffixTree& gst, std::string, int);
-	std::string greedy_SCS(GeneralSuffixTree&);
+	void greedy_SCS(GeneralSuffixTree&);
 	
 };
 

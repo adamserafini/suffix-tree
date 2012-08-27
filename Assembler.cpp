@@ -59,17 +59,26 @@ void Assembler::push_overlap(GeneralSuffixTree& gst, std::string string, int str
 								deepest_overlap));
 }
 
-std::string Assembler::greedy_SCS(GeneralSuffixTree& gst) {
+void Assembler::greedy_SCS(GeneralSuffixTree& gst) {
 	std::make_heap (overlaps.begin(), overlaps.end(), CompareOverlap());
-	
 	while (overlaps.size() > 1) {
 		std::pop_heap(overlaps.begin(), overlaps.end(), CompareOverlap());
 		Overlap current_overlap = overlaps.back();
 		overlaps.pop_back();
-		
-		Overlap lookup_overlap = gst.lookup(current_overlap, mapping);
+		Overlap lookup_overlap = gst.lookup(current_overlap, mapping);	
+		if (lookup_overlap.overlap == current_overlap.overlap) {
+			int string_left = lookup_overlap.string_left;
+			int string_right = lookup_overlap.string_right;
+			int string_left_leftend = mapping[string_left].left_end;
+			int string_right_rightend = mapping[string_right].right_end;
+			mapping[string_right].left = string_left;
+			mapping[string_left].right = string_right;
+			mapping[string_left_leftend].right_end = mapping[string_right].right_end;
+			mapping[string_right_rightend].left_end = mapping[string_left].left_end;
+		}
+		else {
+			overlaps.push_back(lookup_overlap);
+			push_heap (overlaps.begin(), overlaps.end(), CompareOverlap());
+		}	
 	}
-	
-
-	return "not yet";
 }
