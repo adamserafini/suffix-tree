@@ -7,6 +7,6 @@
 class FASTA_FileReader {
 public:
     FASTA_FileReader(std::string);
-    void parse(std::vector<std::string>&);
+    std::vector<std::string> parse();
     std::ifstream infile;
 };

@@ -31,3 +31,15 @@ FIRST_SET_OF_CONTIGS_REASONABLE_TEST.txt
 Swinepox_NC_00389_simreads_SHORTVER.txt
 output.txt
 overlap_log
+.gitignore.orig
+Assembler.cpp.orig
+Assembler.h.orig
+GeneralSuffixTree.cpp.orig
+GeneralSuffixTree.h.orig
+main.cpp.orig
+Node.cpp.orig
+Overlap.cpp.orig
+Overlap.h.orig
+SuffixTree.cpp.orig
+SuffixTree.h.orig
+TestSuite.h.orig
