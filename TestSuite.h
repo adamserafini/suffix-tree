@@ -80,8 +80,9 @@ bool GENERAL_SUFFIX_TREE_TEST() {
 	assembler.label_nodes(gst);
 	assembler.initialise(gst);
 	assembler.greedy_SCS(gst);
-	assembler.print_SCS(gst);
-	gst.log_tree();
-
-	return true;
+	//gst.log_tree();
+	if (assembler.get_SCS(gst) == "aabcaacababaaddd")
+		return true;
+	else return false;
 }
+

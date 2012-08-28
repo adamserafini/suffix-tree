@@ -89,7 +89,7 @@ void Assembler::greedy_SCS(GeneralSuffixTree& gst) {
 	}
 }
 
-void Assembler::print_SCS(GeneralSuffixTree& gst) 
+std::string Assembler::get_SCS(GeneralSuffixTree& gst) 
 {	
 	int current_string_ID = left_handle;
 	std::string to_return = gst.extract_string(current_string_ID);
@@ -100,5 +100,5 @@ void Assembler::print_SCS(GeneralSuffixTree& gst)
 		std::string to_add = gst.extract_string(current_string_ID).substr(overlap);
 		to_return += to_add;
 	}
-	std::cout << to_return << std::endl;
+	return to_return;
 }
