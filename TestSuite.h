@@ -77,6 +77,7 @@ bool GENERAL_SUFFIX_TREE_TEST() {
 	Assembler assembler;
 	assembler.label_nodes(gst);
 	assembler.initialise(gst);
+	assembler.greedy_SCS(gst);
 	gst.log_tree();
 
 	return true;
