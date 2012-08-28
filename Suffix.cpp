@@ -14,9 +14,12 @@ bool Suffix::ends_at_leaf() const {
     return node->is_leaf() && ends_at_node();
 }
 
-bool Suffix::continues_with_char(const SuffixTree& tree, char ch) const {
-    return (ends_at_node() && node->get_child(tree, ch) != NULL)
-            || (!ends_at_node() && tree.tree_string[char_index + 1] == ch);
+bool Suffix::continues_with_char(const SuffixTree& tree, int tree_index) const {
+	char ch = tree.tree_string[tree_index];
+	bool terminal(ch == '$');
+    return (ends_at_node() && node->get_child(tree, tree_index) != NULL)
+            || (!ends_at_node() && tree.tree_string[char_index + 1] == ch
+				&& (!terminal || char_index + 1 == tree_index));
 }
 
 Node* Suffix::walk_up(int& begin_index, int& end_index) const {
@@ -32,6 +35,6 @@ Node* Suffix::walk_up(int& begin_index, int& end_index) const {
 	}
 }
 
-bool Suffix::RULE2_conditions(const SuffixTree& tree, char ch) const {
-	return !ends_at_leaf() && !continues_with_char(tree, ch);
+bool Suffix::RULE2_conditions(const SuffixTree& tree, int tree_index) const {
+	return !ends_at_leaf() && !continues_with_char(tree, tree_index);
 }

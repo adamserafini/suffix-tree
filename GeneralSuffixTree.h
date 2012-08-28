@@ -1,19 +1,21 @@
 #pragma once
 
-#include <vector>
 #include "SuffixTree.h"
+#include "Overlap.h"
+#include "StringMap.h"
+#include <string>
+#include <set>
+#include <map>
+#include <vector>
 #include <utility>
 
 class GeneralSuffixTree : public SuffixTree
 {
 public:
-	GeneralSuffixTree();
-	void construct(const std::vector<std::string>&);
-	std::vector<std::pair<int, int>> string_index;
-	std::vector<std::string> strings;
-	std::vector<int> character_index;
-	std::string get_string(int) const;
+	GeneralSuffixTree(std::set<std::string>);
+	typedef std::map<int, StringMap>& Mapping; 
+
+	Overlap lookup(Overlap, Mapping) const;
+	std::string extract_string(int);
 };
-
-
 
