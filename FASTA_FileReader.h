@@ -3,10 +3,11 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <set>
 
 class FASTA_FileReader {
 public:
     FASTA_FileReader(std::string);
-    std::vector<std::string> parse();
+    std::set<std::string> parse();
     std::ifstream infile;
 };

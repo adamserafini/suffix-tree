@@ -15,14 +15,16 @@
 bool FASTA_FILE_READER_TEST();
 bool EXACT_MATCH_TEST();
 bool GENERAL_SUFFIX_TREE_TEST();
+bool LARGE_DATASET_TEST();
 
 void EXECUTE_TEST_SUITE() {
 	std::cout << "Running tests..." << std::endl;
 	typedef bool (*Test)();
 	std::vector<Test> tests;
-	tests.push_back(FASTA_FILE_READER_TEST);
+	//tests.push_back(FASTA_FILE_READER_TEST);
 	tests.push_back(EXACT_MATCH_TEST);
 	tests.push_back(GENERAL_SUFFIX_TREE_TEST);
+	tests.push_back(LARGE_DATASET_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
 		std::cout   << "Test " << i + 1 
@@ -33,9 +35,10 @@ void EXECUTE_TEST_SUITE() {
 	std::cin.get();
 }
 
+/*
 bool FASTA_FILE_READER_TEST() {
 	FASTA_FileReader file("Swinepox_NC_003389_simreads.fa.31764.CONTIGS");
-	std::vector<std::string> sequences = file.parse();
+	std::set<std::string> sequences = file.parse();
 	if (sequences.size() == 5
 		&& sequences[3] == "TACACTTTTTTTTACCGTTTATAAATTATTATTTTTAATAAAAATAATAGATGATTATATTTATCTATACCTAAGGTAAGTAAATTAACATCTTTATTTTATAAAATAATAATTTATAAACGGTAAAAAAAAGTGTAACCTAATCCCTTATAGTCATGTTTTTTGAGAATAAAAACAAACGCATACTTTTTGAACGGAGAAATACCTGTATCCTTAATCCCCTATAACCATATTTTTTTAATCCAACATACTTTTTGAACGGAGAAATACCTGTAT"
 		&& sequences[0].length() == 34536
@@ -46,14 +49,15 @@ bool FASTA_FILE_READER_TEST() {
 			return true;
 	else return false;
 }
+*/
 
 bool EXACT_MATCH_TEST() {
 	FASTA_FileReader file("Swinepox_NC_003389_complete.fasta");
-	std::vector<std::string> sequences = file.parse();
+	std::set<std::string> sequences = file.parse();
 	SuffixTree st;
 	//SuffixTree st("xabxa$");
 	//SuffixTree st("AGGTTA$");
-    st.construct(sequences[0] + "$");
+    st.construct(*sequences.begin() + "$");
 	//st.log_tree(); //caution: a 100k character sequences generates
 					 //+10GB log files. use log_tree only for debugging.
 	std::string test = "TGTAACCT";
@@ -84,5 +88,26 @@ bool GENERAL_SUFFIX_TREE_TEST() {
 	if (assembler.get_SCS(gst) == "aabcaacababaaddd")
 		return true;
 	else return false;
+}
+
+bool LARGE_DATASET_TEST() {
+	FASTA_FileReader file("SWINEPOX_SIMULATED_READS.TXT");
+	std::set<std::string> strings = file.parse();
+
+	GeneralSuffixTree gst(strings);
+	Assembler assembler;
+	assembler.label_nodes(gst);
+	assembler.initialise(gst);
+	assembler.greedy_SCS(gst);
+
+	std::string SCS = assembler.get_SCS(gst);
+	SuffixTree st;
+	st.construct(SCS);
+	std::set<std::string>::iterator it = strings.begin();
+	for (; it != strings.end(); it++) {
+		if ((st.get_exact_matches(*it)).empty())
+			return false;
+	}
+	return true;
 }
 
