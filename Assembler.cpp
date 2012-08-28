@@ -4,6 +4,7 @@
 #include "CompareOverlap.h"
 #include <cassert>
 #include <algorithm>
+#include <iostream>
 
 Assembler::Assembler()
 {
@@ -77,6 +78,8 @@ void Assembler::greedy_SCS(GeneralSuffixTree& gst) {
 			mapping[string_left].right = string_right;
 			mapping[string_left_leftend].right_end = mapping[string_right].right_end;
 			mapping[string_right_rightend].left_end = mapping[string_left].left_end;
+			mapping[string_left].deleted = true;
+			mapping[string_left].suffix_overlap = lookup_overlap.overlap;
 		}
 		else {
 			overlaps.push_back(lookup_overlap);
@@ -84,4 +87,18 @@ void Assembler::greedy_SCS(GeneralSuffixTree& gst) {
 		}
 		left_handle = string_left_leftend;
 	}
+}
+
+void Assembler::print_SCS(GeneralSuffixTree& gst) 
+{	
+	int current_string_ID = left_handle;
+	std::string to_return = gst.extract_string(current_string_ID);
+	while (mapping[current_string_ID].right != -1)
+	{
+		int overlap = mapping[current_string_ID].suffix_overlap;
+		current_string_ID = mapping[current_string_ID].right;
+		std::string to_add = gst.extract_string(current_string_ID).substr(overlap);
+		to_return += to_add;
+	}
+	std::cout << to_return << std::endl;
 }

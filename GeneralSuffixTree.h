@@ -16,5 +16,6 @@ public:
 	typedef std::map<int, StringMap>& Mapping; 
 
 	Overlap lookup(Overlap, Mapping) const;
+	std::string extract_string(int);
 };
 

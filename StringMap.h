@@ -8,6 +8,7 @@ public:
 	int right;
 	int left_end;
 	int right_end;
+	int suffix_overlap;
 	bool deleted;
 };
 

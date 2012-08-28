@@ -69,15 +69,18 @@ bool EXACT_MATCH_TEST() {
 
 bool GENERAL_SUFFIX_TREE_TEST() {
 	std::set<std::string> strings;
-	strings.insert("bcabcac");
+	strings.insert("ababaa");
+	strings.insert("caba");
+	strings.insert("aaddd");
 	strings.insert("aabca");
-	strings.insert("bcaa");
+	strings.insert("aacab");
 
 	GeneralSuffixTree gst(strings);
 	Assembler assembler;
 	assembler.label_nodes(gst);
 	assembler.initialise(gst);
 	assembler.greedy_SCS(gst);
+	assembler.print_SCS(gst);
 	gst.log_tree();
 
 	return true;

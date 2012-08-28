@@ -14,7 +14,7 @@ SuffixTree::SuffixTree() {
 
 void SuffixTree::construct(std::string s) {
 	length = s.length();
-    tree_string = ' ' + s;
+    tree_string = '$' + s;
 
 	(*current_end)++;
 	last_leaf_extension = new Node(root, 1, current_end, 1);

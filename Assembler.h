@@ -19,5 +19,6 @@ public:
 	void initialise(GeneralSuffixTree&);
 	void push_overlap(GeneralSuffixTree& gst, std::string, int);
 	void greedy_SCS(GeneralSuffixTree&);
+	void print_SCS(GeneralSuffixTree&);
 };
 
