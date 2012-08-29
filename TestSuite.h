@@ -9,13 +9,15 @@
 #include "FASTA_FileReader.h"
 #include "GeneralSuffixTree.h"
 #include "Assembler.h"
+#include "FASTQ_FileReader.h"
 
 //List of individual tests
 
-bool FASTA_FILE_READER_TEST();
+//bool FASTA_FILE_READER_TEST();
 bool EXACT_MATCH_TEST();
 bool GENERAL_SUFFIX_TREE_TEST();
 bool LARGE_DATASET_TEST();
+bool FASTQ_FILE_READER_TEST();
 
 void EXECUTE_TEST_SUITE() {
 	std::cout << "Running tests..." << std::endl;
@@ -24,7 +26,8 @@ void EXECUTE_TEST_SUITE() {
 	//tests.push_back(FASTA_FILE_READER_TEST);
 	tests.push_back(EXACT_MATCH_TEST);
 	tests.push_back(GENERAL_SUFFIX_TREE_TEST);
-	tests.push_back(LARGE_DATASET_TEST);
+	//tests.push_back(LARGE_DATASET_TEST);
+	//tests.push_back(FASTQ_FILE_READER_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
 		std::cout   << "Test " << i + 1 
@@ -62,10 +65,15 @@ bool EXACT_MATCH_TEST() {
 					 //+10GB log files. use log_tree only for debugging.
 	std::string test = "TGTAACCT";
 	std::vector<int> v = st.get_exact_matches(test);
+
+	for (int i = 0; i < v.size(); i++) {
+		std::cout << v[i] << std::endl;
+	}
+
 	if (v.size() == 3 
-		&& v[0] == 146447 
+		&& v[0] == 138
 		&& v[1] == 36082 
-		&& v[2] == 138
+		&& v[2] == 146447	
 		&& sequences.size() == 1)
 		return true;
 	else return false;
@@ -108,6 +116,19 @@ bool LARGE_DATASET_TEST() {
 		if ((st.get_exact_matches(*it)).empty())
 			return false;
 	}
+	return true;
+}
+
+bool FASTQ_FILE_READER_TEST() {
+	FASTQ_FileReader file("6180_1#1_1.fastq");
+	std::set<std::string> strings = file.parse();
+	std::cout << "String count: " << strings.size() << std::endl;
+	std::set<std::string>::iterator it = strings.begin();
+	freopen("fastq.txt", "w", stdout);
+	for (; it != strings.end(); it++ ) {
+		std::cout << *it << std::endl;
+	}
+	freopen( "CON", "w", stdout );
 	return true;
 }
 

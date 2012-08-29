@@ -11,24 +11,17 @@ Node::Node(Node* parent, int begin_index, int* end_index, int ID) {
 	sibling = NULL;
 }
 
-void Node::add_child(Node* child) {
-    if (this->child == NULL) {
-        this->child = child;
-    }   
-    else {
-        Node* n = this->child;
-        while (n->sibling != NULL)
-            n = n->sibling;
-        n->sibling = child;
-    }
+void Node::add_child(Node* child_to_add) {
+	child_to_add->sibling = child;
+	child = child_to_add;
 }
 
 
 void Node::split_edge(int char_index, int new_node_ID) {
 	Node* new_node = new Node(this->parent, this->begin_index, 
 								new int(char_index), new_node_ID);
-	new_node->add_child(this); 
 	new_node->sibling = this->sibling;
+	new_node->add_child(this); 
 	if (parent->child == this)
 		parent->child = new_node;
 	else {
@@ -75,6 +68,8 @@ Node* Node::get_char_child(const SuffixTree& tree, char ch) {
         to_return = to_return->sibling;
     return to_return;
 }
+
+
 
 
 
