@@ -9,8 +9,7 @@ class Node
 public:
 	Node(Node*, int, int*, int);
     Node* parent;
-    Node* child;
-    Node* sibling;
+    std::vector<Node*> children;
     Node* suffix_link;
 	std::vector<int> labels;
 	int begin_index;
@@ -20,7 +19,7 @@ public:
     void add_child(Node*);
 	void remove_child(Node*);
     int ID;
-    bool is_leaf() {return child == NULL;}
+    bool is_leaf() {return children.empty();}
     void split_edge(int, int);
 	Node* get_child(const SuffixTree&, int char_index);
 	Node* get_char_child(const SuffixTree&, char ch); //only use for testing NON general suffix tree!! (factor out)

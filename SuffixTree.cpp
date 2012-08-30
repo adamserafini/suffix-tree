@@ -148,29 +148,28 @@ void SuffixTree::log_node(Node* parent) {
 	std::stringstream file_number;
 
     int parent_ID = parent->ID;
-    Node* child = parent->child;
-    while (child != NULL) {
+	for (int i = 0; i < parent->children.size(); i++) {
 		if (line_count % LINES_PER_FILE == 0) {
 			file_number << ((line_count / LINES_PER_FILE) + 1);
 			freopen(("log_file" + file_number.str()).c_str(), "w", stdout);
 		}
+		Node* current_child = parent->children[i];
 		std::cout << "\"" << parent->ID;
 		std::cout << ": {";
 		for (int i = 0; i < parent->labels.size(); i++)
 			std::cout << parent->labels[i] << ",";
 		std::cout << "}";
 		std::cout << "\" -> ";
-		std::cout << "\"" << child->ID;
+		std::cout << "\"" << current_child->ID;
 		std::cout << ": {";
-		for (int i = 0; i < child->labels.size(); i++)
-			std::cout << child->labels[i] << ",";
+		for (int i = 0; i < current_child->labels.size(); i++)
+			std::cout << current_child->labels[i] << ",";
 		std::cout << "}";
 		std::cout << "\"";
 		std::cout << " [label = \"" 
-				  << get_substr(child->begin_index, *child->end_index) 
+				  << get_substr(current_child->begin_index, *current_child->end_index) 
 				  << "\"];" << std::endl;
 		line_count++;
-        log_node(child);
-        child = child->sibling;
+        log_node(current_child);
     } 
 }

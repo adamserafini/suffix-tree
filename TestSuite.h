@@ -103,7 +103,7 @@ bool LARGE_DATASET_TEST() {
 	std::set<std::string> strings = file.parse();
 
 	GeneralSuffixTree gst(strings);
-	/*
+
 	Assembler assembler;
 	assembler.label_nodes(gst);
 	assembler.initialise(gst);
@@ -117,7 +117,7 @@ bool LARGE_DATASET_TEST() {
 		if ((st.get_exact_matches(*it)).empty())
 			return false;
 	}
-	*/
+	
 	return true;
 }
 

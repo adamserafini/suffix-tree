@@ -1,31 +1,24 @@
 #include "Node.h"
 #include "SuffixTree.h"
+#include <algorithm>
+#include "CompareNode.h"
 
 Node::Node(Node* parent, int begin_index, int* end_index, int ID) {
 	this->parent = parent;
 	this->begin_index = begin_index;
 	this->end_index = end_index;
 	this->ID = ID;
-	child = NULL;
 	suffix_link = NULL;
-	sibling = NULL;
 }
 
 void Node::add_child(Node* child_to_add) {
-	child_to_add->sibling = child;
-	child = child_to_add;
+	children.push_back(child_to_add);
 }
 
 void Node::remove_child(Node* child_to_remove) {
-	if (this->child == child_to_remove) {
-		this->child = child_to_remove->sibling;
-	}
-	else {
-		Node* n = this->child;
-		while (n->sibling != child_to_remove)
-			n = n->sibling;
-		n->sibling = n->sibling->sibling;
-	}
+	std::vector<Node*>::iterator it;
+	it = std::find(children.begin(), children.end(), child_to_remove);
+	children.erase(it);
 }
 
 void Node::split_edge(int char_index, int new_node_ID) {
@@ -36,7 +29,6 @@ void Node::split_edge(int char_index, int new_node_ID) {
 	new_node->add_child(this);
 
 	this->parent = new_node;
-	this->sibling = NULL;
 	this->begin_index = char_index + 1;
 }
 
@@ -44,34 +36,29 @@ Node* Node::get_child(const SuffixTree& tree, int char_index)
 {
 	char to_get = tree.tree_string[char_index];
 	bool terminal(to_get == '$');
-    Node* to_return = child;
-    while (to_return != NULL) {
-		int child_index(to_return->begin_index);
-		char child_char(tree.tree_string[child_index]);
+ 
+	for (int i = 0; i < children.size(); i++) {
+		int child_index = children[i]->begin_index;
+		char child_char = tree.tree_string[child_index];
 		bool match(child_char == to_get);
-		
+
 		if ((match && !terminal)
 			|| (match && terminal && child_index == char_index))
-				return to_return;
-		to_return = to_return->sibling;
-	} 
+				return children[i];
+	}
     return NULL;
 }
 
-void Node::get_children(std::vector<Node*>& children) const {
-	Node* node = this->child;
-	while (node != NULL) {
-		children.push_back(node);
-		node = node->sibling;
-	}
+void Node::get_children(std::vector<Node*>& ret_children) const {
+	ret_children.insert(ret_children.end(), children.begin(), children.end());
 }
 
 //only use for testing non-GENERAL suffix trees!!
 Node* Node::get_char_child(const SuffixTree& tree, char ch) {
-    Node* to_return = child;
-    while (to_return != NULL && tree.tree_string[to_return->begin_index] != ch)
-        to_return = to_return->sibling;
-    return to_return;
+	for (int i = 0; i < children.size(); i++)
+		if (tree.tree_string[children[i]->begin_index] == ch)
+			return children[i];
+	return NULL;
 }
 
 
