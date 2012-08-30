@@ -35,18 +35,6 @@ void Node::split_edge(int char_index, int new_node_ID) {
 	parent->add_child(new_node);
 	new_node->add_child(this);
 
-	/*
-	new_node->sibling = this->sibling;
-	new_node->add_child(this); 
-	if (parent->child == this)
-		parent->child = new_node;
-	else {
-		Node* n = parent->child;
-		while (n->sibling != this)
-			n = n->sibling;
-		n->sibling = new_node;
-	}
-	*/
 	this->parent = new_node;
 	this->sibling = NULL;
 	this->begin_index = char_index + 1;
