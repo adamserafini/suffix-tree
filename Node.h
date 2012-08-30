@@ -18,6 +18,7 @@ public:
 	std::vector<int> node_labels;
 	int edge_length() {return *end_index - begin_index + 1;}
     void add_child(Node*);
+	void remove_child(Node*);
     int ID;
     bool is_leaf() {return child == NULL;}
     void split_edge(int, int);

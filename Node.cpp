@@ -16,10 +16,26 @@ void Node::add_child(Node* child_to_add) {
 	child = child_to_add;
 }
 
+void Node::remove_child(Node* child_to_remove) {
+	if (this->child == child_to_remove) {
+		this->child = child_to_remove->sibling;
+	}
+	else {
+		Node* n = this->child;
+		while (n->sibling != child_to_remove)
+			n = n->sibling;
+		n->sibling = n->sibling->sibling;
+	}
+}
 
 void Node::split_edge(int char_index, int new_node_ID) {
 	Node* new_node = new Node(this->parent, this->begin_index, 
 								new int(char_index), new_node_ID);
+	parent->remove_child(this);
+	parent->add_child(new_node);
+	new_node->add_child(this);
+
+	/*
 	new_node->sibling = this->sibling;
 	new_node->add_child(this); 
 	if (parent->child == this)
@@ -30,6 +46,7 @@ void Node::split_edge(int char_index, int new_node_ID) {
 			n = n->sibling;
 		n->sibling = new_node;
 	}
+	*/
 	this->parent = new_node;
 	this->sibling = NULL;
 	this->begin_index = char_index + 1;
