@@ -18,7 +18,7 @@ void SuffixTree::construct(std::string s) {
 
 	(*current_end)++;
 	last_leaf_extension = new Node(root, 1, current_end, 1);
-    root->add_child(last_leaf_extension);
+    root->add_child(*this, last_leaf_extension);
 
     for (int i = 1; i < length; i++) {
         SPA(i);
@@ -127,12 +127,12 @@ std::string SuffixTree::get_substr(int start_pos, int end_pos) {
 
 void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
     if (!suffix.ends_at_node()) {  //eg. case 2 (path ends inside an edge)
-		suffix.node->split_edge(suffix.char_index, --internal_node_ID);
+		suffix.node->split_edge(*this, suffix.char_index, --internal_node_ID);
 		suffix.node = suffix.node->parent;
 		suffix.new_internal_node = true;
 	}
 	Node* new_leaf = new Node(suffix.node, char_index, current_end, new_leaf_ID);  
-    suffix.node->add_child(new_leaf);
+    suffix.node->add_child(*this, new_leaf);
 	last_leaf_extension = new_leaf;
 }
 

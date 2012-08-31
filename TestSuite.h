@@ -24,9 +24,9 @@ void EXECUTE_TEST_SUITE() {
 	typedef bool (*Test)();
 	std::vector<Test> tests;
 	//tests.push_back(FASTA_FILE_READER_TEST);
-	tests.push_back(EXACT_MATCH_TEST);
-	tests.push_back(GENERAL_SUFFIX_TREE_TEST);
-	//tests.push_back(LARGE_DATASET_TEST);
+	//tests.push_back(EXACT_MATCH_TEST);
+	//tests.push_back(GENERAL_SUFFIX_TREE_TEST);
+	tests.push_back(LARGE_DATASET_TEST);
 	//tests.push_back(FASTQ_FILE_READER_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
@@ -99,7 +99,7 @@ bool GENERAL_SUFFIX_TREE_TEST() {
 }
 
 bool LARGE_DATASET_TEST() {
-	FASTA_FileReader file("SWINEPOX_SIMULATED_READS.TXT");
+	FASTA_FileReader file("Swinepox_NC_003389_simreads.FASTA");
 	std::set<std::string> strings = file.parse();
 
 	GeneralSuffixTree gst(strings);
