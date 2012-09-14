@@ -52,3 +52,4 @@ SUFFIX_TREE_VS_V2.exe
 CompareNode.h
 SCS.txt
 SWINEPOX_SIMULATED_READS_10k.txt
+tree.gv

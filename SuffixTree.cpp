@@ -1,9 +1,8 @@
 #include "SuffixTree.h"
 #include "Node.h"
 #include "Suffix.h" 
-#include <iostream>
-#include <sstream>
 #include <map>
+#include <iostream>
 
 SuffixTree::SuffixTree() {
     internal_node_ID = 0;
@@ -20,11 +19,8 @@ void SuffixTree::construct(std::string s) {
 	last_leaf_extension = new Node(root, 1, current_end, 1);
     root->add_child(*this, last_leaf_extension);
 
-    for (int i = 1; i < length; i++) {
+    for (int i = 1; i < length; i++)
         SPA(i);
-		//log_tree();
-		if (i % 10000 == 0) std::cerr << "Phase: " << i << std::endl;
-    }
 }
 
 //SPA: Single Phase Algorithm (Gusfield, 1997)
@@ -37,7 +33,6 @@ void SuffixTree::SPA(int i) {
 		Rule rule_applied = SEA(previous_suffix, j, i);
 		if (rule_applied == RULE_3) 
 			break;
-		//log_tree();
     }
 }
 
@@ -86,7 +81,7 @@ Suffix SuffixTree::match_string(std::string string) const {
 		else {
 			char_index = current_node->begin_index;
 			int i = 1;
-			for ( ; i < string.length() && i < current_node->edge_length(); i++)
+			for (; i < string.length() && i < current_node->edge_length(); i++)
 				if (string[i] != tree_string[char_index + i]) 
 					return Suffix(NULL, 0);
 			string.erase(0, i);
@@ -137,40 +132,22 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 }
 
 void SuffixTree::log_tree() {
+	freopen("tree.gv", "w", stdout);
+	std::cout << "digraph g {" << std::endl;
     log_node(root);
-	std::cout << "END OF TREE" << std::endl;
+	std::cout << "}" << std::endl;
 	freopen( "CON", "w", stdout );
 }
 
 void SuffixTree::log_node(Node* parent) {
-	static unsigned int line_count;
-	static const unsigned int LINES_PER_FILE = 20000;
-	std::stringstream file_number;
-
     int parent_ID = parent->ID;
 	std::map<int, Node*>::iterator it = parent->children.begin();
 	for (; it != parent->children.end(); it++) {
-		if (line_count % LINES_PER_FILE == 0) {
-			file_number << ((line_count / LINES_PER_FILE) + 1);
-			freopen(("log_file" + file_number.str()).c_str(), "w", stdout);
-		}
 		Node* current_child = it->second;
-		std::cout << "\"" << parent->ID;
-		std::cout << ": {";
-		for (int i = 0; i < parent->labels.size(); i++)
-			std::cout << parent->labels[i] << ",";
-		std::cout << "}";
-		std::cout << "\" -> ";
-		std::cout << "\"" << current_child->ID;
-		std::cout << ": {";
-		for (int i = 0; i < current_child->labels.size(); i++)
-			std::cout << current_child->labels[i] << ",";
-		std::cout << "}";
-		std::cout << "\"";
-		std::cout << " [label = \"" 
-				  << get_substr(current_child->begin_index, *current_child->end_index) 
+		std::cout << "\"" << parent->ID << "\" -> " << "\"" 
+				  << current_child->ID << "\"" << " [label = \""
+				  << get_substr(current_child->begin_index, *current_child->end_index)
 				  << "\"];" << std::endl;
-		line_count++;
         log_node(current_child);
     } 
 }

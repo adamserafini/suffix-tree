@@ -37,10 +37,6 @@ bool EXACT_MATCH_TEST() {
 	std::string test = "TGTAACCT";
 	std::vector<int> v = st.get_exact_matches(test);
 
-	for (int i = 0; i < v.size(); i++) {
-		std::cout << v[i] << std::endl;
-	}
-
 	if (v.size() == 3 
 		&& v[0] == 146447
 		&& v[1] == 138 
