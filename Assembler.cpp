@@ -64,6 +64,7 @@ void Assembler::push_overlap(GeneralSuffixTree& gst, std::string string, int str
 void Assembler::greedy_SCS(GeneralSuffixTree& gst) {
 	std::make_heap (overlaps.begin(), overlaps.end(), CompareOverlap());
 	while (overlaps.size() > 1) {
+		if (overlaps.size() % 10000 == 0) std::cout << "Strings remaining: " << overlaps.size() << std::endl;
 		std::pop_heap(overlaps.begin(), overlaps.end(), CompareOverlap());
 		Overlap current_overlap = overlaps.back();
 		overlaps.pop_back();

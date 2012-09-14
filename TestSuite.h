@@ -99,7 +99,7 @@ bool GENERAL_SUFFIX_TREE_TEST() {
 }
 
 bool LARGE_DATASET_TEST() {
-	FASTA_FileReader file("Swinepox_NC_003389_simreads.FASTA");
+	FASTA_FileReader file("Swinepox_NC_003389_simreads_141.FASTA");
 	std::set<std::string> strings = file.parse();
 
 	GeneralSuffixTree gst(strings);
@@ -109,7 +109,16 @@ bool LARGE_DATASET_TEST() {
 	assembler.initialise(gst);
 	assembler.greedy_SCS(gst);
 
+
+	freopen("SCS.txt", "w", stdout);
 	std::string SCS = assembler.get_SCS(gst);
+	std::cout << SCS;
+	freopen( "CON", "w", stdout );
+
+	std::cout << "program finished!" << std::endl;
+	std::cin.get();
+
+	/*
 	SuffixTree st;
 	st.construct(SCS);
 	std::set<std::string>::iterator it = strings.begin();
@@ -117,6 +126,7 @@ bool LARGE_DATASET_TEST() {
 		if ((st.get_exact_matches(*it)).empty())
 			return false;
 	}
+	*/
 	
 	return true;
 }

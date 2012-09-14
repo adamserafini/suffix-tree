@@ -3,7 +3,7 @@
 #include "Suffix.h" 
 #include <iostream>
 #include <sstream>
-
+#include <map>
 
 SuffixTree::SuffixTree() {
     internal_node_ID = 0;
@@ -148,12 +148,13 @@ void SuffixTree::log_node(Node* parent) {
 	std::stringstream file_number;
 
     int parent_ID = parent->ID;
-	for (int i = 0; i < parent->children.size(); i++) {
+	std::map<int, Node*>::iterator it = parent->children.begin();
+	for (; it != parent->children.end(); it++) {
 		if (line_count % LINES_PER_FILE == 0) {
 			file_number << ((line_count / LINES_PER_FILE) + 1);
 			freopen(("log_file" + file_number.str()).c_str(), "w", stdout);
 		}
-		Node* current_child = parent->children[i];
+		Node* current_child = it->second;
 		std::cout << "\"" << parent->ID;
 		std::cout << ": {";
 		for (int i = 0; i < parent->labels.size(); i++)
