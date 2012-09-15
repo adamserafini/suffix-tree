@@ -50,6 +50,11 @@ H37Rv_final_simreads.FASTA
 kseq.h
 SUFFIX_TREE_VS_V2.exe
 CompareNode.h
-SCS.txt
 SWINEPOX_SIMULATED_READS_10k.txt
 tree.gv
+CompareOverlap.cpp
+contig_log
+ContigLogger.cpp
+ContigLogger.h
+FASTQ_FileReader.cpp
+FASTQ_FileReader.h
