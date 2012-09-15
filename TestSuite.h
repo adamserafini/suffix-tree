@@ -67,7 +67,7 @@ bool GENERAL_SUFFIX_TREE_TEST() {
 }
 
 bool FASTA_FILE_READER_TEST() {
-	FASTA_FileReader file("Swinepox_NC_003389_simreads.fa.31764.CONTIGS");
+	FASTA_FileReader file("FASTA_FileReader_TestFile.fasta");
 	std::set<std::string> strings = file.parse();
 
 	std::set<std::string>::iterator it = strings.begin();
