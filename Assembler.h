@@ -2,10 +2,9 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "Overlap.h"
-#include "Suffix.h"
-#include "StringMap.h"
 
+class StringMap;
+class Overlap;
 class GeneralSuffixTree;
 class Assembler
 {
@@ -15,6 +14,7 @@ public:
 	void initialise(GeneralSuffixTree&);
 	void push_overlap(GeneralSuffixTree& gst, std::string, int);
 	void greedy_SCS(GeneralSuffixTree&);
+	int merge_strings(Overlap);
 	std::string get_SCS(GeneralSuffixTree&);
 
 	std::vector<Overlap> overlaps;

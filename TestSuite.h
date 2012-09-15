@@ -12,6 +12,7 @@
 
 bool EXACT_MATCH_TEST();
 bool GENERAL_SUFFIX_TREE_TEST();
+bool FASTA_FILE_READER_TEST();
 
 void EXECUTE_TEST_SUITE() {
 	std::cout << "Running tests..." << std::endl;
@@ -19,6 +20,7 @@ void EXECUTE_TEST_SUITE() {
 	std::vector<Test> tests;
 	tests.push_back(EXACT_MATCH_TEST);
 	tests.push_back(GENERAL_SUFFIX_TREE_TEST);
+	tests.push_back(FASTA_FILE_READER_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
 		std::cout   << "Test " << i + 1 
@@ -64,3 +66,18 @@ bool GENERAL_SUFFIX_TREE_TEST() {
 	else return false;
 }
 
+bool FASTA_FILE_READER_TEST() {
+	FASTA_FileReader file("Swinepox_NC_003389_simreads.fa.31764.CONTIGS");
+	std::set<std::string> strings = file.parse();
+
+	std::set<std::string>::iterator it = strings.begin();
+
+	if (strings.size() != 5
+		|| (*it++).length() != 88023
+		|| (*it++).length() != 419
+		|| (*it++).length() != 34536
+		|| (*it++).length() != 276
+		|| (*it).length() != 19502)
+			return false;
+	return true;
+}

@@ -4,6 +4,7 @@ class StringMap
 public:
 	StringMap() {}
 	StringMap(int);
+
 	int left;
 	int right;
 	int left_end;

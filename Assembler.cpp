@@ -1,10 +1,8 @@
+#include <algorithm>
 #include "Assembler.h"
 #include "GeneralSuffixTree.h"
 #include "Node.h"
 #include "CompareOverlap.h"
-#include <cassert>
-#include <algorithm>
-#include <iostream>
 
 Assembler::Assembler()
 {
@@ -40,7 +38,9 @@ void Assembler::initialise(GeneralSuffixTree& gst) {
 	}
 }
 
-void Assembler::push_overlap(GeneralSuffixTree& gst, std::string string, int string_right) 
+void Assembler::push_overlap(	GeneralSuffixTree& gst, 
+								std::string string, 
+								int string_right) 
 {
 	int depth = 0;
 	int deepest_overlap;
@@ -64,30 +64,33 @@ void Assembler::push_overlap(GeneralSuffixTree& gst, std::string string, int str
 void Assembler::greedy_SCS(GeneralSuffixTree& gst) {
 	std::make_heap (overlaps.begin(), overlaps.end(), CompareOverlap());
 	while (overlaps.size() > 1) {
-		if (overlaps.size() % 10000 == 0) std::cout << "Strings remaining: " << overlaps.size() << std::endl;
 		std::pop_heap(overlaps.begin(), overlaps.end(), CompareOverlap());
 		Overlap current_overlap = overlaps.back();
 		overlaps.pop_back();
 		Overlap lookup_overlap = gst.lookup(current_overlap, mapping);
-		int string_left = lookup_overlap.string_left;
-		int string_right = lookup_overlap.string_right;
-		int string_left_leftend = mapping[string_left].left_end;
-		int string_right_rightend = mapping[string_right].right_end;
 
-		if (lookup_overlap.overlap == current_overlap.overlap) {
-			mapping[string_right].left = string_left;
-			mapping[string_left].right = string_right;
-			mapping[string_left_leftend].right_end = mapping[string_right].right_end;
-			mapping[string_right_rightend].left_end = mapping[string_left].left_end;
-			mapping[string_left].deleted = true;
-			mapping[string_left].suffix_overlap = lookup_overlap.overlap;
-		}
+		if (lookup_overlap.overlap == current_overlap.overlap)
+			left_handle = merge_strings(lookup_overlap);
 		else {
 			overlaps.push_back(lookup_overlap);
 			push_heap (overlaps.begin(), overlaps.end(), CompareOverlap());
 		}
-		left_handle = string_left_leftend;
 	}
+}
+
+int Assembler::merge_strings(Overlap overlap)
+{
+		int string_left = overlap.string_left;
+		int string_right = overlap.string_right;
+		int string_left_leftend = mapping[string_left].left_end;
+		int string_right_rightend = mapping[string_right].right_end;
+		mapping[string_right].left = string_left;
+		mapping[string_left].right = string_right;
+		mapping[string_left_leftend].right_end = mapping[string_right].right_end;
+		mapping[string_right_rightend].left_end = mapping[string_left].left_end;
+		mapping[string_left].deleted = true;
+		mapping[string_left].suffix_overlap = overlap.overlap;
+		return string_left_leftend;
 }
 
 std::string Assembler::get_SCS(GeneralSuffixTree& gst) 
