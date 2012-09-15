@@ -10,16 +10,16 @@
 #include "GeneralSuffixTree.h"
 #include "Assembler.h"
 
-bool EXACT_MATCH_TEST();
-bool GENERAL_SUFFIX_TREE_TEST();
+bool SUFFIX_TREE_TEST();
+bool GREEDY_SCS_TEST();
 bool FASTA_FILE_READER_TEST();
 
 void EXECUTE_TEST_SUITE() {
 	std::cout << "Running tests..." << std::endl;
 	typedef bool (*Test)();
 	std::vector<Test> tests;
-	tests.push_back(EXACT_MATCH_TEST);
-	tests.push_back(GENERAL_SUFFIX_TREE_TEST);
+	tests.push_back(SUFFIX_TREE_TEST);
+	tests.push_back(GREEDY_SCS_TEST);
 	tests.push_back(FASTA_FILE_READER_TEST);
 
 	for (int i = 0; i < tests.size(); i++) {
@@ -31,7 +31,7 @@ void EXECUTE_TEST_SUITE() {
 	std::cin.get();
 }
 
-bool EXACT_MATCH_TEST() {
+bool SUFFIX_TREE_TEST() {
 	FASTA_FileReader file("Swinepox_NC_003389_complete.fasta");
 	std::set<std::string> sequences = file.parse();
 	SuffixTree st;
@@ -48,18 +48,11 @@ bool EXACT_MATCH_TEST() {
 	else return false;
 }
 
-bool GENERAL_SUFFIX_TREE_TEST() {
-	std::set<std::string> strings;
-	strings.insert("ababaa");
-	strings.insert("caba");
-	strings.insert("aaddd");
-	strings.insert("aabca");
-	strings.insert("aacab");
-
-	GeneralSuffixTree gst(strings);
+bool GREEDY_SCS_TEST() {
+	FASTA_FileReader file("Greedy_SCS_TestSet.fasta");
+	GeneralSuffixTree gst(file.parse());
 	Assembler assembler;
 	assembler.label_nodes(gst);
-	assembler.initialise(gst);
 	assembler.greedy_SCS(gst);
 	if (assembler.get_SCS(gst) == "aabcaacababaaddd")
 		return true;

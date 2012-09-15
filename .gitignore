@@ -51,10 +51,10 @@ kseq.h
 SUFFIX_TREE_VS_V2.exe
 CompareNode.h
 SWINEPOX_SIMULATED_READS_10k.txt
-tree.gv
 CompareOverlap.cpp
 contig_log
 ContigLogger.cpp
 ContigLogger.h
 FASTQ_FileReader.cpp
 FASTQ_FileReader.h
+Swinepox_NC_003389_simreads.FASTA

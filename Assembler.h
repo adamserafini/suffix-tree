@@ -11,8 +11,8 @@ class Assembler
 public:
 	Assembler();
 	void label_nodes(GeneralSuffixTree&);
-	void initialise(GeneralSuffixTree&);
 	void push_overlap(GeneralSuffixTree& gst, std::string, int);
+	void initialise_greedy_SCS(GeneralSuffixTree&);
 	void greedy_SCS(GeneralSuffixTree&);
 	int merge_strings(Overlap);
 	std::string get_SCS(GeneralSuffixTree&);

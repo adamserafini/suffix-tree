@@ -25,7 +25,7 @@ void Assembler::label_nodes(GeneralSuffixTree& gst) {
 	}
 }
 
-void Assembler::initialise(GeneralSuffixTree& gst) {
+void Assembler::initialise_greedy_SCS(GeneralSuffixTree& gst) {
 	std::string to_match;
 	for (int i = 1; i < gst.tree_string.length(); i++) {
 		if (gst.tree_string[i] != '$')
@@ -62,6 +62,7 @@ void Assembler::push_overlap(	GeneralSuffixTree& gst,
 }
 
 void Assembler::greedy_SCS(GeneralSuffixTree& gst) {
+	initialise_greedy_SCS(gst);
 	std::make_heap (overlaps.begin(), overlaps.end(), CompareOverlap());
 	while (overlaps.size() > 1) {
 		std::pop_heap(overlaps.begin(), overlaps.end(), CompareOverlap());
