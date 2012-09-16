@@ -29,7 +29,7 @@ Overlap GeneralSuffixTree::lookup(Overlap to_lookup, Mapping strings) const
 	}
 }
 
-std::string GeneralSuffixTree::extract_string(int string_ID) {
+std::string GeneralSuffixTree::extract_string(int string_ID) const {
 	std::string to_return;
 	for (int i = string_ID - 1; tree_string[i] != '$'; i--)
 		to_return = tree_string[i] + to_return;
