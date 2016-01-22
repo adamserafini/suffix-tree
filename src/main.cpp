@@ -10,4 +10,3 @@ int main() {
 
 	EXECUTE_TEST_SUITE();
 }
-
