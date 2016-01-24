@@ -1,6 +1,6 @@
 #include "SuffixTree.h"
 #include "Node.h"
-#include "Suffix.h" 
+#include "Suffix.h"
 #include <map>
 #include <iostream>
 
@@ -24,14 +24,14 @@ void SuffixTree::construct(std::string s) {
 }
 
 //SPA: Single Phase Algorithm (Gusfield, 1997)
-void SuffixTree::SPA(int i) { 
+void SuffixTree::SPA(int i) {
 	Suffix previous_suffix(last_leaf_extension, *current_end);
 	(*current_end)++;
-	
+
 	int j;
     for (j = (last_leaf_extension->ID + 1); j <= (i + 1); j++) {
 		Rule rule_applied = SEA(previous_suffix, j, i);
-		if (rule_applied == RULE_3) 
+		if (rule_applied == RULE_3)
 			break;
     }
 }
@@ -49,7 +49,7 @@ SuffixTree::Rule SuffixTree::SEA(Suffix& previous_suffix, int j, int i) {
 		rule_applied = RULE_2;
 	}
 	else rule_applied = RULE_3;
-	
+
 	if (previous_suffix.new_internal_node)
 		previous_suffix.node->suffix_link = suffix.node;
 	previous_suffix = suffix;
@@ -82,7 +82,7 @@ Suffix SuffixTree::match_string(std::string string) const {
 			char_index = current_node->begin_index;
 			int i = 1;
 			for (; i < string.length() && i < current_node->edge_length(); i++)
-				if (string[i] != tree_string[char_index + i]) 
+				if (string[i] != tree_string[char_index + i])
 					return Suffix(NULL, 0);
 			string.erase(0, i);
 		}
@@ -106,7 +106,7 @@ std::vector<int> SuffixTree::retrieve_leaves(const Suffix& suffix) const {
 	while (!nodes_to_visit.empty()) {
 		Node* current_node = nodes_to_visit.back();
 		nodes_to_visit.pop_back();
-		if (current_node->is_leaf()) 
+		if (current_node->is_leaf())
 			leaf_IDs.push_back(current_node->ID);
 		else
 			current_node->get_children(nodes_to_visit);
@@ -126,17 +126,15 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 		suffix.node = suffix.node->parent;
 		suffix.new_internal_node = true;
 	}
-	Node* new_leaf = new Node(suffix.node, char_index, current_end, new_leaf_ID);  
+	Node* new_leaf = new Node(suffix.node, char_index, current_end, new_leaf_ID);
     suffix.node->add_child(*this, new_leaf);
 	last_leaf_extension = new_leaf;
 }
 
 void SuffixTree::log_tree() {
-	freopen("tree.gv", "w", stdout);
 	std::cout << "digraph g {" << std::endl;
-    log_node(root);
+  log_node(root);
 	std::cout << "}" << std::endl;
-	freopen( "CON", "w", stdout );
 }
 
 void SuffixTree::log_node(Node* parent) {
@@ -144,10 +142,10 @@ void SuffixTree::log_node(Node* parent) {
 	std::map<int, Node*>::iterator it = parent->children.begin();
 	for (; it != parent->children.end(); it++) {
 		Node* current_child = it->second;
-		std::cout << "\"" << parent->ID << "\" -> " << "\"" 
+		std::cout << "\"" << parent->ID << "\" -> " << "\""
 				  << current_child->ID << "\"" << " [label = \""
 				  << get_substr(current_child->begin_index, *current_child->end_index)
 				  << "\"];" << std::endl;
         log_node(current_child);
-    } 
+    }
 }
