@@ -1,5 +1,5 @@
-CPP_FILES := $(wildcard src/*.cpp)
 CXX := g++
+CPP_FILES := $(filter-out src/js_bind.cpp, $(wildcard src/*.cpp))
 OBJ_DIR := obj
 OBJ_FILES := $(addprefix $(OBJ_DIR)/,$(notdir $(CPP_FILES:.cpp=.o)))
 CC_FLAGS := -MMD
