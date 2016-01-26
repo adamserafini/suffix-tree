@@ -1,4 +1,4 @@
-### Suffix Tree ###
+# suffix-tree #
 
 A C++ implementation of Ukkonen's algorithm for linear-time suffix tree
 construction compiled for JavaScript using Emscripten.
