@@ -138,14 +138,14 @@ void SuffixTree::log_tree() {
 }
 
 void SuffixTree::log_node(Node* parent) {
-    int parent_ID = parent->ID;
+  int parent_ID = parent->ID;
 	std::map<int, Node*>::iterator it = parent->children.begin();
 	for (; it != parent->children.end(); it++) {
-		Node* current_child = it->second;
-		std::cout << "\"" << parent->ID << "\" -> " << "\""
-				  << current_child->ID << "\"" << " [label = \""
-				  << get_substr(current_child->begin_index, *current_child->end_index)
-				  << "\"];" << std::endl;
-        log_node(current_child);
-    }
+  	Node* current_child = it->second;
+  	std::cout << "\"" << parent->ID << "\" -> " << "\""
+      << current_child->ID << "\"" << " [label = \""
+      << get_substr(current_child->begin_index, *current_child->end_index)
+      << "\"];" << std::endl;
+    log_node(current_child);
+  }
 }
