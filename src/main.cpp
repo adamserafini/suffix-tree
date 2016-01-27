@@ -1,9 +1,9 @@
+// Copyright (C) 2012 Adam Serafini
+
 #include "SuffixTree.h"
 
-using namespace std;
-
 int main() {
-	SuffixTree tree;
-	tree.construct("xabxa$");
-	tree.log_tree();
+  SuffixTree tree;
+  tree.construct("xabxa$");
+  tree.log_tree();
 }
