@@ -1,8 +1,28 @@
 <!doctype html>
 <html>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.14/d3.min.js"></script>
-  <script src="suffix_tree.js"></script>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.14/d3.min.js"></script>
+    <script src="suffix_tree.js"></script>
+  </body>
   <script>
+    var jsonCircles = [
+      { "x_axis": 30, "y_axis": 30, "radius": 20, "color" : "green" },
+      { "x_axis": 110, "y_axis": 100, "radius": 20, "color" : "red"}];
+
+    var svgContainer = d3.select("body").append("svg")
+                                        .attr("width", 200)
+                                        .attr("height", 200);
+
+    var circles = svgContainer.selectAll("circle")
+                              .data(jsonCircles)
+                              .enter()
+                              .append("circle");
+
+    var circleAttributes = circles
+                       .attr("cx", function (d) { return d.x_axis; })
+                       .attr("cy", function (d) { return d.y_axis; })
+                       .attr("r", function (d) { return d.radius; })
+                       .style("fill", function(d) { return d.color; });
     // This script prints the suffix tree for "hello_world$" to the console
     // in GraphViz format.
     Module.print_tree("hello_world$");
