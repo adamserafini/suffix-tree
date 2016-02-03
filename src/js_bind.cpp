@@ -6,10 +6,10 @@
 
 #include "SuffixTree.h"
 
-void print_tree(std::string input) {
+std::string print_tree(std::string input) {
   SuffixTree tree;
   tree.construct(input);
-  tree.log_tree();
+  return tree.log_tree();
 }
 
 EMSCRIPTEN_BINDINGS(my_module) {

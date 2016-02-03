@@ -1,7 +1,7 @@
 // Copyright (C) 2012 Adam Serafini
 
 #include <map>
-#include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -139,21 +139,21 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
   last_leaf_extension = new_leaf;
 }
 
-void SuffixTree::log_tree() {
-  std::cout << "digraph g {" << std::endl;
-  log_node(root);
-  std::cout << "}" << std::endl;
+std::string SuffixTree::log_tree() {
+  return "digraph g{node[shape=point]" + log_node(root) + "}";
 }
 
-void SuffixTree::log_node(Node* parent) {
+std::string SuffixTree::log_node(Node* parent) {
   int parent_ID = parent->ID;
   std::map<int, Node*>::iterator it = parent->children.begin();
+
+  std::stringstream buffer;
   for (; it != parent->children.end(); it++) {
     Node* current_child = it->second;
-    std::cout << "\"" << parent->ID << "\" -> " << "\""
+    buffer << "\"" << parent->ID << "\" -> " << "\""
       << current_child->ID << "\"" << " [label = \""
       << get_substr(current_child->begin_index, *current_child->end_index)
-      << "\"];" << std::endl;
-    log_node(current_child);
+      << "\"];" << log_node(current_child);
   }
+  return buffer.str();
 }
