@@ -5,7 +5,8 @@ construction](https://www.cs.helsinki.fi/u/ukkonen/SuffixT1withFigs.pdf) compile
 
 ## Prerequisites ##
 
-Compiling for JavaScript requires Emscripten.
+Compiling for JavaScript requires Emscripten. Compilation has only been tested
+with version 1.35.0.
 
 ## Build ##
 
