@@ -12,7 +12,10 @@
   <script src="lib/viz.min.js"></script>
   <script src="suffix_tree.js"></script>
   <script>
+    // This script displays the suffix tree for "xabxa$" to the console
     // in GraphViz format.
-    Module.print_tree("hello_world$");
+    var suffix_tree = window.SuffixTree({noInitialRun: true});
+    var svgDiv = document.getElementById('svgDiv');
+    svgDiv.innerHTML = Viz(suffix_tree.print_tree("xabxa$"), "svg");
   </script>
 </html>
