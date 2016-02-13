@@ -1,4 +1,5 @@
-// Copyright (C) 2012 Adam Serafini
+// Copyright (c) 2012 Adam Serafini
+
 #include <iostream>
 #include "SuffixTree.h"
 
