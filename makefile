@@ -7,7 +7,7 @@ CC_FLAGS := -MMD
 all: js cli
 
 js:
-	em++ --bind -o suffix_tree.js src/[!main]*.cpp
+	em++ --bind --memory-init-file 0 -s MODULARIZE=1 -s EXPORT_NAME="'SuffixTree'" -o suffix_tree.js -O3 src/[!main]*.cpp
 
 cli: pre-build main
 

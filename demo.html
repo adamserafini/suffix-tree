@@ -1,9 +1,21 @@
 <!doctype html>
 <html>
+  <body>
+    <h2>Ukkonen's Algorithm: A Visual Guide</h2>
+    <div id="svgDiv">
+      <!-- Target for dynamic svg generation -->
+    </div>
+    <style>
+      svg {max-width: 100%;}
+    </style>
+  </body>
+  <script src="lib/viz.min.js"></script>
   <script src="suffix_tree.js"></script>
   <script>
-    // This script prints the suffix tree for "hello_world$" to the console
+    // This script displays the suffix tree for "xabxa$" to the console
     // in GraphViz format.
-    Module.print_tree("hello_world$");
+    var suffix_tree = window.SuffixTree({noInitialRun: true});
+    var svgDiv = document.getElementById('svgDiv');
+    svgDiv.innerHTML = Viz(suffix_tree.print_tree("xabxa$"), "svg");
   </script>
 </html>

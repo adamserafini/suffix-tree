@@ -1,4 +1,4 @@
-// Copyright (C) 2012 Adam Serafini
+// Copyright (c) 2012 Adam Serafini
 
 #ifndef SRC_NODE_H_
 #define SRC_NODE_H_

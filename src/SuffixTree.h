@@ -1,4 +1,4 @@
-// Copyright (C) 2012 Adam Serafini
+// Copyright (c) 2012 Adam Serafini
 
 #ifndef SRC_SUFFIXTREE_H_
 #define SRC_SUFFIXTREE_H_
@@ -12,8 +12,8 @@ class SuffixTree {
  public:
   SuffixTree();
   void construct(std::string);
-  void log_tree();
-  void log_node(Node* parent);
+  std::string log_tree();
+  std::string log_node(Node* parent);
   std::vector<int> get_exact_matches(std::string) const;
   std::vector<int> retrieve_leaves(const Suffix&) const;
   std::string get_substr(int, int);
