@@ -1,1 +1,19 @@
 <h1>Ukkonen's Algorithm: a visual, interactive guide.</h1>
+<h2>Introduction and Motivation</h2>
+<p>
+Suffix Trees solve a problem in Computer Science called "String Matching": given
+a string S with length n, in what positions (if any) can the pattern P with
+length m (where m <= n) be found?
+</p>
+<p>
+The naive approach takes in the worst case O(nm). Suffix Trees speed up the
+search to O(m) with a one time cost of O(n) for the initial tree construction.
+That's ideal for situations where you need to repeatedly search for small
+patterns in a much larger string.
+</p>
+<p>
+Ukkonen's algorithm is one of three known algorithms for constructing suffix
+trees in linear time. What follows is a description of how the algorithm works,
+adapted from my MSc thesis which was in turn based on Gusfield's explantion in
+Algorithms on Strings, Trees and Sequences.
+</p>
