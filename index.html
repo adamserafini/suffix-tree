@@ -17,3 +17,32 @@ trees in linear time. What follows is a description of how the algorithm works,
 adapted from my MSc thesis which was in turn based on Gusfield's explantion in
 Algorithms on Strings, Trees and Sequences.
 </p>
+<h2>Preliminary Definitions</h2>
+<p>
+First, some definitions. We will define a Suffix Tree and then an
+intermediate structure used by Ukkonen's algorithm called an Implicit Suffix
+Tree.
+</p>
+<h3>Suffix Tree</h3>
+<p>
+Given a string S of 1,...,n characters that terminate with a unique symbol
+(usually '$'), a directed tree with a root r is called a suffix tree for S if it
+satisfies the following conditions:
+
+1. The tree has exactly n leaves which are labelled 1,...,n.
+2. The edges of the tree are labelled with symbols from S.
+3. No two edges leaving a node start with the same symbol.
+4. The path label from the root to a leaf i is the substring that starts
+at position i of S, where the 'path label' is a concatenation of the edge
+labels starting at the root and ending at the leaf.
+</p>
+<p>
+Condition (4) is easier to understand visually, so here is the suffix tree for
+xabxa$:
+</p>
+<p>
+Using leaf 4 as an example, the path label for this leaf is xa$, and xa$ is
+correspondingly the substring that starts at position 4 in xabxa$.
+</p>
+<p>
+</p>
