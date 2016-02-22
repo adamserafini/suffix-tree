@@ -10,6 +10,12 @@
 #include "Suffix.h"
 
 SuffixTree::SuffixTree() {
+  // Internal node IDs start at zero and decrement. For example, the root node,
+  // which can be considered the first internal node has an ID of 0. The next
+  // internal node has an ID of -1, followed by -2 and so forth.
+
+  // While not neccessary for the algorithm to function, each node having a
+  // unique ID is important when using Graphiz to visualize the structure.
   internal_node_ID = 0;
   current_end = new int(0);
   root = new Node(NULL, 1, new int (0), internal_node_ID);
