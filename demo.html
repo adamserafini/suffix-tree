@@ -13,10 +13,28 @@
   <script src="lib/viz.min.js"></script>
   <script src="suffix_tree.js"></script>
   <script>
-    // This script displays the suffix tree for "xabxa$" to the console
-    // in GraphViz format.
+    // Display each phase of the Suffix Tree for the string in the input.
+
+    // Initialise
     var suffix_tree = window.SuffixTree({noInitialRun: true});
+
+    // DOM nodes
     var svgDiv = document.getElementById('svgDiv');
-    svgDiv.innerHTML = Viz(suffix_tree.print_tree("xabxa$"), "svg");
+    var input = document.getElementById('input');
+
+    var render = function() {
+      svgDiv.innerHTML = '';
+      var str = input.value
+      for (var i = 1, len = str.length; i <= len; ++i) {
+        var slice = str.slice(0, i);
+        var tree = Viz(suffix_tree.print_tree(slice), "svg");
+        svgDiv.insertAdjacentHTML('beforeend', tree);
+      }
+    };
+
+    // Add events
+    document.addEventListener("DOMContentLoaded", render);
+    input.addEventListener("input", render);
+
   </script>
 </html>
