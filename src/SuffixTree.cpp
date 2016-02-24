@@ -17,9 +17,9 @@ SuffixTree::SuffixTree() {
   // While not neccessary for the algorithm to function, each node having a
   // unique ID is important when using Graphiz to visualize the structure.
   internal_node_ID = 0;
-  current_end = new int(0);
   root = new Node(NULL, 1, new int (0), internal_node_ID);
-  root->suffix_link = root;
+
+  current_end = new int(0);
 }
 
 void SuffixTree::construct(std::string s) {
