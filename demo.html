@@ -30,6 +30,17 @@
         var tree = Viz(suffix_tree.print_tree(slice), "svg");
         svgDiv.insertAdjacentHTML('beforeend', tree);
       }
+
+    // A super-simple debouncer
+    var debounce = function(func, wait) {
+      var timeout;
+      var later = function() {
+        func.call();
+      };
+      return function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
     };
 
     // Add events
