@@ -45,7 +45,7 @@
 
     // Add events
     document.addEventListener("DOMContentLoaded", render);
-    input.addEventListener("input", render);
+    input.addEventListener("input", debounce(render, 250));
 
   </script>
 </html>
