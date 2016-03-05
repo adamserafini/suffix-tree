@@ -26,6 +26,22 @@
     var svgDiv = document.getElementById('svgDiv');
     var input = document.getElementById('input');
 
+
+    /*
+    Return the longest matching prefix of two strings where the 'longest
+    matching prefix' of 'abc' and 'abd' is 'ab'.
+    */
+    var getPrefix = function(strA, strB) {
+      var ret = '';
+      var i = 0;
+      var lA = strA.length, lB = strB.length;
+      while (strA.charAt(i) == strB.charAt(i) && i < lA && i < lB) {
+          ret += strA.charAt(i);
+          i++;
+      }
+      return ret;
+    }
+
     var render = function() {
       svgDiv.innerHTML = '';
       var str = input.value
