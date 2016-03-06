@@ -10,22 +10,27 @@
     <div id="svgDiv">
       <!-- Target for dynamic svg generation -->
     </div>
-    <style>
-      svg {max-width: 100%;}
-    </style>
   </body>
-  <script src="lib/viz.min.js"></script>
-  <script src="suffix_tree.js"></script>
   <script>
     // Display each phase of the Suffix Tree for the string in the input.
-
-    // Initialise
-    var suffix_tree = window.SuffixTree({noInitialRun: true});
 
     // DOM nodes
     var svgDiv = document.getElementById('svgDiv');
     var input = document.getElementById('input');
 
+    /*
+    Initialise a Web Worker that returns the GraphViz SVG.
+    The event handler replaces the placeholder with the string returned by
+    the worker.
+    */
+    var worker = new Worker('worker.js');
+    worker.onmessage = function(e) {
+      var placeholder = document.getElementById(e.data['slice']);
+
+      if (placeholder) {
+        placeholder.outerHTML = e.data['tree'];
+      }
+    }
 
     /*
     Return the longest matching prefix of two strings where the 'longest
@@ -42,14 +47,41 @@
       return ret;
     }
 
+    /*
+    Keep track of the last string rendered so a 'diff' can be used to
+    minimize unnecessary work.
+    */
+    var lastRendered = '';
+
     var render = function() {
-      svgDiv.innerHTML = '';
-      var str = input.value
-      for (var i = 1, len = str.length; i <= len; ++i) {
+      var str = input.value;
+
+      // Find the shared prefix between the new string and the last
+      var prefix = getPrefix(str, lastRendered);
+      var prefixLen = prefix.length;
+
+      // Get the existing svg nodes as an array
+      var svgElements = Array.from(document.getElementsByTagName('svg'));
+
+      // Remove superflous svg nodes
+      svgElements.slice(prefixLen).forEach(function(el) {el.remove()});
+
+      // Add new SVG nodes
+      for (var i = prefixLen + 1; i <= str.length; ++i) {
         var slice = str.slice(0, i);
-        var tree = Viz(suffix_tree.print_tree(slice), "svg");
-        svgDiv.insertAdjacentHTML('beforeend', tree);
+        /*
+        Create a placeholder element that will be populated when the worker
+        returns.
+        */
+        var placeholder = document.createElement('svg');
+        placeholder.setAttribute("id", slice);
+        svgDiv.appendChild(placeholder);
+
+        // Ask the GraphViz worker to create the diagram.
+        worker.postMessage(slice);
       }
+      lastRendered = str;
+    };
 
     // A super-simple debouncer
     var debounce = function(func, wait) {
