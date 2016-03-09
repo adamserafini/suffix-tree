@@ -10,10 +10,16 @@
 #include "Suffix.h"
 
 SuffixTree::SuffixTree() {
+  // Internal node IDs start at zero and decrement. For example, the root node,
+  // which can be considered the first internal node has an ID of 0. The next
+  // internal node has an ID of -1, followed by -2 and so forth.
+
+  // While not neccessary for the algorithm to function, each node having a
+  // unique ID is important when using Graphiz to visualize the structure.
   internal_node_ID = 0;
-  current_end = new int(0);
   root = new Node(NULL, 1, new int (0), internal_node_ID);
-  root->suffix_link = root;
+
+  current_end = new int(0);
 }
 
 void SuffixTree::construct(std::string s) {
@@ -140,20 +146,34 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 }
 
 std::string SuffixTree::log_tree() {
-  return "digraph g{node[shape=point]" + log_node(root) + "}";
+  return "digraph g{" + log_node(root) + "}";
 }
 
 std::string SuffixTree::log_node(Node* parent) {
-  int parent_ID = parent->ID;
   std::map<int, Node*>::iterator it = parent->children.begin();
 
   std::stringstream buffer;
+
+  // Internal nodes (nodes with ID <= 0) are unlabelled points, leaves
+  // (nodes with ID > 0) show the ID as plaintext.
+  buffer << parent->ID << "[shape="
+    << ((parent->ID <= 0) ? "point" : "plaintext") << "];";
+
   for (; it != parent->children.end(); it++) {
-    Node* current_child = it->second;
-    buffer << "\"" << parent->ID << "\" -> " << "\""
-      << current_child->ID << "\"" << " [label = \""
-      << get_substr(current_child->begin_index, *current_child->end_index)
-      << "\"];" << log_node(current_child);
+    // Child nodes are stored on the parent node in a map of integers
+    // (it->first) to Node pointers (it->second).
+    Node* child_node = it->second;
+    buffer << parent->ID << "->" << child_node->ID << " [label = \""
+      << get_substr(child_node->begin_index, *(child_node->end_index))
+      << "\"];" << std::endl << log_node(child_node);
   }
+
+  // Print the suffx link, if there is one.
+  Node* suffix_link = parent->suffix_link;
+  if (suffix_link)
+    buffer << "\"" << parent->ID << "\" -> " << "\""
+      << suffix_link->ID << "\" [style=dashed arrowhead=otriangle];"
+      << std::endl;
+
   return buffer.str();
 }
