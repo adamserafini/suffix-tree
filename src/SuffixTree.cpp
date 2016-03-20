@@ -84,23 +84,6 @@ Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
   return Suffix(origin, char_index);
 }
 
-// Depth-first tree traversal to gather leaf IDs below a given suffix.
-std::vector<int> SuffixTree::retrieve_leaves(const Suffix& suffix) const {
-  std::vector<int> leaf_IDs;
-  std::vector<Node*> nodes_to_visit(1, suffix.node);
-
-  while (!nodes_to_visit.empty()) {
-    Node* current_node = nodes_to_visit.back();
-    nodes_to_visit.pop_back();
-    if (current_node->is_leaf())
-      leaf_IDs.push_back(current_node->ID);
-    else
-      current_node->get_children(nodes_to_visit);
-  }
-  return leaf_IDs;
-}
-
-
 std::string SuffixTree::get_substr(int start_pos, int end_pos) {
   if (start_pos > end_pos) return std::string();
   return tree_string.substr(start_pos, end_pos - start_pos + 1);

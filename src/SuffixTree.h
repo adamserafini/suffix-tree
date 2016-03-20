@@ -14,7 +14,6 @@ class SuffixTree {
   void construct(std::string);
   std::string log_tree();
   std::string log_node(Node* parent);
-  std::vector<int> retrieve_leaves(const Suffix&) const;
   std::string get_substr(int, int);
 
   // Suffix Extension rules (Gusfield, 1997)
