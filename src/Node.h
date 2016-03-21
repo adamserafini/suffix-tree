@@ -17,7 +17,6 @@ class Node {
   bool is_leaf() {return children.empty();}
   void split_edge(const SuffixTree&, int, int);
   Node* get_child(const SuffixTree&, int char_index);
-  Node* get_char_child(const SuffixTree&, char ch);
   void get_children(std::vector<Node*>&) const;
   int get_key(const SuffixTree&, Node*, int) const;
 
