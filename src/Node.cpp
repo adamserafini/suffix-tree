@@ -49,9 +49,3 @@ Node* Node::get_child(const SuffixTree& tree, int char_index) {
   else
     return NULL;
 }
-
-void Node::get_children(std::vector<Node*>& ret_children) const {
-  std::map<int, Node*>::const_iterator it = children.begin();
-  for (; it != children.end(); it++)
-    ret_children.push_back(it->second);
-}
