@@ -35,13 +35,13 @@ void SuffixTree::construct(std::string s) {
 }
 
 // SPA: Single Phase Algorithm (Gusfield, 1997)
-void SuffixTree::SPA(int i) {
+void SuffixTree::SPA(int phase) {
   Suffix previous_suffix(last_leaf_extension, *current_end);
   (*current_end)++;
 
   int j;
-  for (j = (last_leaf_extension->ID + 1); j <= (i + 1); j++) {
-    Rule rule_applied = SEA(previous_suffix, j, i);
+  for (j = (last_leaf_extension->ID + 1); j <= (phase + 1); j++) {
+    Rule rule_applied = SEA(previous_suffix, j, phase);
     if (rule_applied == RULE_3)
       break;
   }
