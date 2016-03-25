@@ -89,6 +89,10 @@ std::string SuffixTree::get_substr(int start_pos, int end_pos) {
   return tree_string.substr(start_pos, end_pos - start_pos + 1);
 }
 
+char SuffixTree::get_char_at_index(int index) const {
+  return tree_string[index];
+}
+
 void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
   if (!suffix.ends_at_node()) {  // eg. in case 2 (path ends inside an edge)
     suffix.node->split_edge(*this, suffix.char_index, --internal_node_ID);

@@ -25,7 +25,7 @@ void Node::remove_child(const SuffixTree& tree, Node* child_to_remove) {
 }
 
 int Node::get_key(const SuffixTree& tree, Node* node, int index) const {
-  char ch = tree.tree_string[index];
+  char ch = tree.get_char_at_index(index);
   return (ch != '$' ? ch * (-1) : index);
 }
 
