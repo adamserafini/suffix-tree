@@ -42,6 +42,8 @@ void SuffixTree::SPA(int phase) {
   int j;
   for (j = (last_leaf_extension->ID + 1); j <= (phase + 1); j++) {
     Rule rule_applied = SEA(previous_suffix, j, phase);
+  // Explicitly compute successive extensions starting at j(i) + 1 where (i)
+  // is the ID of the last leaf extension from the previous phase.
     if (rule_applied == RULE_3)
       break;
   }
