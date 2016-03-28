@@ -37,6 +37,9 @@ void SuffixTree::construct(std::string s) {
 // SPA: Single Phase Algorithm (Gusfield, 1997)
 void SuffixTree::SPA(int i) {
   Suffix previous_suffix(last_leaf_extension, *current_end);
+
+  // Increment the current_end pointer: this implicitly applies Rule 1 to all
+  // leaf edges in the tree.
   (*current_end)++;
 
   // Explicitly compute successive extensions starting at j(i) + 1 where (i)
