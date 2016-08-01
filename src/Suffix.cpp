@@ -17,10 +17,10 @@ bool Suffix::ends_at_leaf() const {
 }
 
 bool Suffix::continues_with_char(const SuffixTree& tree, int tree_index) const {
-  char ch = tree.tree_string[tree_index];
+  char ch = tree.get_char_at_index(tree_index);
   bool terminal(ch == '$');
   return (ends_at_node() && node->get_child(tree, tree_index) != NULL)
-    || (!ends_at_node() && tree.tree_string[char_index + 1] == ch
+    || (!ends_at_node() && tree.get_char_at_index(char_index + 1) == ch
       && (!terminal || char_index + 1 == tree_index));
 }
 

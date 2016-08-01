@@ -1,0 +1,5 @@
+digraph g{
+0[shape=point];
+0->1 [label = "x"];
+1[shape=plaintext];
+}

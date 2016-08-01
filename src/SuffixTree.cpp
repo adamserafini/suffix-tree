@@ -17,15 +17,16 @@ SuffixTree::SuffixTree() {
   // While not neccessary for the algorithm to function, each node having a
   // unique ID is important when using Graphiz to visualize the structure.
   internal_node_ID = 0;
-  root = new Node(NULL, 1, new int (0), internal_node_ID);
 
   current_end = new int(0);
+  root = new Node(NULL, 1, current_end, internal_node_ID);
 }
 
 void SuffixTree::construct(std::string s) {
   length = s.length();
-  tree_string = '$' + s;
+  tree_string = s;
 
+  // Construct Implicit Tree I(1).
   (*current_end)++;
   last_leaf_extension = new Node(root, 1, current_end, 1);
   root->add_child(*this, last_leaf_extension);
@@ -36,11 +37,17 @@ void SuffixTree::construct(std::string s) {
 
 // SPA: Single Phase Algorithm (Gusfield, 1997)
 void SuffixTree::SPA(int i) {
+  // Do phase i + 1.
+
   Suffix previous_suffix(last_leaf_extension, *current_end);
+
+  // Increment the current_end pointer: this implicitly applies Rule 1 to all
+  // leaf edges in the tree.
   (*current_end)++;
 
-  int j;
-  for (j = (last_leaf_extension->ID + 1); j <= (i + 1); j++) {
+  // Explicitly compute successive extensions starting at j(i) + 1 where (i)
+  // is the ID of the last leaf extension from the previous phase.
+  for (int j = (last_leaf_extension->ID + 1); j <= i + 1; j++) {
     Rule rule_applied = SEA(previous_suffix, j, i);
     if (rule_applied == RULE_3)
       break;
@@ -84,54 +91,16 @@ Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
   return Suffix(origin, char_index);
 }
 
-// Match a string from the root of the tree
-Suffix SuffixTree::match_string(std::string string) const {
-  int char_index;
-  Node* current_node = root;
-  while (!string.empty()) {
-    current_node = current_node->get_char_child(*this, string[0]);
-    if (current_node == NULL) {
-      return Suffix(NULL, 0);
-    } else {
-      char_index = current_node->begin_index;
-      int i = 1;
-      for (; i < string.length() && i < current_node->edge_length(); i++)
-        if (string[i] != tree_string[char_index + i])
-          return Suffix(NULL, 0);
-      string.erase(0, i);
-    }
-  }
-  return Suffix(current_node, char_index);
-}
-
-std::vector<int> SuffixTree::get_exact_matches(std::string string) const {
-  Suffix suffix = match_string(string);
-  if (suffix.node == NULL)
-    return std::vector<int>();
-  else
-    return retrieve_leaves(suffix);
-}
-
-// Depth-first tree traversal to gather leaf IDs below a given suffix.
-std::vector<int> SuffixTree::retrieve_leaves(const Suffix& suffix) const {
-  std::vector<int> leaf_IDs;
-  std::vector<Node*> nodes_to_visit(1, suffix.node);
-
-  while (!nodes_to_visit.empty()) {
-    Node* current_node = nodes_to_visit.back();
-    nodes_to_visit.pop_back();
-    if (current_node->is_leaf())
-      leaf_IDs.push_back(current_node->ID);
-    else
-      current_node->get_children(nodes_to_visit);
-  }
-  return leaf_IDs;
-}
-
-
 std::string SuffixTree::get_substr(int start_pos, int end_pos) {
   if (start_pos > end_pos) return std::string();
-  return tree_string.substr(start_pos, end_pos - start_pos + 1);
+  // This is 1-indexed to match the algorithm's original description in the
+  // paper. For example, "foobar".get_substr(2, 4) == "oob".
+  return tree_string.substr(start_pos - 1, end_pos - start_pos + 1);
+}
+
+char SuffixTree::get_char_at_index(int index) const {
+  // Also 1-indexed. For example, "foobar".get_char_at_index(4) == 'b'
+  return tree_string[index - 1];
 }
 
 void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
@@ -146,7 +115,7 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 }
 
 std::string SuffixTree::log_tree() {
-  return "digraph g{" + log_node(root) + "}";
+  return "digraph g{\n" + log_node(root) + "}";
 }
 
 std::string SuffixTree::log_node(Node* parent) {
@@ -157,7 +126,7 @@ std::string SuffixTree::log_node(Node* parent) {
   // Internal nodes (nodes with ID <= 0) are unlabelled points, leaves
   // (nodes with ID > 0) show the ID as plaintext.
   buffer << parent->ID << "[shape="
-    << ((parent->ID <= 0) ? "point" : "plaintext") << "];";
+    << ((parent->ID <= 0) ? "point" : "plaintext") << "];\n";
 
   for (; it != parent->children.end(); it++) {
     // Child nodes are stored on the parent node in a map of integers
@@ -165,15 +134,14 @@ std::string SuffixTree::log_node(Node* parent) {
     Node* child_node = it->second;
     buffer << parent->ID << "->" << child_node->ID << " [label = \""
       << get_substr(child_node->begin_index, *(child_node->end_index))
-      << "\"];" << std::endl << log_node(child_node);
+      << "\"];\n" << log_node(child_node);
   }
 
   // Print the suffx link, if there is one.
   Node* suffix_link = parent->suffix_link;
   if (suffix_link)
     buffer << "\"" << parent->ID << "\" -> " << "\""
-      << suffix_link->ID << "\" [style=dashed arrowhead=otriangle];"
-      << std::endl;
+      << suffix_link->ID << "\" [style=dashed arrowhead=otriangle];\n";
 
   return buffer.str();
 }

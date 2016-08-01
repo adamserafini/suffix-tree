@@ -25,7 +25,7 @@ void Node::remove_child(const SuffixTree& tree, Node* child_to_remove) {
 }
 
 int Node::get_key(const SuffixTree& tree, Node* node, int index) const {
-  char ch = tree.tree_string[index];
+  char ch = tree.get_char_at_index(index);
   return (ch != '$' ? ch * (-1) : index);
 }
 
@@ -44,20 +44,6 @@ void Node::split_edge(const SuffixTree& tree, int char_index, int new_node_ID) {
 Node* Node::get_child(const SuffixTree& tree, int char_index) {
   int key = get_key(tree, this, char_index);
   std::map<int, Node*>::iterator it = children.find(key);
-  if (it != children.end())
-    return it->second;
-  else
-    return NULL;
-}
-
-void Node::get_children(std::vector<Node*>& ret_children) const {
-  std::map<int, Node*>::const_iterator it = children.begin();
-  for (; it != children.end(); it++)
-    ret_children.push_back(it->second);
-}
-
-Node* Node::get_char_child(const SuffixTree& tree, char ch) {
-  std::map<int, Node*>::iterator it = children.find(ch * (-1));
   if (it != children.end())
     return it->second;
   else
