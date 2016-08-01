@@ -13,7 +13,7 @@ To build everything simply run `make`.
 
 Tests are written with [bats](https://github.com/sstephenson/bats):
 
-    bats test/tests/bats
+    bats test/tests.bats
 
 ## Using ##
 
