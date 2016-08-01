@@ -13,9 +13,12 @@ class SuffixTree {
   SuffixTree();
   void construct(std::string);
   std::string log_tree();
+  char get_char_at_index(int) const;
+
+ private:
+  std::string tree_string;
   std::string log_node(Node* parent);
   std::string get_substr(int, int);
-  char get_char_at_index(int) const;
   // Suffix Extension rules (Gusfield, 1997)
   enum Rule {RULE_2, RULE_3};
 
@@ -36,9 +39,6 @@ class SuffixTree {
   int length;
   int* current_end;
   Node* last_leaf_extension;
-
-private:
-  std::string tree_string;
 };
 
 #endif  // SRC_SUFFIXTREE_H_

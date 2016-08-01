@@ -9,7 +9,9 @@
 
 class SuffixTree;
 class Node {
- public:
+  friend class SuffixTree;
+  friend class Suffix;
+ private:
   Node(Node*, int, int*, int);
   int edge_length() {return *end_index - begin_index + 1;}
   void add_child(const SuffixTree&, Node*);

@@ -24,8 +24,9 @@ SuffixTree::SuffixTree() {
 
 void SuffixTree::construct(std::string s) {
   length = s.length();
-  tree_string = '$' + s;
+  tree_string = s;
 
+  // Construct Implicit Tree I(1).
   (*current_end)++;
   last_leaf_extension = new Node(root, 1, current_end, 1);
   root->add_child(*this, last_leaf_extension);
@@ -36,6 +37,8 @@ void SuffixTree::construct(std::string s) {
 
 // SPA: Single Phase Algorithm (Gusfield, 1997)
 void SuffixTree::SPA(int i) {
+  // Do phase i + 1.
+
   Suffix previous_suffix(last_leaf_extension, *current_end);
 
   // Increment the current_end pointer: this implicitly applies Rule 1 to all
@@ -90,11 +93,14 @@ Suffix SuffixTree::get_suffix(Node* origin, int begin_index, int end_index) {
 
 std::string SuffixTree::get_substr(int start_pos, int end_pos) {
   if (start_pos > end_pos) return std::string();
-  return tree_string.substr(start_pos, end_pos - start_pos + 1);
+  // This is 1-indexed to match the algorithm's original description in the
+  // paper. For example, "foobar".get_substr(2, 4) == "oob".
+  return tree_string.substr(start_pos - 1, end_pos - start_pos + 1);
 }
 
 char SuffixTree::get_char_at_index(int index) const {
-  return tree_string[index];
+  // Also 1-indexed. For example, "foobar".get_char_at_index(4) == 'b'
+  return tree_string[index - 1];
 }
 
 void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
@@ -109,7 +115,7 @@ void SuffixTree::RULE2(Suffix& suffix, int char_index, int new_leaf_ID) {
 }
 
 std::string SuffixTree::log_tree() {
-  return "digraph g{" + log_node(root) + "}";
+  return "digraph g{\n" + log_node(root) + "}";
 }
 
 std::string SuffixTree::log_node(Node* parent) {
@@ -120,7 +126,7 @@ std::string SuffixTree::log_node(Node* parent) {
   // Internal nodes (nodes with ID <= 0) are unlabelled points, leaves
   // (nodes with ID > 0) show the ID as plaintext.
   buffer << parent->ID << "[shape="
-    << ((parent->ID <= 0) ? "point" : "plaintext") << "];";
+    << ((parent->ID <= 0) ? "point" : "plaintext") << "];\n";
 
   for (; it != parent->children.end(); it++) {
     // Child nodes are stored on the parent node in a map of integers
@@ -128,15 +134,14 @@ std::string SuffixTree::log_node(Node* parent) {
     Node* child_node = it->second;
     buffer << parent->ID << "->" << child_node->ID << " [label = \""
       << get_substr(child_node->begin_index, *(child_node->end_index))
-      << "\"];" << std::endl << log_node(child_node);
+      << "\"];\n" << log_node(child_node);
   }
 
   // Print the suffx link, if there is one.
   Node* suffix_link = parent->suffix_link;
   if (suffix_link)
     buffer << "\"" << parent->ID << "\" -> " << "\""
-      << suffix_link->ID << "\" [style=dashed arrowhead=otriangle];"
-      << std::endl;
+      << suffix_link->ID << "\" [style=dashed arrowhead=otriangle];\n";
 
   return buffer.str();
 }
