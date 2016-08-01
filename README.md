@@ -3,6 +3,8 @@
 A C++ implementation of [Ukkonen's algorithm for linear-time suffix tree
 construction](https://www.cs.helsinki.fi/u/ukkonen/SuffixT1withFigs.pdf).
 
+![Suffix Tree for xabxa$](xabxa$.jpg?raw=true "Suffix Tree for xabxa$")
+
 ## Build ##
 
 To build everything simply run `make`.
