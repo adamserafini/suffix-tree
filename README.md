@@ -1,21 +1,25 @@
 # suffix-tree #
 
 A C++ implementation of [Ukkonen's algorithm for linear-time suffix tree
-construction](https://www.cs.helsinki.fi/u/ukkonen/SuffixT1withFigs.pdf) compiled for JavaScript using Emscripten.
-
-## Prerequisites ##
-
-Compiling for JavaScript requires Emscripten. Compilation has only been tested
-with version 1.35.0.
+construction](https://www.cs.helsinki.fi/u/ukkonen/SuffixT1withFigs.pdf).
 
 ## Build ##
 
 To build everything simply run `make`.
 
-## Demo ##
+## Test ##
 
-The file `demo.html` opens the compiled `suffix_tree.js` file from the build
-step and outputs a suffix tree for `hello_world$` to the console.
+Tests are written with [bats](https://github.com/sstephenson/bats):
+
+    bats test/tests/bats
+
+## Using ##
+
+The compiled program `suffixtree` takes a single string parameter and outputs
+a DOT language (Graphviz) representation of the tree to STDOUT. With
+ImageMagick and Graphviz installed you should see a `.jpg` like the above:
+
+    ./suffixtree xabxa$ | dot -Tjpg | display
 
 ## License ##
 
