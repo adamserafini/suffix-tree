@@ -1,6 +1,8 @@
 // Copyright (c) 2012 Adam Serafini
 
 #include <iostream>
+#include <cstdlib>
+
 #include "SuffixTree.h"
 
 // Small CLI that takes a string as a parameter and
